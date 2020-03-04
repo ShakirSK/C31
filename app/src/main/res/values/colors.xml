@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#c5c6c6</color>
+    <color name="colorPrimaryDark">#f29214</color>
+    <color name="colorAccent">#5b5b5b</color>
+
+    //bottomnavgation Color
+    <color name="statusbarcolor">#5b5b5b</color>
+    <color name="grey">#b3b3b3</color>
+    <color name="statusbarcoloronlyforfacebookRequirement">#C029B2</color>
+
+    <color name="white">#FFFFFF</color>
+
+</resources>

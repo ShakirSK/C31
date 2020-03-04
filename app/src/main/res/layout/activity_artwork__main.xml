@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:id="@+id/activity_item_details"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#ffffff"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#ffffff"
+        android:orientation="horizontal"
+        app:elevation="1dp">
+
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/close"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/ic_arrow_back_black_24dp"/>
+        <TextView
+            android:id="@+id/editText"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginTop="15dp"
+            android:paddingLeft="20dp"
+            android:textColor="@color/statusbarcolor"
+            android:textSize="17dp"
+            android:text="ARTWORK REQUEST"
+            >
+        </TextView>
+
+    </LinearLayout>
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/scrollbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="9.5"
+
+        >
+        <LinearLayout
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="24dp"
+            android:layout_marginTop="20dp"
+            android:paddingBottom="20dp"
+            android:weightSum="4.0"
+            android:paddingRight="24dp">
+
+
+
+            <EditText
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="center"
+                android:layout_marginTop="20dp"
+                android:hint="@string/name"
+                android:background="@drawable/rounded_edittext"
+                 />
+
+
+            <EditText android:id="@+id/size"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="center"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/rounded_edittext"
+                android:hint="@string/size"/>
+
+            <TextView android:id="@+id/date1"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="center"
+                android:layout_marginTop="20dp"
+                android:textSize="15sp"
+                android:background="@drawable/rounded_edittext"
+                android:hint="Date if any" />
+
+            <EditText android:id="@+id/content"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="center"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/rounded_edittext"
+                android:hint="@string/RequiredContent"
+                />
+<!--
+            <TextView android:id="@+id/date2"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="center"
+                android:layout_marginTop="20dp"
+                android:textSize="15sp"
+                android:background="@drawable/rounded_edittext"
+                android:hint="Date if any" />-->
+
+            <EditText android:id="@+id/vanue"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="center"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/rounded_edittext"
+                android:hint="@string/vanue" />
+
+
+            <EditText android:id="@+id/description"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="center"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/rounded_edittext"
+                android:hint="@string/description" />
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:elevation="30dp"
+        >
+
+
+        <TextView
+            android:id="@+id/save"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimaryDark"
+            android:text="SUBMIT"
+            android:textColor="#ffffff"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            android:gravity="center"/>
+    </LinearLayout>
+</LinearLayout>

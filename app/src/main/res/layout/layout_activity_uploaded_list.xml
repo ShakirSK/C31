@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:id="@+id/partylayout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="15dp"
+    >
+
+    <TextView
+        android:id="@+id/activityname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/black"
+        android:text="sdsd"
+        android:fontFamily="@font/montserratlight"
+        />
+
+
+
+    <TextView
+        android:id="@+id/nofp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/activityname"
+        android:fontFamily="@font/montserratlight"
+        android:text="text"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:layout_centerVertical="true"
+        android:orientation="vertical"
+        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@id/nofp">
+        <!--  <TextView
+              android:id="@+id/test"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:textColor="@color/black"
+              android:layout_toRightOf="@+id/partyname"
+              android:text="sdsd"
+              android:fontFamily="@font/montserratlight"
+              />-->
+        <TextView
+            android:id="@+id/status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserratlight"
+            android:textStyle="bold"
+            android:text="text"/>
+
+
+    </LinearLayout>
+
+</RelativeLayout>
