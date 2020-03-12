@@ -2,17 +2,25 @@ package main.master.c31.LauncherMainActivity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.icu.text.AlphabeticIndex;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.v4.app.Fragment;
+import android.util.Log;
+import android.widget.TextView;
+import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import java.io.IOException;
+import java.util.List;
 
+import main.master.c31.Database.DatabaseClient;
+import main.master.c31.Database.User;
+import main.master.c31.Network.Datum;
 import main.master.c31.R;
 
 import static android.app.Activity.RESULT_OK;
@@ -30,6 +38,7 @@ public class more_fragment extends Fragment {
     private String mParam2;
 
    ImageView imageclick;
+   TextView preschoolname;
     private static int RESULT_LOAD_IMAGE = 1;
     public more_fragment() {
         // Required empty public constructor
@@ -69,6 +78,13 @@ public class more_fragment extends Fragment {
         View view =  inflater.inflate(R.layout.fragment_more, container, false);
 
         imageclick = (ImageView)view.findViewById(R.id.imageclick);
+        preschoolname = (TextView)view.findViewById(R.id.preschoolname);
+
+
+        GetData gt = new GetData();
+        gt.execute();
+
+
       /*  imageclick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -108,4 +124,48 @@ public class more_fragment extends Fragment {
 
 
     }
+
+    //retrive from Room DB
+   public class GetData extends AsyncTask<Void, Void, List<User>> {
+
+        @Override
+        protected List<User> doInBackground(Void... voids) {
+            //getting all data from room db in list
+            List<User> taskList = DatabaseClient
+                    .getInstance(getContext())
+                    .getAppDatabase()
+                    .userDao()
+                    .getAll();
+            return taskList;
+        }
+
+        @Override
+        protected void onPostExecute(List<User> tasks) {
+            super.onPostExecute(tasks);
+
+            //List task data set to Record model  to show in recycleview
+            for (int j = 0; j < tasks.size(); j++) {
+                User funding = tasks.get(j);
+
+                preschoolname.setText(funding.getPs_name());
+                String psa = funding.getPs_activities();
+                String[] psachild = psa.split("\\s*,\\s*");
+
+                String[] animal1 = psachild[0].split("\\[");
+                String[] animal2 = psachild[1].split("]");
+                Log.d( "onPostpsa ",animal1[1].replaceAll("^\"|\"$", "")+ "    "+animal2[0].replaceAll("^\"|\"$", ""));
+
+            /*    AlphabeticIndex.Record record = new Record();
+                //setting into model class for recycleview
+                record.setMainImageURL(funding.getImg());
+                record.setTitle(funding.getTitle());
+                record.setShortDescription(funding.getShortDescription());
+
+                recordslist.add(record);*/
+            }
+
+
+        }
+    }
+
 }

@@ -5,12 +5,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Handler;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 
 import main.master.c31.R;
+import main.master.c31.Session.SaveSharedPreference;
+import main.master.c31.kotlinmvvm.MainLoginActivity;
 
 public class Splash_screen extends AppCompatActivity {
 
@@ -43,10 +44,22 @@ public class Splash_screen extends AppCompatActivity {
             public void run()
             {
 
-                        Intent splashLoginm = new Intent(Splash_screen.this, LoginActivity.class);
-                        splashLoginm.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(splashLoginm);
-                        finish();
+                // Check if UserResponse is Already Logged In
+                if(SaveSharedPreference.getLoggedStatus(getApplicationContext())) {
+                    Intent splashLoginm = new Intent(Splash_screen.this, MainActivity.class);
+                    splashLoginm.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(splashLoginm);
+                    finish();
+                } else {
+                    Intent splashLoginm = new Intent(Splash_screen.this, LoginActivity.class);
+                    splashLoginm.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(splashLoginm);
+                    finish();
+                }
+
+
+
+
 
 
 

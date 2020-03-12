@@ -1,9 +1,10 @@
 package main.master.c31.LauncherMainActivity;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Build;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,17 +14,19 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import main.master.c31.Database.DatabaseClient;
+import main.master.c31.Database.User;
 import main.master.c31.Network.ApiUtils;
 import main.master.c31.Network.Datum;
 import main.master.c31.Network.Example;
 import main.master.c31.Network.UserService;
 import main.master.c31.Network.loginmodel;
 import main.master.c31.R;
+import main.master.c31.Session.SaveSharedPreference;
 import retrofit2.Response;
 
 import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.Response;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -68,10 +71,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
-                Intent splashLoginm = new Intent(LoginActivity.this, MainActivity.class);
-                splashLoginm.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(splashLoginm);
-                finish();
+
             }
         });
     }
@@ -109,11 +109,10 @@ public class LoginActivity extends AppCompatActivity {
 
                         List<Datum> items = response.body().getData();
 
-                        for (int i = 0;i<items.size();i++){
-                            Datum datum= items.get(i);
-                            Log.e("keshav", "getUserId          -->  " + datum.getPsName());
 
-                        }
+                        new  AsyncTaskFunding(items).execute();
+
+
 
 
 
@@ -154,6 +153,57 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+
+    //insert in to Room DB
+    public class AsyncTaskFunding extends AsyncTask<String,String,String> {
+
+        List<Datum> record;
+
+        AsyncTaskFunding(List<Datum> record){
+            this.record = record;
+        }
+        @Override
+        protected String doInBackground(String... params) {
+
+            Log.d( "doInBackgrounsize", String.valueOf(record.size()));
+            //setting my  List<Record> to Room Model Funding
+            for (int i = 0;i<record.size();i++){
+                Datum datum= record.get(i);
+                Log.e("keshav", "getUserId          -->  " + datum.getPsName());
+
+                //creating a task
+                User user = new User();
+                user.setPreschool_id(datum.getPreschoolId());
+                user.setPs_name(datum.getPsName());
+                user.setPs_activities(datum.getPsActivities());
+
+
+                //adding to database
+                DatabaseClient.getInstance(getApplicationContext()).getAppDatabase()
+                        .userDao()
+                        .insert(user);
+            }
+
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+
+            // Set Logged In statue to 'true'
+            SaveSharedPreference.setLoggedIn(getApplicationContext(), true);
+
+            Intent splashLoginm = new Intent(LoginActivity.this, MainActivity.class);
+            splashLoginm.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(splashLoginm);
+            finish();
+
+            //   Toast.makeText(getApplicationContext(), "Inserted", Toast.LENGTH_LONG).show();
+            //logout
+            //https://medium.com/viithiisys/android-manage-user-session-using-shared-preferences-1187cb9c5cd8
+        }
+    }
 
 
 }

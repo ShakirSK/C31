@@ -1,9 +1,11 @@
 package main.master.c31.LauncherMainActivity;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +13,10 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
+import main.master.c31.Database.DatabaseClient;
+import main.master.c31.Database.User;
 import main.master.c31.R;
 
 
@@ -28,6 +33,11 @@ public class home_fragment extends Fragment {
 
     TextView schoolname;
     RecyclerView recyclerView;
+    static ArrayList<String> arrayList;
+
+    ArrayList text5,title;
+    ArrayList activitydescription;
+
 
     public home_fragment() {
         // Required empty public constructor
@@ -65,11 +75,16 @@ public class home_fragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+        GetData gt = new GetData();
+        gt.execute();
 
-        ArrayList text5 = new ArrayList<>(Arrays.asList("Upload Activity Pictures","Upload Birthdays","Add Event Details",
+        title = new ArrayList<>(Arrays.asList("Activity_Picture","Birthday","Events",
+                "FacebookPost","FacebookPage","Artwork"));
+
+         text5 = new ArrayList<>(Arrays.asList("Upload Activity Pictures","Upload Birthdays","Add Event Details",
                 "Facebook Post Request","Facebook Page Requirement","Artwork Request"));
 
-        ArrayList activitydescription = new ArrayList<>(Arrays.asList(
+         activitydescription = new ArrayList<>(Arrays.asList(
                 "Upload activity pictures along with activity name and a short description.",
                 "Upload birthday details of the child along with the child's name and date of birth.",
                 "Add details of the events you plan to conduct along with name, date, time and venue for the event.",
@@ -84,11 +99,60 @@ public class home_fragment extends Fragment {
         LinearLayoutManager horizontalLayoutManager  = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(horizontalLayoutManager);
 
-        home_fragmentAdapter customAdapter = new home_fragmentAdapter(getActivity(), text5,activitydescription);
-        recyclerView.setAdapter(customAdapter);
+
 
         return view;
     }
 
+
+    //retrive from Room DB
+    public class GetData extends AsyncTask<Void, Void, List<User>> {
+
+        @Override
+        protected List<User> doInBackground(Void... voids) {
+            //getting all data from room db in list
+            List<User> taskList = DatabaseClient
+                    .getInstance(getContext())
+                    .getAppDatabase()
+                    .userDao()
+                    .getAll();
+            return taskList;
+        }
+
+        @Override
+        protected void onPostExecute(List<User> tasks) {
+            super.onPostExecute(tasks);
+
+            arrayList =  new ArrayList<>();
+            //List task data set to Record model  to show in recycleview
+            for (int j = 0; j < tasks.size(); j++) {
+                User funding = tasks.get(j);
+
+                schoolname.setText(funding.getPs_name()+" !");
+                String psa = funding.getPs_activities();
+                String[] psachild = psa.split("\\s*,\\s*");
+
+                String[] animal1 = psachild[0].split("\\[");
+                String[] animal2 = psachild[1].split("]");
+                Log.d( "onPostpsa ",animal1[1].replaceAll("^\"|\"$", "")+ "    "+animal2[0].replaceAll("^\"|\"$", ""));
+
+                arrayList.add(animal1[1].replaceAll("^\"|\"$", ""));
+                arrayList.add(animal2[0].replaceAll("^\"|\"$", ""));
+
+                home_fragmentAdapter customAdapter = new home_fragmentAdapter(getActivity(), title,text5,activitydescription);
+                recyclerView.setAdapter(customAdapter);
+
+            /*    AlphabeticIndex.Record record = new Record();
+                //setting into model class for recycleview
+                record.setMainImageURL(funding.getImg());
+                record.setTitle(funding.getTitle());
+                record.setShortDescription(funding.getShortDescription());
+
+                recordslist.add(record);*/
+            }
+
+
+        }
+    }
 
 }

@@ -54,3 +54,5 @@ public class ActivityPickImageFragmentAdapter extends BaseAdapter {
         return view;
     }
 }
+
+//https://www.logicchip.com/creating-image-view-android/

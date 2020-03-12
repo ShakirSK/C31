@@ -1,6 +1,6 @@
 package main.master.c31.kotlinmvvm
 
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import main.master.c31.R
 

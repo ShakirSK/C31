@@ -2,13 +2,12 @@ package main.master.c31.LauncherMainActivity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.core.content.ContextCompat;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,16 +23,20 @@ import java.util.ArrayList;
 import main.master.c31.R;
 import main.master.c31.UploadActivity.UploadActivityList.ActivityUploadedList;
 
+import static main.master.c31.LauncherMainActivity.home_fragment.arrayList;
+
 
 public class home_fragmentAdapter extends RecyclerView.Adapter<home_fragmentAdapter.MyViewHolder> {
     ArrayList text1;
+    ArrayList title;
     ArrayList activitydescription;
     Context context;
 
     private String token = null;
 
 
-    public home_fragmentAdapter(Context context, ArrayList text1,ArrayList activitydescription) {
+    public home_fragmentAdapter(Context context, ArrayList title, ArrayList text1,ArrayList activitydescription) {
+        this.title = title;
         this.text1 = text1;
         this.activitydescription = activitydescription;
         this.context = context;
@@ -56,8 +59,21 @@ public class home_fragmentAdapter extends RecyclerView.Adapter<home_fragmentAdap
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
         /*ListItem listItem = name.get(position);
         holder.text1.setText(listItem.getText());*/
+
+        if(arrayList.contains((CharSequence) title.get(position)))
+        {
+            holder.itemView.setVisibility(View.VISIBLE);
+            holder.itemView.setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        }
+        else
+        {
+            holder.itemView.setVisibility(View.GONE);
+            holder.itemView.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
+        }
         holder.text1.setText((CharSequence) text1.get(position));
         holder.activitydescription.setText((CharSequence)activitydescription.get(position));
+
+
 
         if (position == 0) {
             holder.logos.setBackground(ContextCompat.getDrawable(context, R.drawable.uploadactivityicon));
