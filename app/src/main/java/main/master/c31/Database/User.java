@@ -66,16 +66,27 @@ public class User implements Serializable {
         this.ps_name = ps_name;
     }
 
-    public boolean isPs_email() {
+
+    public String getPs_email() {
         return ps_email;
     }
 
-    public void setPs_email(boolean ps_email) {
+    public void setPs_email(String ps_email) {
         this.ps_email = ps_email;
     }
 
     @ColumnInfo(name = "ps_email")
-    private boolean ps_email;
+    private String ps_email;
 
+    public String getPs_mobile() {
+        return ps_mobile;
+    }
+
+    public void setPs_mobile(String ps_mobile) {
+        this.ps_mobile = ps_mobile;
+    }
+
+    @ColumnInfo(name = "ps_mobile")
+    private String ps_mobile;
 
 }

@@ -2,7 +2,9 @@ package main.master.c31.UploadActivity.PickimageFrag;
 
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
         import android.view.View;
         import android.view.ViewGroup;
@@ -13,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
 
+import java.io.IOException;
 import java.util.List;
 
 import main.master.c31.R;
@@ -22,6 +25,8 @@ public class ActivityPickImageFragmentAdapter extends BaseAdapter {
     List<Uri> logos;
     LayoutInflater inflter;
     private RequestManager requestManager;
+
+
 
     public ActivityPickImageFragmentAdapter(Context applicationContext, List<Uri> logos) {
         this.context = applicationContext;
@@ -50,6 +55,7 @@ public class ActivityPickImageFragmentAdapter extends BaseAdapter {
                 .load(logos.get(i).toString())
                 .apply(new RequestOptions().fitCenter())
                 .into(icon);
+
 
         return view;
     }

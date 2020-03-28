@@ -1,5 +1,6 @@
 package main.master.c31.LauncherMainActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.icu.text.AlphabeticIndex;
@@ -8,7 +9,10 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +26,7 @@ import main.master.c31.Database.DatabaseClient;
 import main.master.c31.Database.User;
 import main.master.c31.Network.Datum;
 import main.master.c31.R;
+import main.master.c31.Session.SaveSharedPreference;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -38,7 +43,8 @@ public class more_fragment extends Fragment {
     private String mParam2;
 
    ImageView imageclick;
-   TextView preschoolname;
+   TextView preschoolname,preschoolname2,mobileno,email;
+    Button logoutBT;
     private static int RESULT_LOAD_IMAGE = 1;
     public more_fragment() {
         // Required empty public constructor
@@ -79,7 +85,43 @@ public class more_fragment extends Fragment {
 
         imageclick = (ImageView)view.findViewById(R.id.imageclick);
         preschoolname = (TextView)view.findViewById(R.id.preschoolname);
+        preschoolname2 = (TextView)view.findViewById(R.id.preschoolname2);
 
+        mobileno = (TextView)view.findViewById(R.id.mobilenumber);
+        email = (TextView)view.findViewById(R.id.emailid);
+
+
+        logoutBT = (Button)view.findViewById(R.id.logout);
+
+
+        logoutBT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("Are you sure?");
+                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        deleteTask();
+
+                    }
+                });
+                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Toast.makeText(getContext(), "no", Toast.LENGTH_LONG).show();
+
+                    }
+                });
+
+                AlertDialog ad = builder.create();
+                ad.show();
+
+            }
+        });
 
         GetData gt = new GetData();
         gt.execute();
@@ -147,7 +189,13 @@ public class more_fragment extends Fragment {
             for (int j = 0; j < tasks.size(); j++) {
                 User funding = tasks.get(j);
 
-                preschoolname.setText(funding.getPs_name());
+                preschoolname.setText(funding.getPs_name()+" !");
+                preschoolname2.setText(funding.getPs_name()+" !");
+
+                mobileno.setText(funding.getPs_mobile());
+                email.setText(funding.getPs_email());
+
+
                 String psa = funding.getPs_activities();
                 String[] psachild = psa.split("\\s*,\\s*");
 
@@ -166,6 +214,36 @@ public class more_fragment extends Fragment {
 
 
         }
+    }
+
+
+    private void deleteTask() {
+        class DeleteTask extends AsyncTask<Void, Void, Void> {
+
+            @Override
+            protected Void doInBackground(Void... voids) {
+
+                DatabaseClient.getInstance(getContext()).getAppDatabase()
+                        .userDao()
+                        .delete();
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+                // Set LoggedIn status to false
+                 SaveSharedPreference.setLoggedIn(getContext(), false);
+
+                Toast.makeText(getContext(), "Deleted", Toast.LENGTH_LONG).show();
+                getActivity().finish();
+                startActivity(new Intent(getContext(), LoginActivity.class));
+            }
+        }
+
+        DeleteTask dt = new DeleteTask();
+        dt.execute();
+
     }
 
 }

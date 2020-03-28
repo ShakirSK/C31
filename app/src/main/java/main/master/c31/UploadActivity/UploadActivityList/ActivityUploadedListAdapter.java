@@ -1,6 +1,8 @@
 package main.master.c31.UploadActivity.UploadActivityList;
 
 import android.content.Context;
+import android.util.Log;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,21 +13,19 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import main.master.c31.R;
 
 
 public class ActivityUploadedListAdapter extends RecyclerView.Adapter<ActivityUploadedListAdapter.MyViewHolder>
 {
-    ArrayList text1;
-    ArrayList text2;
-    ArrayList text3;
+    List<ActivityModel> loginResponse;
+
     Context context;
 
-    public ActivityUploadedListAdapter(Context context,ArrayList text1,ArrayList text2,ArrayList text3) {
-        this.text1 = text1;
-        this.text2 = text2;
-        this.text3 = text3;
+    public ActivityUploadedListAdapter(Context context, List<ActivityModel> loginResponse ) {
+        this.loginResponse = loginResponse;
         this.context = context;
     }
 
@@ -42,15 +42,102 @@ public class ActivityUploadedListAdapter extends RecyclerView.Adapter<ActivityUp
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         /*ListItem listItem = name.get(position);
         holder.text1.setText(listItem.getText());*/
-        holder.activityname.setText((CharSequence) text1.get(position));
-        holder.nofp.setText((CharSequence) text2.get(position));
-        holder.status.setText((CharSequence) text3.get(position));
+
+        ActivityModel datum = loginResponse.get(position);
+
+
+
+             if (datum.getStudentName()==null){
+                 if (datum.getActivityName()==null) {
+                       if (datum.getEventname()==null){
+                            if (datum.getArtworkname()==null){
+                                if (datum.getFbpostname()==null){
+                                      if (datum.getFbrequirements()==null){
+
+                                         }
+                                         else{
+                                             holder.activityname.setText(datum.getFbrequirements());
+                                             holder.nofp.setVisibility(View.GONE);
+                                         }
+                             }
+                             else{
+                                 holder.activityname.setText(datum.getFbpostname());
+                                    holder.nofp.setVisibility(View.GONE);
+
+                                    if(datum.getSocialMediaManagerStatus().equals("1")){
+                                        holder.status.setText("Request Accepted");
+                                    }
+                                    else if(datum.getGraphicsdesignerstatus().equals("1")){
+                                        holder.status.setText("Done");
+                                    }
+                                    else {
+                                        holder.status.setText("Pending");
+                                    }
+                             }
+                         }
+                         else{
+                             holder.activityname.setText(datum.getArtworkname());
+                                holder.nofp.setText(datum.getDate());
+
+                                if(datum.getSocialMediaManagerStatus().equals("1")){
+                                    holder.status.setText("Scheduled/Uploaded");
+                                }
+                                else if(datum.getGraphicsdesignerstatus().equals("1")){
+                                    holder.status.setText("Done");
+                                }
+                                else {
+                                    holder.status.setText("Pending");
+                                }
+                         }
+                     }
+                     else{
+                         holder.activityname.setText(datum.getEventname());
+                           holder.nofp.setText(datum.getEventfromdate());
+
+                           if(datum.getSocialMediaManagerStatus().equals("1")){
+                               holder.status.setText("Event Created");
+                           }
+                           else if(datum.getGraphicsdesignerstatus().equals("1")){
+                               holder.status.setText("Template Created");
+                           }
+                           else {
+                               holder.status.setText("Pending");
+                           }
+                     }
+                 }
+                 else{
+                     holder.activityname.setText(datum.getActivityName());
+                     holder.nofp.setVisibility(View.GONE);
+
+                     if(datum.getSocialMediaManagerStatus().equals("1")){
+                         holder.status.setText("Uploaded On FB");
+                     }
+                     else {
+                         holder.status.setText("Pending");
+                     }
+                 }
+            }
+             else{
+                 holder.activityname.setText(datum.getStudentName());
+                 holder.nofp.setText(datum.getDob());
+                 if(datum.getSocialMediaManagerStatus().equals("1")){
+                     holder.status.setText("Scheduled/Uploaded");
+                 }
+                 else if(datum.getGraphicsdesignerstatus().equals("1")){
+                     holder.status.setText("Template Created");
+                 }
+                 else {
+                     holder.status.setText("Pending");
+                 }
+             }
+
+
 
     }
 
     @Override
     public int getItemCount() {
-        return text1.size();
+        return loginResponse.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder  implements View.OnClickListener {

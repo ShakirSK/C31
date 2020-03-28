@@ -11,7 +11,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "main.master.c31"
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -62,10 +62,10 @@ dependencies {
 */
 
 
-
     //Retrofit and GSON
     implementation 'com.squareup.retrofit2:retrofit:2.6.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.6.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.9.0'
 
     //Android Room
     implementation "androidx.room:room-runtime:2.2.0-rc01"
@@ -92,7 +92,12 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.10.0'
 
     implementation 'com.squareup.picasso:picasso:2.71828'
+    //stetho for viewing the room db
+    implementation 'com.facebook.stetho:stetho:1.5.1'
 
+    implementation 'com.android.volley:volley:1.1.0'
+
+    implementation 'com.github.hkk595:Resizer:v1.5'
 }
 kapt {
     generateStubs = true

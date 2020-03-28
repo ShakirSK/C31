@@ -39,6 +39,7 @@ public class FbRequestPickImageFragment extends Fragment {
 
     GridView simpleGrid;
      FloatingActionButton choosemore;
+    public static Uri Fbpost_requestimage;
     public FbRequestPickImageFragment() {
         // Required empty public constructor
     }
@@ -88,7 +89,7 @@ public class FbRequestPickImageFragment extends Fragment {
                         .setCompleteButtonText("Done")
                         .setEmptySelectionText("Nothing Selected")
                         .setPreviewMaxCount(60)
-                        .setSelectMaxCount(6)
+                        .setSelectMaxCount(1)
                         .setSelectedUriList(selectedUriList)
                         .showMultiImage(uriList -> {
                             selectedUriList = uriList;
@@ -185,7 +186,7 @@ public class FbRequestPickImageFragment extends Fragment {
                         .setCompleteButtonText("Done")
                         .setEmptySelectionText("Nothing Selected")
                         .setPreviewMaxCount(60)
-                        .setSelectMaxCount(6)
+                        .setSelectMaxCount(1)
                         .setSelectedUriList(selectedUriList)
                         .showMultiImage(uriList -> {
                             selectedUriList = uriList;
@@ -202,6 +203,8 @@ public class FbRequestPickImageFragment extends Fragment {
     }
     private void showUriList(List<Uri> uriList) {
 
+
+        Fbpost_requestimage = uriList.get(0);
         FbRequestPickImageFragmentAdapter customAdapter = new FbRequestPickImageFragmentAdapter(getContext(), uriList);
         simpleGrid.setAdapter(customAdapter);
 

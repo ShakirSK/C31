@@ -39,6 +39,7 @@ public class ActivityPickImageFragment extends Fragment {
 
     GridView simpleGrid;
      FloatingActionButton choosemore;
+     public static  List<Uri> activitylisturi;
     public ActivityPickImageFragment() {
         // Required empty public constructor
     }
@@ -204,6 +205,7 @@ public class ActivityPickImageFragment extends Fragment {
     }
     private void showUriList(List<Uri> uriList) {
 
+        activitylisturi = uriList;
         ActivityPickImageFragmentAdapter customAdapter = new ActivityPickImageFragmentAdapter(getContext(), uriList);
         simpleGrid.setAdapter(customAdapter);
 

@@ -53,7 +53,7 @@
                 android:paddingTop="190dp"
                 android:paddingBottom="40dp">
 
-                <TextView
+                <TextView android:id="@+id/preschoolname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=" EuroKids !"
@@ -66,6 +66,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:gravity="center"
+                    android:visibility="gone"
                     android:text="A Pre-School is your child’s first experience away from you. " />
 
             </LinearLayout>
@@ -128,12 +129,13 @@
             app:civ_border_width="2dp"
             app:civ_border_color="#FF000000"/>-->
     <TextView
+            android:id="@+id/preschoolname2"
         android:layout_width="wrap_content"
         android:layout_height="?attr/actionBarSize"
         android:text=" EuroKids !"
         android:textSize="18dp"
         android:elevation="10dp"
-        android:layout_marginLeft="72dp"
+        android:layout_marginLeft="15dp"
         android:layout_marginTop="-100dp"
         android:gravity="center_vertical"
         android:textColor="#5b5b5b"

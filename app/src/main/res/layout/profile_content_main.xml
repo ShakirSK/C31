@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-        <RelativeLayout
+        <!--<RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             >
@@ -45,8 +45,15 @@
             android:background="#E0E0E0"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
-            />
+            />-->
         <TextView
+                android:id="@+id/mobilenumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text="Personal Details"/>
+        <TextView
+                android:id="@+id/emailid"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
@@ -55,17 +62,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:text="Personal Details"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:visibility="gone"
             android:text="Personal Details"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:textColor="#b70e95"
+            android:visibility="gone"
             android:text="Change Password"/>
 
         <LinearLayout

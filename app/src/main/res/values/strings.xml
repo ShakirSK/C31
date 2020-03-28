@@ -8,11 +8,25 @@
 
     <string name="simple_view_behavior">main.master.c31.SimpleViewBehavior</string>
 
-    <string name="name"><font size="15">Name</font></string>
-    <string name="size"><font size="15">Size</font></string>
-    <string name="RequiredContent"><font size="15">Required Content</font></string>
-    <string name="vanue"><font size="15">Venue</font></string>
-    <string name="Username"><font size="15">Username</font></string>
-    <string name="password"><font size="15">Password</font></string>
-    <string name="description"><font size="15">Description</font></string>
+    <string name="name">
+        <font size="15">Name</font>
+    </string>
+    <string name="size">
+        <font size="15">Size</font>
+    </string>
+    <string name="RequiredContent">
+        <font size="15">Required Content</font>
+    </string>
+    <string name="vanue">
+        <font size="15">Venue</font>
+    </string>
+    <string name="Username">
+        <font size="15">Username</font>
+    </string>
+    <string name="password">
+        <font size="15">Password</font>
+    </string>
+    <string name="description">
+        <font size="15">Description</font>
+    </string>
 </resources>

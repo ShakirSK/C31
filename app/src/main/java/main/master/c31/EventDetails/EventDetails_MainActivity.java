@@ -1,9 +1,14 @@
 package main.master.c31.EventDetails;
 
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
+import android.util.Log;
+import android.widget.*;
 import androidx.core.content.ContextCompat;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,21 +16,24 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.DatePicker;
-import android.widget.TabHost;
-import android.widget.TextView;
-import android.widget.TimePicker;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import main.master.c31.ArtWork.ArtworkResponse;
+import main.master.c31.LauncherMainActivity.MainActivity;
+import main.master.c31.Network.ApiUtils;
+import main.master.c31.Network.UserService;
 import main.master.c31.R;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class EventDetails_MainActivity extends AppCompatActivity {
 
-    TextView date,time;
+    TextView date,time,save;
     DatePickerDialog datePickerDialog;
     TimePickerDialog timePickerDialog;
     int year;
@@ -33,21 +41,31 @@ public class EventDetails_MainActivity extends AppCompatActivity {
     int dayOfMonth;
     Calendar calendar;
 
-     int  mHour, mMinute;
+    int  mHour, mMinute;
 
     int year1,year2;
     String day1,day2;
     String month1,month2;
 
-    String timeperiod1,timeperiod2,defaultdate;
+    String psid,timeperiod1,timeperiod2, dateperiod1,dateperiod2,defaultdate,sactivityname,sactivitydescription;
+    EditText activityname, activitydescription;
 
-
-
+    UserService userService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_details__main);
+
+        SharedPreferences sh
+                = getSharedPreferences("MySharedPref", MODE_PRIVATE);
+        psid= sh.getString("id", "");
+
+        activityname = findViewById(R.id.activityname);
+        activitydescription = findViewById(R.id.activitydescription);
+
+        userService = ApiUtils.getUserService();
+
         date = (TextView)findViewById(R.id.date);
 
         time = (TextView)findViewById(R.id.time);
@@ -58,6 +76,55 @@ public class EventDetails_MainActivity extends AppCompatActivity {
             getWindow().setStatusBarColor(ContextCompat.getColor(getApplicationContext(),R.color.statusbarcolor));
         }
 
+
+        save = (TextView)findViewById(R.id.save);
+
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                sactivityname = activityname.getText().toString().trim();
+                sactivitydescription = activitydescription.getText().toString().trim();
+
+
+                if (sactivityname.isEmpty()) {
+                    activityname.setError("Name required");
+                    activityname.requestFocus();
+                    return;
+                }
+
+                if (sactivitydescription.isEmpty()) {
+                    activitydescription.setError("Description required");
+                    activitydescription.requestFocus();
+                    return;
+                }
+
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(EventDetails_MainActivity.this);
+                builder.setTitle("Are you sure?");
+                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        Submit_EventDetails();
+
+                    }
+                });
+                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        //   Toast.makeText(getApplicationContext(), "no", Toast.LENGTH_LONG).show();
+
+                    }
+                });
+
+                AlertDialog ad = builder.create();
+                ad.show();
+
+
+            }
+        });
 
 
         date.setOnClickListener(new View.OnClickListener() {
@@ -195,25 +262,25 @@ public class EventDetails_MainActivity extends AppCompatActivity {
 
 
 
-                                timeperiod1=year1+"-"+month1+"-"+day1;
+                                dateperiod1=year1+"-"+month1+"-"+day1;
 
-                                timeperiod2=year2+"-"+month2+"-"+day2;
+                                dateperiod2=year2+"-"+month2+"-"+day2;
 
                                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                                 Date date1 = null,date2 = null;
                                 try {
 
-                                    date1 = sdf.parse(timeperiod1);
-                                    date2 = sdf.parse(timeperiod2);
+                                    date1 = sdf.parse(dateperiod1);
+                                    date2 = sdf.parse(dateperiod2);
                                 } catch (ParseException e) {
                                     e.printStackTrace();
                                 }
 
-                                timeperiod1 = sdf.format(date1);
-                                timeperiod2 = sdf.format(date2);
-                                date.setText(timeperiod1+" - "+timeperiod2);
+                                dateperiod1 = sdf.format(date1);
+                                dateperiod2 = sdf.format(date2);
+                                date.setText(dateperiod1+" - "+dateperiod2);
 
-                            //    party_ledger_arrayDate("preference","amountsort",timeperiod1,timeperiod2);
+                            //    party_ledger_arrayDate("preference","amountsort",dateperiod1,dateperiod2);
 
                                /* dateendandstart.setText(sdf.format(date1)+" - "+sdf.format(date2));
                                 party_ledger_arrayDate("preference","amountsort",sdf.format(date1),sdf.format(date2));*/
@@ -281,8 +348,11 @@ public class EventDetails_MainActivity extends AppCompatActivity {
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
 
-
-                                time.setText(datePicker.getCurrentHour() + ":" + datePicker.getCurrentMinute()+"  -  "+datePicker2.getCurrentHour() + ":" + datePicker2.getCurrentMinute());
+                                timeperiod1 = datePicker.getCurrentHour() + ":" + datePicker.getCurrentMinute();
+                                timeperiod2 = datePicker2.getCurrentHour() + ":" + datePicker2.getCurrentMinute();
+                                time.setText(datePicker.getCurrentHour() + ":" + datePicker.getCurrentMinute()
+                                        +"  -  "+
+                                        datePicker2.getCurrentHour() + ":" + datePicker2.getCurrentMinute());
 
 
 
@@ -300,4 +370,76 @@ public class EventDetails_MainActivity extends AppCompatActivity {
         alertDialog.show();
 
     }
+
+    private void Submit_EventDetails() {
+
+        ProgressDialog mProgressDialog;
+        mProgressDialog = new ProgressDialog(this);
+        mProgressDialog.setIndeterminate(true);
+        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setCanceledOnTouchOutside(false);
+        mProgressDialog.show();
+
+        final EventDetailsModel artwork = new EventDetailsModel(
+                psid, sactivityname,
+                dateperiod1,  dateperiod2,  timeperiod1,timeperiod2,
+                "Mumbai",  sactivitydescription, psid);
+
+
+
+        Call<ArtworkResponse> call = userService.EventDetails(artwork);
+        call.enqueue(new Callback<ArtworkResponse>() {
+            @Override
+            public void onResponse(Call<ArtworkResponse> call, Response<ArtworkResponse> response) {
+
+                Log.d("onResponse: ", response.toString());
+                if(response.isSuccessful()){
+
+                    if (mProgressDialog.isShowing()) {
+                        mProgressDialog.dismiss();
+                    }
+                    //   Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_SHORT).show();
+
+                    ArtworkResponse loginResponse = response.body();
+
+                    Log.e("keshav", "loginResponse 1 --> " + loginResponse);
+                    if (loginResponse != null) {
+                        Toast.makeText(EventDetails_MainActivity.this, "Event Request is successfully submited", Toast.LENGTH_SHORT).show();
+                        Intent splashLoginm = new Intent(EventDetails_MainActivity.this, MainActivity.class);
+                        splashLoginm.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(splashLoginm);
+                        finish();
+                    }
+
+
+              /*      loginObj resObj = response.body();
+                    if(resObj.getMessage().equals("true")){
+                        //login start main activity
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        intent.putExtra("username", username);
+                        startActivity(intent);
+
+                    } else {
+                       Toast.makeText(LoginActivity.this, "The username or password is incorrect", Toast.LENGTH_SHORT).show();
+                     }*/
+                } else {
+                    if (mProgressDialog.isShowing()) {
+                        mProgressDialog.dismiss();
+                    }
+                    Toast.makeText(EventDetails_MainActivity.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArtworkResponse> call, Throwable t) {
+                if (mProgressDialog.isShowing()) {
+                    mProgressDialog.dismiss();
+                }
+
+                Toast.makeText(EventDetails_MainActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
 }

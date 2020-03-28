@@ -1,7 +1,11 @@
 package main.master.c31.UploadActivity.UploadActivityList;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
+import android.util.Log;
+import android.widget.Toast;
 import androidx.core.content.ContextCompat;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,14 +18,20 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import main.master.c31.ArtWork.Artwork_MainActivity;
 import main.master.c31.Birthday.BirthdayMainActivity;
 import main.master.c31.EventDetails.EventDetails_MainActivity;
 import main.master.c31.FacebookPageRequirement.FacebookPageRequirementMain;
 import main.master.c31.FacebookpostRequest.FacebookPageRequestMain;
+import main.master.c31.Network.ApiUtils;
+import main.master.c31.Network.UserService;
 import main.master.c31.R;
 import main.master.c31.UploadActivity.UploadActivityMain;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ActivityUploadedList extends AppCompatActivity {
     RecyclerView recyclerView;
@@ -35,12 +45,17 @@ public class ActivityUploadedList extends AppCompatActivity {
     TextView newupload,titlename;
     ImageView backbutton;
     String gettingfromintent;
-
+    UserService userService;
+    String psid;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_uploaded_list);
+        userService = ApiUtils.getUserService();
 
+        SharedPreferences sh
+                = getSharedPreferences("MySharedPref", MODE_PRIVATE);
+        psid= sh.getString("id", "");
 
         Intent intent = getIntent();
         if (Build.VERSION.SDK_INT >= 21)
@@ -63,26 +78,39 @@ public class ActivityUploadedList extends AppCompatActivity {
         if(intent.getStringExtra("fromactivity").equals("activity")){
             titlename.setText("Uploaded Activities");
             newupload.setText("Upload New Activity");
+
+            getuploadedData("ActivityAPI","activity",psid);
         }
         else if(intent.getStringExtra("fromactivity").equals("facebookrequest")){
             titlename.setText("Requests Sent");
             newupload.setText("New Post Request");
+
+            getuploadedData("FbpostAPI","fbpost",psid);
+
         }
-        else if(intent.getStringExtra("fromactivity").equals("facebookrequire")){
+      /*  else if(intent.getStringExtra("fromactivity").equals("facebookrequire")){
             titlename.setText("Uploaded Images");
             newupload.setText("Upload New Image");
-        }
+
+            getuploadedData("FbcreativeAPI","fbcreative","3");
+        }*/
         else if(intent.getStringExtra("fromactivity").equals("birthday_activity")){
             titlename.setText("Uploaded Birthdays");
             newupload.setText("Upload New Birthday");
+
+            getuploadedData("BirthdayAPI","birthday",psid);
         }
         else if(intent.getStringExtra("fromactivity").equals("Artwork")){
             titlename.setText("Artwork Requests");
             newupload.setText("Request New Artwork");
+
+            getuploadedData("ArtworksAPI","artwork",psid);
         }
         else if(intent.getStringExtra("fromactivity").equals("EventDetails")){
             titlename.setText("Uploaded Events");
             newupload.setText("Upload New Event");
+
+            getuploadedData("EventAPI","event",psid);
         }
 
 
@@ -128,11 +156,81 @@ public class ActivityUploadedList extends AppCompatActivity {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), linearLayoutManager.getOrientation());
 
-        ActivityUploadedListAdapter adapter = new ActivityUploadedListAdapter(getApplicationContext(), activityname,noofp,status);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.addItemDecoration(dividerItemDecoration);
-        recyclerView.setAdapter(adapter);
+
+
+
+
+
+    }
+
+    public void getuploadedData(String Actapi,String Act,String pid){
+
+        ProgressDialog mProgressDialog;
+        mProgressDialog = new ProgressDialog(this);
+        mProgressDialog.setIndeterminate(true);
+        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setCanceledOnTouchOutside(false);
+        mProgressDialog.show();
+
+
+        Call<List<ActivityModel>> call = userService.posturdata(Actapi,Act,pid);
+        call.enqueue(new Callback<List<ActivityModel>>() {
+            @Override
+            public void onResponse(Call<List<ActivityModel>>call, Response<List<ActivityModel>> response) {
+                Log.d("onResponse: ", response.toString());
+                if(response.message().equals("Not Found"))
+                {
+                    if (mProgressDialog.isShowing()) {
+                        mProgressDialog.dismiss();
+                    }
+                    Toast.makeText(ActivityUploadedList.this, "No Uploaded Activities", Toast.LENGTH_SHORT).show();
+                }
+                else if(response.isSuccessful()){
+
+                    if (mProgressDialog.isShowing()) {
+                        mProgressDialog.dismiss();
+                    }
+                    //   Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_SHORT).show();
+
+                    List<ActivityModel> loginResponse = response.body();
+
+                    Log.e("keshav", "loginResponse 1 --> " + loginResponse);
+
+                    if (loginResponse != null) {
+
+
+                        for (int i = 0; i < loginResponse.size(); i++) {
+                            ActivityModel datum = loginResponse.get(i);
+                            Log.e("keshav", "getUserId          -->  " + datum.getActivityName());
+
+                        }
+                    }
+
+                    ActivityUploadedListAdapter adapter = new ActivityUploadedListAdapter(getApplicationContext(), loginResponse);
+                    recyclerView.setHasFixedSize(true);
+                    recyclerView.setLayoutManager(linearLayoutManager);
+                    recyclerView.addItemDecoration(dividerItemDecoration);
+                    recyclerView.setAdapter(adapter);
+
+                }
+                else {
+                    if (mProgressDialog.isShowing()) {
+                        mProgressDialog.dismiss();
+                    }
+                    Toast.makeText(ActivityUploadedList.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<ActivityModel>> call, Throwable t) {
+                if (mProgressDialog.isShowing()) {
+                    mProgressDialog.dismiss();
+                }
+                Log.d("onResponse: ",  t.getMessage());
+                Toast.makeText(ActivityUploadedList.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
 
     }

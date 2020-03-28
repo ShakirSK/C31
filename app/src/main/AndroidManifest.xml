@@ -1,67 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="main.master.c31">
+          package="main.master.c31">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
-        android:allowBackup="true"
-        android:hardwareAccelerated="false"
-        android:icon="@mipmap/appicon"
-        android:label="@string/app_name"
-        android:largeHeap="true"
-        android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".kotlinmvvm.MainLoginActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:name=".MyApplication"
+            android:allowBackup="true"
+            android:hardwareAccelerated="false"
+            android:icon="@mipmap/appicon"
+            android:label="@string/app_name"
+            android:largeHeap="true"
+            android:roundIcon="@mipmap/ic_launcher_round"
+            android:supportsRtl="true"
+            android:theme="@style/AppTheme"
+            android:usesCleartextTraffic="true">
+        <activity android:name=".testimage.testimageActvity">
+        </activity>
         <activity
-            android:name=".LauncherMainActivity.LoginActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+                android:name=".FacebookPageRequirement.change_in_activity.FBRequirementMenuActivity"
+                android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".LauncherMainActivity.Splash_screen"
-            android:theme="@style/AppTheme.NoActionBar">
+                android:name=".kotlinmvvm.MainLoginActivity"
+                android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+                android:name=".LauncherMainActivity.LoginActivity"
+                android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+                android:name=".LauncherMainActivity.Splash_screen"
+                android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
         <activity
-            android:name=".EventDetails.EventDetails_MainActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+                android:name=".EventDetails.EventDetails_MainActivity"
+                android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".ArtWork.Artwork_MainActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+                android:name=".ArtWork.Artwork_MainActivity"
+                android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".FacebookPageRequirement.pick3topicimages.PickFBRequirementMainActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+                android:name=".FacebookPageRequirement.pick3topicimages.PickFBRequirementMainActivity"
+                android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".Birthday.BirthdayMainActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+                android:name=".Birthday.BirthdayMainActivity"
+                android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".FacebookPageRequirement.FacebookPageRequirementMain"
-            android:theme="@style/AppTheme.NoActionBar" />
+                android:name=".FacebookPageRequirement.FacebookPageRequirementMain"
+                android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".FacebookpostRequest.FacebookPageRequestMain"
-            android:theme="@style/AppTheme.NoActionBar" />
+                android:name=".FacebookpostRequest.FacebookPageRequestMain"
+                android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".UploadActivity.UploadActivityList.ActivityUploadedList"
-            android:theme="@style/AppTheme.NoActionBar" />
+                android:name=".UploadActivity.UploadActivityList.ActivityUploadedList"
+                android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".UploadActivity.UploadActivityMain"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden" />
+                android:name=".UploadActivity.UploadActivityMain"
+                android:theme="@style/AppTheme.NoActionBar"
+                android:windowSoftInputMode="stateHidden"/>
         <activity
-            android:name=".LauncherMainActivity.MainActivity"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar" />
+                android:name=".LauncherMainActivity.MainActivity"
+                android:label="@string/app_name"
+                android:theme="@style/AppTheme.NoActionBar"/>
 
         <meta-data
-            android:name="preloaded_fonts"
-            android:resource="@array/preloaded_fonts" />
+                android:name="preloaded_fonts"
+                android:resource="@array/preloaded_fonts"/>
     </application>
 
 </manifest>

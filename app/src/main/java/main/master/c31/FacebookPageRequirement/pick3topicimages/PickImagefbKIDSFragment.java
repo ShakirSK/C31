@@ -2,6 +2,7 @@ package main.master.c31.FacebookPageRequirement.pick3topicimages;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -26,6 +27,18 @@ public class PickImagefbKIDSFragment extends Fragment {
     private List<Uri> selectedUriList;
     TextView topText;
     Button button;
+    public static  List<Uri> fblisturi;
+
+
+    public static PickImagefbKIDSFragment newInstance(int val) {
+        PickImagefbKIDSFragment fragment = new PickImagefbKIDSFragment();
+        Bundle args = new Bundle();
+        args.putInt("someInt", val);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -36,6 +49,26 @@ public class PickImagefbKIDSFragment extends Fragment {
         topText.setText("FIVE PICTURES OF KIDS");
         selectedUriList = new ArrayList<>();
 
+        String val = String.valueOf(getArguments().getInt("someInt", 0));
+        Toast.makeText(getContext(),val,Toast.LENGTH_SHORT).show();
+
+/*
+
+       String strtext = String.valueOf(getArguments().getInt("edttext0"));
+
+    */
+/*    String result = container.getTag().toString();*//*
+
+        Toast.makeText(getContext(),strtext,Toast.LENGTH_SHORT).show();
+
+        String strtext1 = String.valueOf(getArguments().getInt("edttext1"));
+
+        */
+/*    String result = container.getTag().toString();*//*
+
+        Toast.makeText(getContext(),strtext1,Toast.LENGTH_SHORT).show();
+
+*/
         button = (Button)view.findViewById(R.id.button);
 
         button.setOnClickListener(new View.OnClickListener() {
@@ -94,7 +127,7 @@ public class PickImagefbKIDSFragment extends Fragment {
 
     }*/
     private void showUriList(List<Uri> uriList) {
-
+        fblisturi = uriList;
         ActivityPickImageFragmentAdapter customAdapter = new ActivityPickImageFragmentAdapter(getContext(), uriList);
         simpleGrid.setAdapter(customAdapter);
 

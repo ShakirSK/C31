@@ -4,6 +4,7 @@ package main.master.c31.FacebookPageRequirement.pick3topicimages;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -33,6 +34,11 @@ public class PickImagefbINFRAFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_pick_imagefb_infra, container, false);
+
+        String strtext = String.valueOf(getArguments().getInt("edttext2"));
+
+        /*    String result = container.getTag().toString();*/
+        Toast.makeText(getContext(),strtext,Toast.LENGTH_SHORT).show();
         simpleGrid = (GridView) view.findViewById(R.id.simpleGridView); // init GridView
         selectedUriList = new ArrayList<>();
         topText = (TextView)view.findViewById(R.id.topText);

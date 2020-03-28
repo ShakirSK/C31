@@ -1,5 +1,6 @@
 package main.master.c31.LauncherMainActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -90,6 +91,13 @@ public class LoginActivity extends AppCompatActivity {
 
     private void doLogin(final String username,final String password){
 
+        ProgressDialog mProgressDialog;
+        mProgressDialog = new ProgressDialog(this);
+        mProgressDialog.setIndeterminate(true);
+        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setCanceledOnTouchOutside(false);
+        mProgressDialog.show();
+
         final loginmodel login = new loginmodel(username, password);
 
         Call<Example> call = userService.login(login);
@@ -99,6 +107,10 @@ public class LoginActivity extends AppCompatActivity {
 
                 Log.d("onResponse: ", response.toString());
                 if(response.isSuccessful()){
+
+                    if (mProgressDialog.isShowing()) {
+                        mProgressDialog.dismiss();
+                    }
 
                  //   Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_SHORT).show();
 
@@ -142,12 +154,19 @@ public class LoginActivity extends AppCompatActivity {
                        Toast.makeText(LoginActivity.this, "The username or password is incorrect", Toast.LENGTH_SHORT).show();
                      }*/
                 } else {
+                    if (mProgressDialog.isShowing()) {
+                        mProgressDialog.dismiss();
+                    }
                     Toast.makeText(LoginActivity.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<Example> call, Throwable t) {
+                if (mProgressDialog.isShowing()) {
+                    mProgressDialog.dismiss();
+                }
+
                 Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -176,6 +195,8 @@ public class LoginActivity extends AppCompatActivity {
                 user.setPreschool_id(datum.getPreschoolId());
                 user.setPs_name(datum.getPsName());
                 user.setPs_activities(datum.getPsActivities());
+                user.setPs_email(datum.getPsEmail());
+                user.setPs_mobile(datum.getPsMobile());
 
 
                 //adding to database

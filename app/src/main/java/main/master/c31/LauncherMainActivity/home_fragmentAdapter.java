@@ -20,8 +20,10 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import main.master.c31.FacebookPageRequirement.FacebookPageRequirementMain;
 import main.master.c31.R;
 import main.master.c31.UploadActivity.UploadActivityList.ActivityUploadedList;
+import main.master.c31.testimage.testimageActvity;
 
 import static main.master.c31.LauncherMainActivity.home_fragment.arrayList;
 
@@ -159,9 +161,14 @@ public class home_fragmentAdapter extends RecyclerView.Adapter<home_fragmentAdap
                 }
                 else if(position==4)
                 {
-                    Intent intent = new Intent(context, ActivityUploadedList.class);
+                   /* Intent intent = new Intent(context, ActivityUploadedList.class);
                     intent.putExtra("fromactivity","facebookrequire");
+                    context.startActivity(intent);*/
+                    Intent intent = new Intent(context, FacebookPageRequirementMain.class);
                     context.startActivity(intent);
+
+//                    Intent intent = new Intent(context, testimageActvity.class);
+//                    context.startActivity(intent);
                 }
                 else if(position==5)
                 {

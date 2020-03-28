@@ -1,8 +1,10 @@
 package main.master.c31.LauncherMainActivity;
 
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,6 +20,8 @@ import java.util.List;
 import main.master.c31.Database.DatabaseClient;
 import main.master.c31.Database.User;
 import main.master.c31.R;
+
+import static android.content.Context.MODE_PRIVATE;
 
 
 public class home_fragment extends Fragment {
@@ -38,7 +42,8 @@ public class home_fragment extends Fragment {
     ArrayList text5,title;
     ArrayList activitydescription;
 
-
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor myEdit;
     public home_fragment() {
         // Required empty public constructor
     }
@@ -78,8 +83,16 @@ public class home_fragment extends Fragment {
         GetData gt = new GetData();
         gt.execute();
 
+        // Storing data into SharedPreferences
+         sharedPreferences = getActivity().getSharedPreferences("MySharedPref",
+                MODE_PRIVATE);
+        // Creating an Editor object
+        // to edit(write to the file)
+         myEdit = sharedPreferences.edit();
+
+
         title = new ArrayList<>(Arrays.asList("Activity_Picture","Birthday","Events",
-                "FacebookPost","FacebookPage","Artwork"));
+                "Facebook_Post","Facebook_Page","Artwork_Request"));
 
          text5 = new ArrayList<>(Arrays.asList("Upload Activity Pictures","Upload Birthdays","Add Event Details",
                 "Facebook Post Request","Facebook Page Requirement","Artwork Request"));
@@ -128,16 +141,40 @@ public class home_fragment extends Fragment {
             for (int j = 0; j < tasks.size(); j++) {
                 User funding = tasks.get(j);
 
+                // Storing the key and its value
+                // as the data fetched from edittext
+                myEdit.putString(
+                        "id",
+                        funding.getPreschool_id());
+                myEdit.commit();
+
                 schoolname.setText(funding.getPs_name()+" !");
                 String psa = funding.getPs_activities();
+
                 String[] psachild = psa.split("\\s*,\\s*");
 
                 String[] animal1 = psachild[0].split("\\[");
-                String[] animal2 = psachild[1].split("]");
-                Log.d( "onPostpsa ",animal1[1].replaceAll("^\"|\"$", "")+ "    "+animal2[0].replaceAll("^\"|\"$", ""));
+                String[] animal2 = psachild[psachild.length-1].split("]");
+
 
                 arrayList.add(animal1[1].replaceAll("^\"|\"$", ""));
                 arrayList.add(animal2[0].replaceAll("^\"|\"$", ""));
+
+
+                for (int i=0;i<psachild.length;i++){
+                   if( psachild[i].contains("[")||psachild[i].contains("]"))
+                   {
+                       Log.d( "onPostpsahave ",psachild[i]);
+                   }
+                   else
+                   {
+                       arrayList.add(psachild[i].replaceAll("^\"|\"$", ""));
+                       Log.d( "onPostpsanh",psachild[i]);
+                   }
+                }
+
+
+                Log.d( "onPostarray",arrayList.toString());
 
                 home_fragmentAdapter customAdapter = new home_fragmentAdapter(getActivity(), title,text5,activitydescription);
                 recyclerView.setAdapter(customAdapter);
