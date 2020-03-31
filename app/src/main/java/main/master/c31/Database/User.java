@@ -32,6 +32,29 @@ public class User implements Serializable {
     @ColumnInfo(name = "ps_activities")
     private String ps_activities;
 
+    public String getCenter_address() {
+        return center_address;
+    }
+
+    public void setCenter_address(String center_address) {
+        this.center_address = center_address;
+    }
+
+    @ColumnInfo(name = "center_address")
+    private String center_address;
+
+    public String getPs_logo() {
+        return ps_logo;
+    }
+
+    public void setPs_logo(String ps_logo) {
+        this.ps_logo = ps_logo;
+    }
+
+    @ColumnInfo(name = "ps_logo")
+    private String ps_logo;
+
+
 
 
     public int getId() {

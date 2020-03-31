@@ -1,105 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#FFFFFF"
-    tools:context=".LauncherMainActivity.LoginActivity">
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   xmlns:tools="http://schemas.android.com/tools"
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/topText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:layout_marginBottom="85dp"
-        android:fontFamily="@font/oswald_bold"
-        android:text="CREATIVE CONNECT"
-        android:textColor="@android:color/black"
-        android:textSize="25sp"
-        app:layout_constraintBottom_toTopOf="@+id/imageView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_marginBottom="401dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/appfrontscreen"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/topText" />
-
-    <EditText
-        android:id="@+id/emailid"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="100dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginRight="30dp"
-        android:background="@drawable/rounded_edittext"
-        android:drawableLeft="@drawable/ic_user"
-        android:drawablePadding="15dp"
-        android:fontFamily="@font/oswald_light"
-        android:hint="@string/Username"
-        android:paddingLeft="10dp"
-        android:inputType="number"
-        app:layout_constraintBottom_toTopOf="@+id/pass"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
-
-
-    <EditText
-        android:id="@+id/pass"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_margin="30dp"
-        android:background="@drawable/rounded_edittext"
-        android:drawableLeft="@drawable/ic_passsvg"
-        android:drawablePadding="15dp"
-        android:fontFamily="@font/oswald_light"
-        android:inputType="number"
-        android:hint="@string/password"
-        android:paddingLeft="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailid" />
-
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="50dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pass">
-
-        <TextView
+            android:id="@+id/textView5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:fontFamily="@font/oswald_light"
-            android:text="Sign In"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-        <ImageView
+            android:text="SIGN IN"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="@dimen/_17sdp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="@+id/guideline13"
+            app:layout_constraintTop_toTopOf="@+id/guideline16" />
+
+    <EditText
+            android:id="@+id/emailid"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_40sdp"
+            android:background="@drawable/rouncorneredittext"
+            android:ems="10"
+            android:hint="@string/Username"
+            android:inputType="textPersonName"
+            app:layout_constraintEnd_toStartOf="@+id/guideline14"
+            app:layout_constraintStart_toStartOf="@+id/guideline13"
+            app:layout_constraintTop_toBottomOf="@id/textView5" />
+
+    <EditText
+            android:id="@+id/pass"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_30sdp"
+            android:background="@drawable/rouncorneredittext"
+            android:ems="10"
+            android:hint="@string/password"
+            android:inputType="textPassword"
+            app:layout_constraintEnd_toStartOf="@+id/guideline14"
+            app:layout_constraintStart_toStartOf="@+id/guideline13"
+            app:layout_constraintTop_toBottomOf="@id/emailid" />
+
+    <TextView
             android:id="@+id/submit"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="30dp"
-            android:src="@drawable/next"/>
-    </LinearLayout>
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rouncornersignin"
+            android:gravity="center"
+            android:text="SIGN IN"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/_18sdp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline14"
+            app:layout_constraintHorizontal_bias="0.496"
+            app:layout_constraintStart_toStartOf="@+id/guideline13"
+            app:layout_constraintTop_toBottomOf="@id/pass"
+            app:layout_constraintVertical_bias="0.182" />
+
+
+    <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline13"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.048661802" />
+
+    <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.96107054" />
+
+    <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline16"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.12"/>
+    <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" app:srcCompat="@mipmap/appicon"
+            android:id="@+id/imageView4" app:layout_constraintStart_toStartOf="@+id/guideline13"
+            app:layout_constraintBottom_toTopOf="@+id/guideline16"
+            app:layout_constraintTop_toTopOf="parent" app:layout_constraintEnd_toStartOf="@+id/guideline14"
+    />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

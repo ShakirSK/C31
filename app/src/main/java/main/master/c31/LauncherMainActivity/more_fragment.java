@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import java.io.IOException;
 import java.util.List;
 
+import com.squareup.picasso.Picasso;
 import main.master.c31.Database.DatabaseClient;
 import main.master.c31.Database.User;
 import main.master.c31.Network.Datum;
@@ -42,8 +43,8 @@ public class more_fragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-   ImageView imageclick;
-   TextView preschoolname,preschoolname2,mobileno,email;
+   ImageView profilepic;
+   TextView preschoolname,preschoolname2,mobileno,email,address;
     Button logoutBT;
     private static int RESULT_LOAD_IMAGE = 1;
     public more_fragment() {
@@ -83,13 +84,13 @@ public class more_fragment extends Fragment {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_more, container, false);
 
-        imageclick = (ImageView)view.findViewById(R.id.imageclick);
+        profilepic = (ImageView)view.findViewById(R.id.profilepic);
         preschoolname = (TextView)view.findViewById(R.id.preschoolname);
         preschoolname2 = (TextView)view.findViewById(R.id.preschoolname2);
 
         mobileno = (TextView)view.findViewById(R.id.mobilenumber);
         email = (TextView)view.findViewById(R.id.emailid);
-
+        address = (TextView)view.findViewById(R.id.address);
 
         logoutBT = (Button)view.findViewById(R.id.logout);
 
@@ -127,45 +128,13 @@ public class more_fragment extends Fragment {
         gt.execute();
 
 
-      /*  imageclick.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(
-                        Intent.ACTION_PICK,
-                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
-                startActivityForResult(i, RESULT_LOAD_IMAGE);
-            }
-        });*/
         return view;
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
-            Uri selectedImage;
-            selectedImage = data.getData();
-
-            String[] filePathColumn = { MediaStore.Images.Media.DATA };
-
-
-            Bitmap bitmapImage = null;
-            try {
-                bitmapImage = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), selectedImage);
-                imageclick.setImageBitmap(bitmapImage);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
 
 
 
-
-        }
-
-
-    }
 
     //retrive from Room DB
    public class GetData extends AsyncTask<Void, Void, List<User>> {
@@ -194,8 +163,11 @@ public class more_fragment extends Fragment {
 
                 mobileno.setText(funding.getPs_mobile());
                 email.setText(funding.getPs_email());
+                address.setText(funding.getCenter_address());
 
 
+                String url = "http://creative31minds.com/creative-web/uploads/preschool_logo/"+funding.getPs_name().replaceAll("\\s", "")+"/"+funding.getPs_logo();
+                Picasso.get().load(url).into(profilepic);
                 String psa = funding.getPs_activities();
                 String[] psachild = psa.split("\\s*,\\s*");
 
@@ -235,7 +207,7 @@ public class more_fragment extends Fragment {
                 // Set LoggedIn status to false
                  SaveSharedPreference.setLoggedIn(getContext(), false);
 
-                Toast.makeText(getContext(), "Deleted", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "Successfully Logout", Toast.LENGTH_LONG).show();
                 getActivity().finish();
                 startActivity(new Intent(getContext(), LoginActivity.class));
             }

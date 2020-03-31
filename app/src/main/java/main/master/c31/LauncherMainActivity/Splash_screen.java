@@ -9,9 +9,9 @@ import androidx.core.content.ContextCompat;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
+import main.master.c31.LauncherMainActivity.HOME.MainActivity;
 import main.master.c31.R;
 import main.master.c31.Session.SaveSharedPreference;
-import main.master.c31.kotlinmvvm.MainLoginActivity;
 
 public class Splash_screen extends AppCompatActivity {
 
@@ -51,7 +51,7 @@ public class Splash_screen extends AppCompatActivity {
                     startActivity(splashLoginm);
                     finish();
                 } else {
-                    Intent splashLoginm = new Intent(Splash_screen.this, LoginActivity.class);
+                    Intent splashLoginm = new Intent(Splash_screen.this, WelcomeActivity.class);
                     splashLoginm.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(splashLoginm);
                     finish();
@@ -64,6 +64,6 @@ public class Splash_screen extends AppCompatActivity {
 
 
             }
-        },1500);
+        },800);
     }
 }

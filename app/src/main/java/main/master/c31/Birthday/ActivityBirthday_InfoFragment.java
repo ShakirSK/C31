@@ -4,15 +4,9 @@ package main.master.c31.Birthday;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.*;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.DocumentsContract;
-import android.provider.MediaStore;
-import android.util.Base64;
 import android.util.Log;
 import android.widget.*;
 import androidx.appcompat.app.AlertDialog;
@@ -22,26 +16,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.io.*;
-import java.net.URLConnection;
 import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import main.master.c31.ArtWork.ArtworkResponse;
-import main.master.c31.EventDetails.EventDetailsModel;
-import main.master.c31.EventDetails.EventDetails_MainActivity;
-import main.master.c31.LauncherMainActivity.MainActivity;
+import main.master.c31.LauncherMainActivity.HOME.MainActivity;
 import main.master.c31.Network.ApiUtils;
-import main.master.c31.Network.RetrofitClient;
 import main.master.c31.Network.UserService;
 import main.master.c31.R;
 import okhttp3.MediaType;
@@ -52,16 +33,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-
-import static android.app.Activity.RESULT_OK;
-import static gun0912.tedbottompicker.util.RealPathUtil.isExternalStorageDocument;
+import static android.content.Context.MODE_PRIVATE;
 import static main.master.c31.Birthday.pickimagefragment.ActivityBirthday_PickImageFragment.birthdayimage;
 
 
@@ -90,7 +62,7 @@ public class ActivityBirthday_InfoFragment extends Fragment  {
     private static final int REQUEST_PERMISSIONS = 100;
     private static final int PICK_IMAGE_REQUEST =1 ;
     private Bitmap bitmap;
-    private String filePath;
+    private String filePath,psid;
     private File drImageFile = null;
 
     public ActivityBirthday_InfoFragment() {
@@ -103,6 +75,10 @@ public class ActivityBirthday_InfoFragment extends Fragment  {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_activity_birthday__info, container, false);
+
+        SharedPreferences sh
+                = this.getActivity().getSharedPreferences("MySharedPref", MODE_PRIVATE);
+        psid= sh.getString("id", "");
 
         activityname = (EditText) view.findViewById(R.id.activityname);
 
@@ -164,7 +140,7 @@ public class ActivityBirthday_InfoFragment extends Fragment  {
                 builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        if(birthdayimage==null)
+                        if(birthdayimage.equals(""))
                         {
                             Toast.makeText(getContext(),"Please Select Student Image",Toast.LENGTH_SHORT).show();
                         }
@@ -329,7 +305,7 @@ public class ActivityBirthday_InfoFragment extends Fragment  {
         Log.d( "urlp1: ", String.valueOf(birthdayimage));
 
 
-        String ere = removeUriFromPath(birthdayimage.toString());
+        String ere = removeUriFromPath(birthdayimage);
         String urlString = Uri.decode(ere);
        // String  urlString = ere.replaceAll(" ", "%20");
         Log.d( "urlp2: ", String.valueOf(ere));
@@ -360,7 +336,7 @@ public class ActivityBirthday_InfoFragment extends Fragment  {
 
 
 
-        String spreschool_id = "19";
+        String spreschool_id = psid;
         RequestBody preschool_id =
                 RequestBody.create(
                         okhttp3.MultipartBody.FORM, spreschool_id);
@@ -375,7 +351,7 @@ public class ActivityBirthday_InfoFragment extends Fragment  {
                 RequestBody.create(
                         okhttp3.MultipartBody.FORM, sdob);
 
-        String screated_by = "19";
+        String screated_by = psid;
         RequestBody created_by =
                 RequestBody.create(
                         okhttp3.MultipartBody.FORM, screated_by);

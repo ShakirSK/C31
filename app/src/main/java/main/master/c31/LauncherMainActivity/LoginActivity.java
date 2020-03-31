@@ -4,6 +4,9 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.text.method.PasswordTransformationMethod;
+import android.view.WindowManager;
+import android.widget.TextView;
 import androidx.core.content.ContextCompat;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,6 +20,7 @@ import java.util.List;
 
 import main.master.c31.Database.DatabaseClient;
 import main.master.c31.Database.User;
+import main.master.c31.LauncherMainActivity.HOME.MainActivity;
 import main.master.c31.Network.ApiUtils;
 import main.master.c31.Network.Datum;
 import main.master.c31.Network.Example;
@@ -33,7 +37,7 @@ import retrofit2.Callback;
 public class LoginActivity extends AppCompatActivity {
     EditText edtUsername;
     EditText edtPassword;
-    ImageView submit;
+    TextView submit;
     UserService userService;
 
     @Override
@@ -43,8 +47,12 @@ public class LoginActivity extends AppCompatActivity {
 
         edtUsername = (EditText) findViewById(R.id.emailid);
         edtPassword = (EditText) findViewById(R.id.pass);
+    //    getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+      //  getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
-        submit = (ImageView)findViewById(R.id.submit);
+       // edtPassword.setTransformationMethod(new PasswordTransformationMethod());
+
+        submit = (TextView)findViewById(R.id.submit);
 
         userService = ApiUtils.getUserService();
 
@@ -197,6 +205,8 @@ public class LoginActivity extends AppCompatActivity {
                 user.setPs_activities(datum.getPsActivities());
                 user.setPs_email(datum.getPsEmail());
                 user.setPs_mobile(datum.getPsMobile());
+                user.setPs_logo(datum.getPsLogo());
+                user.setCenter_address(datum.getCenterAddress());
 
 
                 //adding to database

@@ -4,6 +4,7 @@ package main.master.c31.FacebookpostRequest;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,7 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import main.master.c31.LauncherMainActivity.MainActivity;
+import main.master.c31.LauncherMainActivity.HOME.MainActivity;
 import main.master.c31.Network.ApiUtils;
 import main.master.c31.Network.UserService;
 import main.master.c31.R;
@@ -26,9 +27,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
+import static android.content.Context.MODE_PRIVATE;
 import static main.master.c31.FacebookpostRequest.pickfragment.FbRequestPickImageFragment.Fbpost_requestimage;
 
 /**
@@ -42,7 +42,7 @@ public class FacebookInfoFragment extends Fragment {
     UserService userService;
     TextView save;
     EditText activityname;
-    String sactivityname,schangeinmakein;
+    String sactivityname,schangeinmakein,psid;
     int checkboxselect_status;
     public FacebookInfoFragment() {
         // Required empty public constructor
@@ -63,6 +63,11 @@ public class FacebookInfoFragment extends Fragment {
         cbtwo = (CheckBox)view.findViewById(R.id.checkbox2);
         changeinmakein = (EditText)view.findViewById(R.id.changeinmakein);
         activityname = (EditText) view.findViewById(R.id.activityname);
+
+        SharedPreferences sh
+                = this.getActivity().getSharedPreferences("MySharedPref", MODE_PRIVATE);
+        psid= sh.getString("id", "");
+
 
 
 
@@ -125,7 +130,7 @@ public class FacebookInfoFragment extends Fragment {
                 builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        if(Fbpost_requestimage==null)
+                        if(Fbpost_requestimage.equals(""))
                         {
                             Toast.makeText(getContext(),"Please Select Image",Toast.LENGTH_SHORT).show();
                         }
@@ -194,7 +199,7 @@ public class FacebookInfoFragment extends Fragment {
 
 
 
-        String spreschool_id = "19";
+        String spreschool_id = psid;
         RequestBody preschool_id =
                 RequestBody.create(
                         okhttp3.MultipartBody.FORM, spreschool_id);
@@ -209,7 +214,7 @@ public class FacebookInfoFragment extends Fragment {
                 RequestBody.create(
                         okhttp3.MultipartBody.FORM, sischange);
 
-        String screated_by = "19";
+        String screated_by = psid;
         RequestBody created_by =
                 RequestBody.create(
                         okhttp3.MultipartBody.FORM, screated_by);

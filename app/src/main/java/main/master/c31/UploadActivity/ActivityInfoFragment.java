@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,15 +19,15 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import static android.content.Context.MODE_PRIVATE;
 import static main.master.c31.UploadActivity.PickimageFrag.ActivityPickImageFragment._hasLoadedOnce;
 import static main.master.c31.UploadActivity.PickimageFrag.ActivityPickImageFragment.activitylisturi;
 
-import main.master.c31.LauncherMainActivity.MainActivity;
+import main.master.c31.LauncherMainActivity.HOME.MainActivity;
 import main.master.c31.Network.ApiUtils;
 import main.master.c31.Network.UserService;
 import main.master.c31.R;
@@ -64,7 +65,7 @@ public class ActivityInfoFragment extends Fragment {
     EditText activityname,activitydescription;
     String sactivityname,sactivitydescription;
     UserService userService;
-    String datesubmit;
+    String datesubmit,psid;
 
     public ActivityInfoFragment() {
         // Required empty public constructor
@@ -103,6 +104,10 @@ public class ActivityInfoFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_activity_info, container, false);
 
+        SharedPreferences sh
+                = this.getActivity().getSharedPreferences("MySharedPref", MODE_PRIVATE);
+        psid= sh.getString("id", "");
+
         _hasLoadedOnce=false;
         userService = ApiUtils.getUserService();
 
@@ -126,7 +131,7 @@ public class ActivityInfoFragment extends Fragment {
                                 datesubmit = day + "-" + (month + 1) + "-" + year;
                             }
                         }, year, month, dayOfMonth);
-                datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
+             //   datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
                 datePickerDialog.show();
             }
         });
@@ -164,7 +169,7 @@ public class ActivityInfoFragment extends Fragment {
                 builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        if(activitylisturi==null)
+                        if(activitylisturi.isEmpty())
                         {
                             Toast.makeText(getContext(),"Please Select Image",Toast.LENGTH_SHORT).show();
                         }
@@ -248,7 +253,7 @@ public class ActivityInfoFragment extends Fragment {
         Log.v("imageuploadarray", surveyImagesParts.toString()+"  "+uri.size());
 
 
-        String spreschool_id = "19";
+        String spreschool_id = psid;
         RequestBody preschool_id =
                 RequestBody.create(
                         okhttp3.MultipartBody.FORM, spreschool_id);
@@ -268,7 +273,7 @@ public class ActivityInfoFragment extends Fragment {
                 RequestBody.create(
                         okhttp3.MultipartBody.FORM, sdob);
 
-        String screated_by = "19";
+        String screated_by = psid;
         RequestBody created_by =
                 RequestBody.create(
                         okhttp3.MultipartBody.FORM, screated_by);

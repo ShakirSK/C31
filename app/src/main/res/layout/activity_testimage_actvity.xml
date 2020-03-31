@@ -1,57 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
-              app:layout_behavior="@string/appbar_scrolling_view_behavior"
-              android:orientation="vertical">
-    <RelativeLayout
-            android:background="#234"
-            android:id="@+id/idForSaving"
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+        android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        >
+    <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:id="@+id/idForSaving" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/button2">
+
 
         <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" app:srcCompat="@drawable/artwortreq"
+                android:id="@+id/imageView5" app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"/>
+        <ImageView
                 android:alpha=".3"
-                android:layout_centerInParent="true"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
-                android:src="@drawable/dourthing"/>
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-            <TextView
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="logicchip.com"/>
-            <TextView
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="/logicchip"/>
-            <TextView
-                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="\@logic_chip"/>
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="/+Logicchip"/>
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="/logicchip"/>
-            <TextView
-                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="info@logicchip.com"/>
-        </LinearLayout>
-    </RelativeLayout>
+                android:src="@drawable/dourthing" android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true" android:id="@+id/imageView6"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toTopOf="parent" android:layout_marginStart="8dp"
+                app:layout_constraintStart_toStartOf="@+id/imageView5"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
     <Button
             android:onClick="SaveClick"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="save"/>
-</LinearLayout>
+            android:text="save"
+            android:id="@+id/button2" tools:layout_editor_absoluteX="-228dp"
+            app:layout_constraintTop_toBottomOf="@+id/idForSaving"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

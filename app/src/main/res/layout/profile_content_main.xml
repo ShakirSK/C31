@@ -10,9 +10,9 @@
     >
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
         <!--<RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -48,46 +48,45 @@
             />-->
         <TextView
                 android:id="@+id/mobilenumber"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:text="Personal Details"/>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:text="Personal Details"/>
         <TextView
                 android:id="@+id/emailid"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:text="Personal Details"/>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:text="Personal Details"/>
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:visibility="gone"
-            android:text="Personal Details"/>
+                android:id="@+id/address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:text="Personal Details"/>
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:textColor="#b70e95"
-            android:visibility="gone"
-            android:text="Change Password"/>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:textColor="#b70e95"
+                android:visibility="gone"
+                android:text="Change Password"/>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="25dp"
-            android:padding="@dimen/activity_horizontal_margin">
-
-            <Button
-                android:id="@+id/logout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#b70e95"
-                android:background="@drawable/bgsearchview"
-                android:text="LOG OUT" />
-        </LinearLayout>
+                android:orientation="vertical"
+                android:layout_marginTop="25dp"
+                android:padding="@dimen/activity_horizontal_margin">
 
+            <Button
+                    android:id="@+id/logout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#b70e95"
+                    android:background="@drawable/bgsearchview"
+                    android:text="LOG OUT"/>
+        </LinearLayout>
 
 
     </LinearLayout>

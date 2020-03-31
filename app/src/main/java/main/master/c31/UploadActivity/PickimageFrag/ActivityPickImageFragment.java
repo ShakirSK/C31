@@ -205,7 +205,10 @@ public class ActivityPickImageFragment extends Fragment {
     }
     private void showUriList(List<Uri> uriList) {
 
+
+        activitylisturi = new ArrayList<>() ;
         activitylisturi = uriList;
+        Log.d( "urlp1: ", String.valueOf(activitylisturi));
         ActivityPickImageFragmentAdapter customAdapter = new ActivityPickImageFragmentAdapter(getContext(), uriList);
         simpleGrid.setAdapter(customAdapter);
 

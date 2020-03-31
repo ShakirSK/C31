@@ -1,8 +1,12 @@
-package main.master.c31.LauncherMainActivity;
+package main.master.c31.LauncherMainActivity.HOME;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import com.google.android.material.bottomnavigation.BottomNavigationItemView;
@@ -19,13 +23,28 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.lang.reflect.Field;
+import java.util.List;
 
+import main.master.c31.Database.DatabaseClient;
+import main.master.c31.LauncherMainActivity.HOME.ActiveStatus.ActiveStatusModel;
+import main.master.c31.LauncherMainActivity.LoginActivity;
+import main.master.c31.LauncherMainActivity.home_fragment;
+import main.master.c31.LauncherMainActivity.more_fragment;
+import main.master.c31.Network.ApiUtils;
+import main.master.c31.Network.UserService;
 import main.master.c31.R;
+import main.master.c31.Session.SaveSharedPreference;
+import main.master.c31.UploadActivity.UploadActivityList.ActivityUploadedList;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
     private TextView mTextMessage;
     static final Integer READ_EXST = 0x4;
 
+    UserService userService;
+    String psid;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -49,6 +68,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        userService = ApiUtils.getUserService();
+
+        SharedPreferences sh
+                = getSharedPreferences("MySharedPref", MODE_PRIVATE);
+        psid= sh.getString("id", "");
+
+        //look if status of the app is active or not
+        getuploadedData(psid);
 
         askForPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE,READ_EXST);
 
@@ -136,4 +164,112 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show();
         }
     }
+
+
+
+    public void getuploadedData(String pid){
+
+        ProgressDialog mProgressDialog;
+        mProgressDialog = new ProgressDialog(this);
+        mProgressDialog.setIndeterminate(true);
+        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setCanceledOnTouchOutside(false);
+        mProgressDialog.show();
+
+
+        Call<List<ActiveStatusModel>> call = userService.look_status_of_app(pid);
+        call.enqueue(new Callback<List<ActiveStatusModel>>() {
+            @Override
+            public void onResponse(Call<List<ActiveStatusModel>>call, Response<List<ActiveStatusModel>> response) {
+                Log.d("onResponse: ", response.toString());
+
+                if(response.message().equals("Not Found"))
+                {
+                    if (mProgressDialog.isShowing()) {
+                        mProgressDialog.dismiss();
+                    }
+                    deleteTask();
+                    Toast.makeText(MainActivity.this, "No Uploaded Activities", Toast.LENGTH_SHORT).show();
+                }
+                else if(response.isSuccessful()){
+
+                    if (mProgressDialog.isShowing()) {
+                        mProgressDialog.dismiss();
+                    }
+
+                  /*  List<ActiveStatusModel> loginResponse = response.body();
+
+                    Log.e("keshav", "loginResponse 1 --> " + loginResponse);
+
+
+                    if (loginResponse != null) {
+
+
+                        for (int i = 0; i < loginResponse.size(); i++) {
+                            ActiveStatusModel datum = loginResponse.get(i);
+
+                            if("1".equals(datum.getStatus())){
+
+                                 Toast.makeText(getApplicationContext(),"activee", Toast.LENGTH_SHORT).show();
+
+                            }
+
+                        }
+                    }
+*/
+
+
+                }
+                else {
+                    if (mProgressDialog.isShowing()) {
+                        mProgressDialog.dismiss();
+                    }
+                    Toast.makeText(MainActivity.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<ActiveStatusModel>> call, Throwable t) {
+                if (mProgressDialog.isShowing()) {
+                    mProgressDialog.dismiss();
+                }
+                Log.d("onResponse: ",  t.getMessage());
+                Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
+    }
+
+
+    private void deleteTask() {
+        class DeleteTask extends AsyncTask<Void, Void, Void> {
+
+            @Override
+            protected Void doInBackground(Void... voids) {
+
+                DatabaseClient.getInstance(getApplicationContext()).getAppDatabase()
+                        .userDao()
+                        .delete();
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+                // Set LoggedIn status to false
+                SaveSharedPreference.setLoggedIn(getApplicationContext(), false);
+
+                Toast.makeText(getApplicationContext(), "Your Account is Deactivated", Toast.LENGTH_LONG).show();
+                finish();
+                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+            }
+        }
+
+        DeleteTask dt = new DeleteTask();
+        dt.execute();
+
+    }
+
 }

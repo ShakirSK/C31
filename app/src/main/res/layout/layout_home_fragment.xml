@@ -3,22 +3,24 @@
     android:id="@+id/card_view"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:layout_margin="5dp"
     card_view:cardElevation="5dp"
     card_view:cardBackgroundColor="#FFFFFF"
     card_view:cardCornerRadius="5dp"
+    android:layout_marginBottom="10dp"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     >
 
-    <FrameLayout
+    <!--<FrameLayout
         android:layout_width="4dp"
         android:layout_height="match_parent"
-        android:background="@drawable/card_edge"/>
+        android:background="@drawable/card_edge"/>-->
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@drawable/rounded_edittext"
+        android:layout_marginBottom="10dp"
+    >
         <LinearLayout
             android:id="@+id/thumbnail"
             android:layout_width="match_parent"

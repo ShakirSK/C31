@@ -23,7 +23,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import main.master.c31.ArtWork.ArtworkResponse;
-import main.master.c31.LauncherMainActivity.MainActivity;
+import main.master.c31.LauncherMainActivity.HOME.MainActivity;
 import main.master.c31.Network.ApiUtils;
 import main.master.c31.Network.UserService;
 import main.master.c31.R;
@@ -47,8 +47,8 @@ public class EventDetails_MainActivity extends AppCompatActivity {
     String day1,day2;
     String month1,month2;
 
-    String psid,timeperiod1,timeperiod2, dateperiod1,dateperiod2,defaultdate,sactivityname,sactivitydescription;
-    EditText activityname, activitydescription;
+    String psid,timeperiod1,timeperiod2, dateperiod1,dateperiod2,defaultdate,svanue,sactivityname,sactivitydescription;
+    EditText activityname, activitydescription,vanue;
 
     UserService userService;
 
@@ -69,6 +69,7 @@ public class EventDetails_MainActivity extends AppCompatActivity {
         date = (TextView)findViewById(R.id.date);
 
         time = (TextView)findViewById(R.id.time);
+        vanue = (EditText)findViewById(R.id.vanue);
 
 
         if (Build.VERSION.SDK_INT >= 21)
@@ -86,7 +87,7 @@ public class EventDetails_MainActivity extends AppCompatActivity {
 
                 sactivityname = activityname.getText().toString().trim();
                 sactivitydescription = activitydescription.getText().toString().trim();
-
+                svanue = vanue.getText().toString().trim();
 
                 if (sactivityname.isEmpty()) {
                     activityname.setError("Name required");
@@ -99,6 +100,25 @@ public class EventDetails_MainActivity extends AppCompatActivity {
                     activitydescription.requestFocus();
                     return;
                 }
+
+                if (svanue.isEmpty()) {
+                    vanue.setError("Venue required");
+                    vanue.requestFocus();
+                    return;
+                }
+
+
+
+                if (dateperiod1==null||dateperiod2==null) {
+                    Toast.makeText(getApplicationContext(),"Date required",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (timeperiod1==null||timeperiod2==null) {
+                    Toast.makeText(getApplicationContext(),"Time required",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
 
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(EventDetails_MainActivity.this);
@@ -220,7 +240,7 @@ public class EventDetails_MainActivity extends AppCompatActivity {
 
         Calendar currentDate2 = Calendar.getInstance();
         currentDate2.set(currentDate2.get(Calendar.YEAR),Calendar.MARCH,31);
-        datePicker.setMaxDate(currentDate2.getTimeInMillis());
+      //  datePicker.setMaxDate(currentDate2.getTimeInMillis());
 /*
         datePicker.setOnDateChangedListener(new DatePicker.OnDateChangedListener() {
             @Override
@@ -234,7 +254,7 @@ public class EventDetails_MainActivity extends AppCompatActivity {
 
 
         datePicker2.setMinDate(currentDate.getTimeInMillis());
-        datePicker2.setMaxDate(currentDate2.getTimeInMillis());
+      //  datePicker2.setMaxDate(currentDate2.getTimeInMillis());
 
         /*datePicker.setOnDateChangedListener(new DatePicker.OnDateChangedListener() {
             @Override
@@ -383,7 +403,7 @@ public class EventDetails_MainActivity extends AppCompatActivity {
         final EventDetailsModel artwork = new EventDetailsModel(
                 psid, sactivityname,
                 dateperiod1,  dateperiod2,  timeperiod1,timeperiod2,
-                "Mumbai",  sactivitydescription, psid);
+                svanue,  sactivitydescription, psid);
 
 
 

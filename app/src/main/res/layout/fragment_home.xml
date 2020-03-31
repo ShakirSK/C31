@@ -52,6 +52,7 @@
                 android:nestedScrollingEnabled="false"
                 android:clipToPadding="false"
                 android:layout_below="@+id/upperhalf"
+                android:layout_margin="5dp"
                 >
             </androidx.recyclerview.widget.RecyclerView>
 

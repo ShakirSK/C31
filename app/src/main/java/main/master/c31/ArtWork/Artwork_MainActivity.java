@@ -1,15 +1,12 @@
 package main.master.c31.ArtWork;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.util.Log;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
@@ -21,9 +18,8 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 
 import java.util.Calendar;
-import java.util.List;
 
-import main.master.c31.LauncherMainActivity.MainActivity;
+import main.master.c31.LauncherMainActivity.HOME.MainActivity;
 import main.master.c31.Network.ApiUtils;
 import main.master.c31.Network.UserService;
 import main.master.c31.R;
@@ -94,7 +90,7 @@ public class Artwork_MainActivity extends AppCompatActivity {
                     return;
                 }
 
-                if (scontent.isEmpty()) {
+             /*   if (scontent.isEmpty()) {
                     content.setError("Content required");
                     content.requestFocus();
                     return;
@@ -104,7 +100,7 @@ public class Artwork_MainActivity extends AppCompatActivity {
                     vanue.setError("Venue required");
                     vanue.requestFocus();
                     return;
-                }
+                }*/
                 if (sdescription.isEmpty()) {
                     description.setError("Description required");
                     description.requestFocus();

@@ -1,7 +1,9 @@
 package main.master.c31.FacebookPageRequirement;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.util.Log;
 import android.widget.*;
@@ -15,6 +17,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import main.master.c31.FacebookPageRequirement.change_in_activity.FBRequirementMenuActivity;
 import main.master.c31.FacebookPageRequirement.pick3topicimages.PickFBRequirementMainActivity;
 import main.master.c31.Network.ApiUtils;
@@ -27,8 +32,11 @@ import retrofit2.Response;
 
 public class FacebookPageRequirementMain extends AppCompatActivity {
 
-    ListView listView;
-  /*  ArrayList arrayList = new ArrayList<>(Arrays.asList("FIVE PICTURE OF KIDS","STAFF PICTURES","INFRASTRUCTURE PICTURES"));
+    RecyclerView listView;
+    MyListAdapter adapter ;
+    private LinearLayoutManager linearLayoutManager;
+    private DividerItemDecoration dividerItemDecoration;
+    /*  ArrayList arrayList = new ArrayList<>(Arrays.asList("FIVE PICTURE OF KIDS","STAFF PICTURES","INFRASTRUCTURE PICTURES"));
   */
  // ArrayList arrayList = new ArrayList<>();
   public static HashMap<Integer,String> arrayList=new HashMap<Integer,String>();
@@ -36,12 +44,29 @@ public class FacebookPageRequirementMain extends AppCompatActivity {
 
     Button button;
     UserService userService;
+    String psid;
     
+    @SuppressLint("WrongConstant")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_facebook_page_requirement_main);
-        listView=(ListView)findViewById(R.id.listviewforfbpagelist);
+
+
+        SharedPreferences sh
+                = getSharedPreferences("MySharedPref", MODE_PRIVATE);
+        psid= sh.getString("id", "");
+
+
+        listView=(RecyclerView)findViewById(R.id.listviewforfbpagelist);
+
+        linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        dividerItemDecoration = new DividerItemDecoration(listView.getContext(), linearLayoutManager.getOrientation());
+
+
+
         button = (Button)findViewById(R.id.button);
 
         userService = ApiUtils.getUserService();
@@ -62,14 +87,14 @@ public class FacebookPageRequirementMain extends AppCompatActivity {
         });*/
 
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+    /*    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent it = new Intent(getApplicationContext(), FBRequirementMenuActivity.class);
                 it.putExtra("YourKeyHere", (String) list.get(position));
                 startActivity(it);
             }
-        });
+        });*/
         Get_Requirement();
                 
     }
@@ -82,7 +107,7 @@ public class FacebookPageRequirementMain extends AppCompatActivity {
         mProgressDialog.show();
 
 
-        Call<List<ActivityModel>> call = userService.posturdata("FbcreativeAPI","fbcreative","19");
+        Call<List<ActivityModel>> call = userService.posturdata("FbcreativeAPI","fbcreative",psid);
         call.enqueue(new Callback<List<ActivityModel>>() {
             @Override
             public void onResponse(Call<List<ActivityModel>>call, Response<List<ActivityModel>> response) {
@@ -114,46 +139,74 @@ public class FacebookPageRequirementMain extends AppCompatActivity {
 
                         }
 
-                        String[] psachild = fbrequirementString.split("\\s*,\\s*");
 
-                        String[] animal1 = psachild[0].split("\\[");
+                        String listoffbR =  fbrequirementString.replaceAll("[\\[\\]\\(\\)]", "");
+                        String[] psachild = listoffbR.split("\\s*,\\s*");
+
+                    /*    String[] animal1 = psachild[0].split("\\[");
                         String[] animal2 = psachild[psachild.length-1].split("]");
 
-
-
-                        for (int i=0;i<psachild.length;i++){
-                            if( psachild[i].contains("[")||psachild[i].contains("]"))
-                            {
-
-                                if(i==0){
-                                    arrayList.put(i,animal1[1].replaceAll("^\"|\"$", ""));
-                                }
-
-                                if(i==psachild.length-1)
-                                {
-                                    arrayList.put(i,animal2[0].replaceAll("^\"|\"$", ""));
-                                }
-
-                                Log.d( "onPostpsahave ",psachild[i]);
-                            }
-                            else
-                            {
+                    */    for (int i=0;i<psachild.length;i++){
                                 arrayList.put(i,psachild[i].replaceAll("^\"|\"$", ""));
                                 Log.d( "onPostpsanh",psachild[i]);
                             }
+
+
+                /*        if(fbrequirementString.contains(","))
+                        {
+                            String[] psachild = fbrequirementString.split("\\s*,\\s*");
+
+                            String[] animal1 = psachild[0].split("\\[");
+                            String[] animal2 = psachild[psachild.length-1].split("]");
+
+                            for (int i=0;i<psachild.length;i++){
+                                if( psachild[i].contains("[")||psachild[i].contains("]"))
+                                {
+
+                                    if(i==0){
+                                        arrayList.put(i,animal1[1].replaceAll("^\"|\"$", ""));
+                                    }
+
+                                    if(i==psachild.length-1)
+                                    {
+                                        arrayList.put(i,animal2[0].replaceAll("^\"|\"$", ""));
+                                    }
+
+                                    Log.d( "onPostpsahave ",psachild[i]);
+                                }
+                                else
+                                {
+                                    arrayList.put(i,psachild[i].replaceAll("^\"|\"$", ""));
+                                    Log.d( "onPostpsanh",psachild[i]);
+                                }
+                            }
+
+
                         }
+                        else{
+
+                           String listoffbR =  fbrequirementString.replaceAll("[\\[\\]\\(\\)]", "");
+                            arrayList.put(0,listoffbR.replaceAll("^\"|\"$", ""));
+                            Toast.makeText(getApplicationContext(),"NOT",Toast.LENGTH_SHORT).show();
+                        }
+
+*/
+
 
 
                         Log.d( "onPostarray",arrayList.toString());
 
                     }
-                    list = new ArrayList<String>(arrayList.values());
+                  //  list = new ArrayList<String>(arrayList.values());
 
 
-                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(),
-                            android.R.layout.simple_list_item_1, android.R.id.text1, list);
+                  /*  ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(),
+                            android.R.layout.simple_list_item_1, android.R.id.text1, list);*/
 
-
+                    adapter = new MyListAdapter(getApplicationContext(),arrayList);
+                    listView.setHasFixedSize(true);
+                    listView.setLayoutManager(linearLayoutManager);
+                    listView.addItemDecoration(dividerItemDecoration);
                     listView.setAdapter(adapter);
 
 

@@ -41,7 +41,7 @@ public class ActivityBirthday_PickImageFragment extends Fragment {
 
     GridView simpleGrid;
     FloatingActionButton choosemore;
-    public static Uri birthdayimage;
+    public static String birthdayimage="";
 
     public ActivityBirthday_PickImageFragment() {
         // Required empty public constructor
@@ -210,7 +210,13 @@ public class ActivityBirthday_PickImageFragment extends Fragment {
     }
     private void showUriList(List<Uri> uriList) {
 
-        birthdayimage = uriList.get(0);
+        if(uriList.isEmpty()){
+            birthdayimage = "";
+        }
+        else{
+            birthdayimage = String.valueOf(uriList.get(0));
+        }
+        Log.d( "urlp1: ", String.valueOf(birthdayimage));
         ActivityPickImageFragmentAdapter customAdapter = new ActivityPickImageFragmentAdapter(getContext(), uriList);
         simpleGrid.setAdapter(customAdapter);
 

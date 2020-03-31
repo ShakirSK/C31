@@ -4,17 +4,17 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.util.Log;
 import android.view.View;
 import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import gun0912.tedbottompicker.TedBottomPicker;
-import main.master.c31.LauncherMainActivity.MainActivity;
+import main.master.c31.LauncherMainActivity.HOME.MainActivity;
 import main.master.c31.Network.ApiUtils;
 import main.master.c31.Network.UserService;
 import main.master.c31.R;
@@ -41,12 +41,17 @@ public class FBRequirementMenuActivity extends AppCompatActivity {
     TextView selectphoto,submit;
     List<Uri> fblisturi;
     UserService userService;
-
+    String psid;
     int keyrequirement;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fbrequirement_menu);
+
+        SharedPreferences sh
+                = getSharedPreferences("MySharedPref", MODE_PRIVATE);
+        psid= sh.getString("id", "");
 
         userService = ApiUtils.getUserService();
 
@@ -59,7 +64,7 @@ public class FBRequirementMenuActivity extends AppCompatActivity {
         for (Map.Entry<Integer, String> entry : arrayList.entrySet()) {
             if (entry.getValue().equals(intent.getStringExtra("YourKeyHere"))) {
                 String ddf = String.valueOf(entry.getKey());
-                Toast.makeText(getApplicationContext(),ddf+entry.getValue(),Toast.LENGTH_SHORT).show();
+               // Toast.makeText(getApplicationContext(),ddf+entry.getValue(),Toast.LENGTH_SHORT).show();
                 keyrequirement=entry.getKey();
 
             }
@@ -101,7 +106,7 @@ public class FBRequirementMenuActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 
-                        if(fblisturi==null)
+                        if(fblisturi.isEmpty())
                         {
                             Toast.makeText(getApplicationContext(),"Please Select Image",Toast.LENGTH_SHORT).show();
                         }
@@ -130,6 +135,7 @@ public class FBRequirementMenuActivity extends AppCompatActivity {
     }
 
     private void showUriList(List<Uri> uriList) {
+        fblisturi = new ArrayList<>() ;
         fblisturi = uriList;
         ActivityPickImageFragmentAdapter customAdapter = new ActivityPickImageFragmentAdapter(getApplicationContext(), uriList);
         simpleGrid.setAdapter(customAdapter);
@@ -172,13 +178,13 @@ public class FBRequirementMenuActivity extends AppCompatActivity {
         Log.v("imageuploadarray", surveyImagesParts.toString()+"  "+uri.size());
 
 
-        String spreschool_id = "19";
+        String spreschool_id = psid;
         RequestBody preschool_id =
                 RequestBody.create(
                         okhttp3.MultipartBody.FORM, spreschool_id);
 
 
-        String screated_by = "19";
+        String screated_by = psid;
         RequestBody modified_by =
                 RequestBody.create(
                         okhttp3.MultipartBody.FORM, screated_by);
@@ -214,13 +220,6 @@ public class FBRequirementMenuActivity extends AppCompatActivity {
 
             }
         });
-
-
-
-
-
-
-
 
     }
 

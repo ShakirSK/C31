@@ -17,6 +17,9 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             android:usesCleartextTraffic="true">
+        <activity android:name=".LauncherMainActivity.WelcomeActivity"
+                  android:theme="@style/AppTheme.NoActionBar"/>
+
         <activity android:name=".testimage.testimageActvity">
         </activity>
         <activity
@@ -27,7 +30,8 @@
                 android:theme="@style/AppTheme.NoActionBar"/>
         <activity
                 android:name=".LauncherMainActivity.LoginActivity"
-                android:theme="@style/AppTheme.NoActionBar"/>
+                android:theme="@style/AppTheme.NoActionBar"
+                android:windowSoftInputMode="adjustPan"/>
         <activity
                 android:name=".LauncherMainActivity.Splash_screen"
                 android:theme="@style/AppTheme.NoActionBar">
@@ -63,7 +67,7 @@
                 android:theme="@style/AppTheme.NoActionBar"
                 android:windowSoftInputMode="stateHidden"/>
         <activity
-                android:name=".LauncherMainActivity.MainActivity"
+                android:name=".LauncherMainActivity.HOME.MainActivity"
                 android:label="@string/app_name"
                 android:theme="@style/AppTheme.NoActionBar"/>
 

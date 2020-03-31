@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "589474737890",
+    "firebase_url": "https://primal-context-240005.firebaseio.com",
+    "project_id": "primal-context-240005",
+    "storage_bucket": "primal-context-240005.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:589474737890:android:c5f6273f263af1ff9d38bb",
+        "android_client_info": {
+          "package_name": "main.master.c31"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "589474737890-ii0svej65s32qa8sru6usf168k0494hv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBac3Gu8dtygeni-i3WxPNRHRvCZKiUNpg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "589474737890-ii0svej65s32qa8sru6usf168k0494hv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

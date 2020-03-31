@@ -11,24 +11,57 @@ import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
+import com.bumptech.glide.request.RequestOptions;
+import gun0912.tedbottompicker.TedBottomPicker;
 import main.master.c31.R;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
 
 
-    public class testimageActvity extends AppCompatActivity {
+public class testimageActvity extends AppCompatActivity {
+    RequestManager requestManager;
         ProgressDialog pd;
-
-
+        String birthdayimage="";
+    List<Uri> selectedUriList;
+     ImageView imageView;
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_testimage_actvity);
+
+            imageView = (ImageView)findViewById(R.id.imageView5);
+            TedBottomPicker.with(testimageActvity.this)
+                    //.setPeekHeight(getResources().getDisplayMetrics().heightPixels/2)
+                    .setPeekHeight(1600)
+                    .showTitle(true)
+                    .setCompleteButtonText("Done")
+                    .setEmptySelectionText("Nothing Selected")
+                    .setPreviewMaxCount(200)
+                    .setGalleryTileBackgroundResId(R.color.statusbarcolor)
+                    .setGalleryTile(R.drawable.ic_gallery)
+                    .setSelectedUriList(selectedUriList)
+                    .showMultiImage(uriList -> {
+                        selectedUriList = uriList;
+                        birthdayimage = String.valueOf(selectedUriList.get(0));
+                        requestManager = Glide.with(getApplicationContext());
+                        //    icon.setImageResource(logos[i]); // set logo images
+                        requestManager
+                                .load(birthdayimage)
+                                .apply(new RequestOptions().fitCenter())
+                                .into(imageView);
+
+
+                    });
+
             pd = new ProgressDialog(testimageActvity.this);
         }
 

@@ -39,7 +39,7 @@ public class FbRequestPickImageFragment extends Fragment {
 
     GridView simpleGrid;
      FloatingActionButton choosemore;
-    public static Uri Fbpost_requestimage;
+    public static String Fbpost_requestimage="";
     public FbRequestPickImageFragment() {
         // Required empty public constructor
     }
@@ -204,7 +204,15 @@ public class FbRequestPickImageFragment extends Fragment {
     private void showUriList(List<Uri> uriList) {
 
 
-        Fbpost_requestimage = uriList.get(0);
+        if(uriList.isEmpty()){
+            Fbpost_requestimage = "";
+        }
+        else{
+            Fbpost_requestimage = String.valueOf(uriList.get(0));
+        }
+        Log.d( "urlp1: ", String.valueOf(Fbpost_requestimage));
+
+       // Fbpost_requestimage = uriList.get(0);
         FbRequestPickImageFragmentAdapter customAdapter = new FbRequestPickImageFragmentAdapter(getContext(), uriList);
         simpleGrid.setAdapter(customAdapter);
 

@@ -4,6 +4,7 @@ import main.master.c31.ArtWork.ArtworkModel;
 import main.master.c31.ArtWork.ArtworkResponse;
 import main.master.c31.Birthday.BirthdayModel;
 import main.master.c31.EventDetails.EventDetailsModel;
+import main.master.c31.LauncherMainActivity.HOME.ActiveStatus.ActiveStatusModel;
 import main.master.c31.UploadActivity.UploadActivityList.ActivityModel;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -45,6 +46,18 @@ public interface UserService {
     Call<ArtworkResponse> Birthday(
             @Body RequestBody file
     );*/
+
+    @Headers({
+            "x-api-key: Creativeminds@31",
+            "Authorization: Basic YWRtaW46MTIzNA=="
+    })
+
+
+    @GET("TestAPI/test/{id}")
+    Call<List<ActiveStatusModel>> look_status_of_app(
+            @Path("id") String id
+    );
+
 
     @Headers({
             "x-api-key: Creativeminds@31",

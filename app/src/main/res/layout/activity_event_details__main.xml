@@ -71,6 +71,14 @@
                 android:background="@drawable/rounded_edittext"
                 android:hint="@string/description" />
 
+            <EditText android:id="@+id/vanue"
+                      android:layout_width="match_parent"
+                      android:layout_height="50dp"
+                      android:gravity="center"
+                      android:layout_marginTop="20dp"
+                      android:background="@drawable/rounded_edittext"
+                      android:hint="@string/vanue" />
+
             <TextView android:id="@+id/date"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"

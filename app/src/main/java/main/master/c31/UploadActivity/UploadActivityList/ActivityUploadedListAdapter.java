@@ -65,10 +65,10 @@ public class ActivityUploadedListAdapter extends RecyclerView.Adapter<ActivityUp
                                     holder.nofp.setVisibility(View.GONE);
 
                                     if(datum.getSocialMediaManagerStatus().equals("1")){
-                                        holder.status.setText("Request Accepted");
+                                        holder.status.setText("Post Uploaded");
                                     }
                                     else if(datum.getGraphicsdesignerstatus().equals("1")){
-                                        holder.status.setText("Done");
+                                        holder.status.setText("Request Accepted");
                                     }
                                     else {
                                         holder.status.setText("Pending");
@@ -77,13 +77,13 @@ public class ActivityUploadedListAdapter extends RecyclerView.Adapter<ActivityUp
                          }
                          else{
                              holder.activityname.setText(datum.getArtworkname());
-                                holder.nofp.setText(datum.getDate());
-
+                                //holder.nofp.setText(datum.getDate());
+                                holder.nofp.setVisibility(View.GONE);
                                 if(datum.getSocialMediaManagerStatus().equals("1")){
                                     holder.status.setText("Scheduled/Uploaded");
                                 }
                                 else if(datum.getGraphicsdesignerstatus().equals("1")){
-                                    holder.status.setText("Done");
+                                    holder.status.setText("Sent for Upload");
                                 }
                                 else {
                                     holder.status.setText("Pending");

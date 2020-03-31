@@ -27,14 +27,12 @@
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <ImageView
-                android:id="@+id/imageclick"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/dourthing"
-                android:layout_gravity="center|top"
+                android:id="@+id/profilepic"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
                 android:scaleType="fitXY"
                 app:layout_behavior="@string/simple_view_behavior"
-                android:visibility="gone"
                 app:behavior_dependsOn="@+id/app_bar"
                 app:behavior_dependType="y"
                 app:behavior_dependTarget="-176dp"
