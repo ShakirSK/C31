@@ -164,11 +164,11 @@ public class home_fragmentAdapter extends RecyclerView.Adapter<home_fragmentAdap
                    /* Intent intent = new Intent(context, ActivityUploadedList.class);
                     intent.putExtra("fromactivity","facebookrequire");
                     context.startActivity(intent);*/
-                    Intent intent = new Intent(context, FacebookPageRequirementMain.class);
-                    context.startActivity(intent);
-
-//                    Intent intent = new Intent(context, testimageActvity.class);
+//                    Intent intent = new Intent(context, FacebookPageRequirementMain.class);
 //                    context.startActivity(intent);
+
+                    Intent intent = new Intent(context, testimageActvity.class);
+                    context.startActivity(intent);
                 }
                 else if(position==5)
                 {

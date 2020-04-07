@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:id="@+id/activity_item_details"
+              xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:background="#ffffff"
+>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/idForSaving"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_height="match_parent"
+            android:padding="1dp">
+
+
+
+        <ImageView
+                android:id="@+id/icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="1dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/background"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="30dp"
+                android:layout_height="20dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:srcCompat="@drawable/dourthing" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="#ffffff"
+            android:orientation="horizontal"
+            app:elevation="1dp">
+
+
+        <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/close"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/ic_arrow_back_black_24dp"/>
+        <TextView
+                android:id="@+id/editText"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginTop="15dp"
+                android:paddingLeft="20dp"
+                android:textColor="@color/statusbarcolor"
+                android:textSize="17dp"
+                android:text="ACTIVITY INFO"
+        >
+        </TextView>
+
+    </LinearLayout>
+
+    <androidx.core.widget.NestedScrollView
+            android:id="@+id/scrollbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="9.5"
+
+    >
+        <LinearLayout
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="24dp"
+                android:layout_marginTop="10dp"
+                android:paddingBottom="20dp"
+                android:paddingRight="24dp">
+
+
+
+            <EditText android:id="@+id/activityname"
+                      android:layout_width="match_parent"
+                      android:layout_height="50dp"
+                      android:background="@drawable/rounded_edittext"
+                      android:hint="Name" />
+
+            <EditText android:id="@+id/activitydescription"
+                      android:layout_width="match_parent"
+                      android:layout_height="300dp"
+                      android:layout_marginTop="30dp"
+                      android:gravity="top"
+                      android:inputType="textMultiLine"
+                      android:background="@drawable/rounded_edittext"
+                      android:hint="Description" />
+
+            <TextView android:id="@+id/date"
+                      android:layout_width="match_parent"
+                      android:layout_height="50dp"
+                      android:layout_marginTop="30dp"
+                      android:gravity="center"
+                      android:background="@drawable/rounded_edittext"
+                      android:hint="Choose Your Date" />
+
+        </LinearLayout>
+
+
+    </androidx.core.widget.NestedScrollView>
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            android:elevation="30dp"
+    >
+
+
+        <TextView
+                android:id="@+id/save"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorPrimaryDark"
+                android:text="PICK IMAGES"
+                android:textColor="#ffffff"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                android:gravity="center"/>
+    </LinearLayout>
+</LinearLayout>

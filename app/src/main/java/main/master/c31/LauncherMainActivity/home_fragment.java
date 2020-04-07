@@ -148,6 +148,16 @@ public class home_fragment extends Fragment {
                         funding.getPreschool_id());
                 myEdit.commit();
 
+                myEdit.putString(
+                        "name",
+                        funding.getPs_name());
+                myEdit.commit();
+
+                myEdit.putString(
+                        "logo",
+                        funding.getPs_logo());
+                myEdit.commit();
+
                 schoolname.setText(funding.getPs_name()+" !");
                 String psa = funding.getPs_activities();
 

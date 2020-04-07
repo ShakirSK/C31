@@ -87,7 +87,7 @@ public interface UserService {
             @Part("created_by") RequestBody created_by
     );
 
-    @Headers({
+   /* @Headers({
             "x-api-key: Creativeminds@31",
             "Authorization: Basic YWRtaW46MTIzNA=="
     })
@@ -101,6 +101,25 @@ public interface UserService {
             @Part("description") RequestBody description,
             @Part("created_by") RequestBody created_by,
             @Part MultipartBody.Part[] files
+
+    );*/
+
+    @Headers({
+            "x-api-key: Creativeminds@31",
+            "Authorization: Basic YWRtaW46MTIzNA=="
+    })
+
+    @Multipart
+    @POST("ActivityAPI/activity")
+    Call<ResponseBody> Activity(
+            @Part("preschool_id") RequestBody preschool_id,
+            @Part("activity_name") RequestBody activity_name,
+            @Part("activity_date") RequestBody activity_date,
+            @Part("description") RequestBody description,
+            @Part("created_by") RequestBody created_by,
+            @Part MultipartBody.Part[] files,
+            @Part("picture_count") RequestBody picture_count,
+            @Part MultipartBody.Part files_zip
 
     );
 

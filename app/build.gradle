@@ -98,9 +98,18 @@ dependencies {
     implementation 'com.android.volley:volley:1.1.0'
 
 
+    //sdp library for mobile ui responsive
     implementation 'com.intuit.sdp:sdp-android:1.0.4'
 
+    //image resize
     implementation 'com.github.hkk595:Resizer:v1.5'
+
+
+    // reactive
+    implementation "io.reactivex.rxjava2:rxjava:2.1.10"
+    implementation "io.reactivex.rxjava2:rxandroid:2.0.2"
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
+    implementation 'androidx.work:work-runtime:2.4.0-alpha02'
 }
 kapt {
     generateStubs = true

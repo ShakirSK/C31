@@ -28,6 +28,7 @@ import main.master.c31.FacebookpostRequest.FacebookPageRequestMain;
 import main.master.c31.Network.ApiUtils;
 import main.master.c31.Network.UserService;
 import main.master.c31.R;
+import main.master.c31.UploadActivity.ByActivity.ActivityDetails;
 import main.master.c31.UploadActivity.UploadActivityMain;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -119,7 +120,8 @@ public class ActivityUploadedList extends AppCompatActivity {
             @Override
             public void onClick(View view) {
               if(intent.getStringExtra("fromactivity").equals("activity")){
-                  Intent intent = new Intent(getApplicationContext(), UploadActivityMain.class);
+                  //Intent intent = new Intent(getApplicationContext(), UploadActivityMain.class);
+                  Intent intent = new Intent(getApplicationContext(), ActivityDetails.class);
                   startActivity(intent);
               }
            else if(intent.getStringExtra("fromactivity").equals("facebookrequest")){
