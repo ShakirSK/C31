@@ -23,6 +23,7 @@ import main.master.c31.LauncherMainActivity.HOME.MainActivity;
 import main.master.c31.Network.ApiUtils;
 import main.master.c31.Network.UserService;
 import main.master.c31.R;
+import main.master.c31.utils.ConnectionDetector;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -72,7 +73,26 @@ public class Artwork_MainActivity extends AppCompatActivity {
             public void onClick(View view) {
 
 
-                 sname = name.getText().toString().trim();
+                //checking if internet available
+                if (!ConnectionDetector.networkStatus(getApplicationContext())) {
+
+                    //   Toast.makeText(getApplicationContext(),"tre",Toast.LENGTH_SHORT).show();
+                    android.app.AlertDialog alertDialog = new android.app.AlertDialog.Builder(Artwork_MainActivity.this).create();
+                    alertDialog.setTitle("No Internet Connection");
+                    alertDialog.setMessage("Please check your internet connection  and try again");
+                    alertDialog.setIcon(android.R.drawable.ic_dialog_alert);
+                    alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            alertDialog.dismiss();
+
+                        }
+                    });
+                    alertDialog.show();
+                    return;
+                }
+
+
+                sname = name.getText().toString().trim();
                   ssize = size.getText().toString().trim();
                  scontent = content.getText().toString().trim();
                  svanue = vanue.getText().toString().trim();

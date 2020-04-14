@@ -21,6 +21,41 @@ public class User implements Serializable {
     @ColumnInfo(name = "ps_name")
     private String ps_name;
 
+
+    public String getOwnername() {
+        return ownername;
+    }
+
+    public void setOwnername(String ownername) {
+        this.ownername = ownername;
+    }
+
+    public String getWebsite() {
+        return website;
+    }
+
+    public void setWebsite(String website) {
+        this.website = website;
+    }
+
+    public String getFacebooklink() {
+        return facebooklink;
+    }
+
+    public void setFacebooklink(String facebooklink) {
+        this.facebooklink = facebooklink;
+    }
+
+    @ColumnInfo(name = "owner_name")
+    private String ownername;
+
+    @ColumnInfo(name = "website")
+    private String website;
+
+    @ColumnInfo(name = "facebook_link")
+    private String facebooklink;
+
+
     public String getPs_activities() {
         return ps_activities;
     }

@@ -23,6 +23,7 @@ import main.master.c31.LauncherMainActivity.HOME.MainActivity;
 import main.master.c31.R;
 import main.master.c31.UploadActivity.PickimageFrag.ActivityPickImageFragmentAdapter;
 import main.master.c31.testimage.WorkManager13;
+import main.master.c31.utils.ConnectionDetector;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -47,6 +48,7 @@ public class ActivityPickImage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pick_image);
 
+
         Intent intent = getIntent();
         sactivityname = intent.getStringExtra("activityname");
         sactivitydescription = intent.getStringExtra("activitydescription");
@@ -62,6 +64,24 @@ public class ActivityPickImage extends AppCompatActivity {
         selectphoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                //checking if internet available
+                if (!ConnectionDetector.networkStatus(getApplicationContext())) {
+
+                    //   Toast.makeText(getApplicationContext(),"tre",Toast.LENGTH_SHORT).show();
+                    android.app.AlertDialog alertDialog = new AlertDialog.Builder(ActivityPickImage.this).create();
+                    alertDialog.setTitle("No Internet Connection");
+                    alertDialog.setMessage("Please check your internet connection  and try again");
+                    alertDialog.setIcon(android.R.drawable.ic_dialog_alert);
+                    alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            alertDialog.dismiss();
+
+                        }
+                    });
+                    alertDialog.show();
+                    return;
+                }
 
 
 
@@ -85,6 +105,26 @@ public class ActivityPickImage extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+
+                //checking if internet available
+                if (!ConnectionDetector.networkStatus(getApplicationContext())) {
+
+                    //   Toast.makeText(getApplicationContext(),"tre",Toast.LENGTH_SHORT).show();
+                    android.app.AlertDialog alertDialog = new AlertDialog.Builder(ActivityPickImage.this).create();
+                    alertDialog.setTitle("No Internet Connection");
+                    alertDialog.setMessage("Please check your internet connection  and try again");
+                    alertDialog.setIcon(android.R.drawable.ic_dialog_alert);
+                    alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            alertDialog.dismiss();
+
+                        }
+                    });
+                    alertDialog.show();
+                    return;
+                }
+
 
 
                 if(activitylisturi==null||activitylisturi.isEmpty())

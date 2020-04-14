@@ -79,7 +79,20 @@ public class ActivityUploadedListAdapter extends RecyclerView.Adapter<ActivityUp
                              holder.activityname.setText(datum.getArtworkname());
                                 //holder.nofp.setText(datum.getDate());
                                 holder.nofp.setVisibility(View.GONE);
-                                if(datum.getSocialMediaManagerStatus().equals("1")){
+
+                                if(datum.getSocialMediaManagerStatus().equals("0")&&datum.getGraphicsdesignerstatus().equals("0")){
+                                    holder.status.setText("Pending");
+                                }
+                                else if(datum.getSocialMediaManagerStatus().equals("0")&&datum.getGraphicsdesignerstatus().equals("1")){
+                                    holder.status.setText("Sent for Upload");
+                                }
+                                else if(datum.getSocialMediaManagerStatus().equals("1")&&datum.getGraphicsdesignerstatus().equals("1")){
+                                    holder.status.setText("Scheduled/Uploaded");
+                                }
+                                else if(datum.getSocialMediaManagerStatus().equals("0")&&datum.getGraphicsdesignerstatus().equals("2")){
+                                    holder.status.setText("Completed");
+                                }
+                              /*  if(datum.getSocialMediaManagerStatus().equals("1")){
                                     holder.status.setText("Scheduled/Uploaded");
                                 }
                                 else if(datum.getGraphicsdesignerstatus().equals("1")){
@@ -87,13 +100,13 @@ public class ActivityUploadedListAdapter extends RecyclerView.Adapter<ActivityUp
                                 }
                                 else {
                                     holder.status.setText("Pending");
-                                }
+                                }*/
                          }
                      }
                      else{
                          holder.activityname.setText(datum.getEventname());
-                           holder.nofp.setText(datum.getEventfromdate());
-
+                          // holder.nofp.setText(datum.getEventfromdate());
+                           holder.nofp.setVisibility(View.GONE);
                            if(datum.getSocialMediaManagerStatus().equals("1")){
                                holder.status.setText("Event Created");
                            }
@@ -107,8 +120,8 @@ public class ActivityUploadedListAdapter extends RecyclerView.Adapter<ActivityUp
                  }
                  else{
                      holder.activityname.setText(datum.getActivityName());
-                     holder.nofp.setVisibility(View.GONE);
-
+                 //    holder.nofp.setVisibility(View.GONE);
+                     holder.nofp.setText(datum.getPicturecount());
                      if(datum.getSocialMediaManagerStatus().equals("1")){
                          holder.status.setText("Uploaded On FB");
                      }

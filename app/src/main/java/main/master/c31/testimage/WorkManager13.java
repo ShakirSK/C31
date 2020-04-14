@@ -27,17 +27,19 @@ import com.google.gson.annotations.SerializedName;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import main.master.c31.Database.DatabaseClient;
 import main.master.c31.LauncherMainActivity.HOME.MainActivity;
+import main.master.c31.LauncherMainActivity.LoginActivity;
 import main.master.c31.Network.ApiUtils;
+import main.master.c31.Network.ProgressRequestBody;
 import main.master.c31.Network.UserService;
 import main.master.c31.R;
+import main.master.c31.Room.ActivityTable;
+import me.echodev.resizer.Resizer;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -53,7 +55,7 @@ import retrofit2.http.Part;
 
 import static android.content.Context.MODE_PRIVATE;
 
-public class WorkManager13 extends Worker {
+public class WorkManager13 extends Worker implements ProgressRequestBody.UploadCallbacks {
     String activityname, activitydescription,date;
     int notificationid;
     List<String> uriwithlogo;
@@ -63,6 +65,8 @@ public class WorkManager13 extends Worker {
     Bitmap bitmapwatermark;
     Bitmap bitmap;
     ProgressManager manager;
+    private File drImageFile = null;
+
     public WorkManager13(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
     }
@@ -144,6 +148,22 @@ public class WorkManager13 extends Worker {
                 .setSmallIcon(R.mipmap.appicon);
         notificationManager.notify(1, notification.build());
     }
+
+    @Override
+    public void onProgressUpdate(int percentage) {
+        manager.updateProgress(percentage);
+    }
+
+    @Override
+    public void onError() {
+        manager.updateProgress(404);
+    }
+
+    @Override
+    public void onFinish() {
+        manager.updateProgress(100);
+    }
+
 
     private interface ApiService {
         @Multipart
@@ -278,6 +298,7 @@ public class WorkManager13 extends Worker {
                if(stringList.size()<70){
                    manager.updateProgress(h);
                }
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -285,16 +306,23 @@ public class WorkManager13 extends Worker {
             if(h==stringList.size()-1)
             {
 
-
+                manager.updateProgress(70);
                 File pictureFileDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "CreativeConnect/"+psname.replaceAll("\\s", "")+"/"+activityname);
                 File pictureFileDir2 = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "CreativeConnect/"+psname.replaceAll("\\s", ""));
 
 
                 boolean dds =   zipFileAtPath(pictureFileDir.getAbsolutePath(),pictureFileDir2+"/"+activityname+".zip");
+                manager.updateProgress(75);
                 if(dds)
                 {
-                    manager.updateProgress(80);
+
+                   manager.updateProgress(80);
                     File zipFile = new File(pictureFileDir2+"/"+activityname+".zip");
+
+                    Log.d("imageuploadarray", "dssdsdsd  ");
+
+               //    ProgressRequestBody reqFile = new ProgressRequestBody(zipFile, "*/*",this);
+
                     RequestBody reqFile = RequestBody.create(MediaType.parse("*/*"), zipFile);
                     MultipartBody.Part zipbody = MultipartBody.Part.createFormData("files_zip", zipFile.getName(), reqFile);
 
@@ -317,14 +345,16 @@ public class WorkManager13 extends Worker {
                     for (int index = 0; index < count; index++) {
                         Log.d("requestUploadSurvey" , index + "  " + uriwithlogo.get(index));
                         File file = new File( uriwithlogo.get(index));
+                  //      ProgressRequestBody surveyBody = new ProgressRequestBody(file, this);
+
+                        manager.updateProgress(80+index);
+
                         RequestBody surveyBody = RequestBody.create(MediaType.parse("image/*"),
                                 file);
                         surveyImagesParts[index] = MultipartBody.Part.createFormData("files[]",
                                 file.getName(),
                                 surveyBody);
                     }
-
-                    Log.v("imageuploadarray", surveyImagesParts.toString()+"  ");
 
 
                     String spreschool_id = psid;
@@ -397,14 +427,15 @@ public class WorkManager13 extends Worker {
                         public void onFailure(Call<ResponseBody> call, Throwable t) {
                             Log.e("Upload error:", t.getMessage());
                             //deleting  images and zip file
-                            try {
+                      /*      try {
                                 FileUtils.deleteRecursive(pictureFileDir);
                             } catch (FileNotFoundException e) {
                                 e.printStackTrace();
-                            }
+                            }*/
 
                             Toast.makeText(getApplicationContext(), t.getMessage(),Toast.LENGTH_SHORT).show();
 
+                            new AsyncTaskActivity(activityname,activitydescription,date).execute();
                             manager.updateProgress(404);
                             Result.failure();
                         }
@@ -476,6 +507,8 @@ public class WorkManager13 extends Worker {
         String filename = pictureFileDir.getPath() + File.separator + System.currentTimeMillis() + ".jpg";
         File pictureFile = new File(filename);
 
+   //     drImageFile = FileUtils.checkImageFileAndResize(pictureFile,getApplicationContext());
+
         try {
             pictureFile.createNewFile();
             FileOutputStream oStream = new FileOutputStream(pictureFile);
@@ -490,6 +523,7 @@ public class WorkManager13 extends Worker {
             Log.i("TAG", "There was an issue saving the image.");
         }
       //  manager.updateProgress(70);
+
         uriwithlogo.add(String.valueOf(pictureFile.getAbsolutePath()));
 
        // return Uri.parse(pictureFile.getAbsolutePath());
@@ -557,7 +591,7 @@ public class WorkManager13 extends Worker {
                 // Calculate the percentage comple
                 percentage = (msg.arg1*100)/PROGRESS_MAX;
                 notification.setContentText(percentage+" % complete "+msg.arg1+" of "+PROGRESS_MAX);
-                notification.setProgress(PROGRESS_MAX,msg.arg1,true);
+                notification.setProgress(PROGRESS_MAX,msg.arg1,false);
 
             }
 
@@ -587,6 +621,96 @@ public class WorkManager13 extends Worker {
                 }
             }
             return ret && path.delete();
+        }
+
+
+        public static File checkImageFileAndResize(File imgFile,Context context) {
+            File drImagFile = null;
+            if (FileUtils.calculateFileSizeInMB(imgFile) > 1) {
+                if (FileUtils.resizeImageFile(imgFile, context) != null) {
+                    if (FileUtils.resizeImageFile(imgFile, context).exists()) {
+                        drImagFile = FileUtils.resizeImageFile(imgFile, context);
+
+                    }
+                }
+
+            } else {
+                drImagFile = imgFile;
+            }
+            return drImagFile;
+        }
+
+        public static double calculateFileSizeInMB(File file){
+            double fileSizeInMB=0.0;
+            try {
+                if(file.exists()) {
+                    double fileSizeInBytes = file.length();
+                    // Convert the bytes to Kilobytes (1 KB = 1024 Bytes)
+                    double fileSizeInKB = fileSizeInBytes / 1024;
+                    // Convert the KB to MegaBytes (1 MB = 1024 KBytes)
+                    fileSizeInMB = fileSizeInKB / 1024;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return fileSizeInMB;
+        }
+
+        public  static File resizeImageFile(File file, Context mContext){
+            File resizedImage=null;
+            File storageDir = Environment.getExternalStorageDirectory();
+            Random random = new Random();
+            int numbersw = random.nextInt(9999 - 1000) + 1000;
+            String str = "VidAppDrImage"+String.valueOf(numbersw);
+            try {
+                resizedImage = new Resizer(mContext)
+                        .setTargetLength(1024)
+                        .setQuality(90)
+                        .setOutputFormat("JPEG")
+                        .setOutputFilename(str)
+                        .setOutputDirPath(storageDir.getAbsolutePath())
+                        .setSourceImage(file)
+                        .getResizedFile();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return resizedImage;
+        }
+    }
+    //insert in to Room DB
+    public class AsyncTaskActivity extends AsyncTask<String,String,String>{
+
+        String activitname;
+        String activitdescription;
+        String activitdate;
+
+        AsyncTaskActivity(  String activitname, String activitdescription, String activitdate){
+            this.activitname = activitname;
+            this.activitdescription = activitdescription;
+            this.activitdate = activitdate;
+        }
+        @Override
+        protected String doInBackground(String... params) {
+
+
+            ActivityTable activityTable = new ActivityTable();
+            activityTable.setActivityname(activityname);
+            activityTable.setDescription(activitdescription);
+            activityTable.setActivitydate(activitdate);
+
+            //adding to database
+                DatabaseClient.getInstance(getApplicationContext()).getAppDatabase()
+                        .activityTableDao()
+                        .insert(activityTable);
+
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            //   Toast.makeText(getApplicationContext(), "Inserted", Toast.LENGTH_LONG).show();
         }
     }
 }

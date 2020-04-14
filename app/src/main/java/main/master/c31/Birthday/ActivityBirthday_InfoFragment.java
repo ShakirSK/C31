@@ -25,6 +25,8 @@ import main.master.c31.LauncherMainActivity.HOME.MainActivity;
 import main.master.c31.Network.ApiUtils;
 import main.master.c31.Network.UserService;
 import main.master.c31.R;
+import main.master.c31.UploadActivity.ByActivity.ActivityDetails;
+import main.master.c31.utils.ConnectionDetector;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -124,6 +126,23 @@ public class ActivityBirthday_InfoFragment extends Fragment  {
             @Override
             public void onClick(View view) {
 
+                //checking if internet available
+                if (!ConnectionDetector.networkStatus(getContext())) {
+
+                    //   Toast.makeText(getApplicationContext(),"tre",Toast.LENGTH_SHORT).show();
+                    android.app.AlertDialog alertDialog = new android.app.AlertDialog.Builder(getContext()).create();
+                    alertDialog.setTitle("No Internet Connection");
+                    alertDialog.setMessage("Please check your internet connection  and try again");
+                    alertDialog.setIcon(android.R.drawable.ic_dialog_alert);
+                    alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            alertDialog.dismiss();
+
+                        }
+                    });
+                    alertDialog.show();
+                    return;
+                }
 
                 sactivityname = activityname.getText().toString().trim();
 
@@ -200,7 +219,7 @@ public class ActivityBirthday_InfoFragment extends Fragment  {
                     {
                        // selectedyear = parent.getSelectedItemPosition();
                         days      = spinner.getSelectedItem().toString();
-                        Toast.makeText(parent.getContext(), "Selected: " + days, Toast.LENGTH_LONG).show();
+                   //     Toast.makeText(parent.getContext(), "Selected: " + days, Toast.LENGTH_LONG).show();
 
 
                     }
@@ -242,7 +261,7 @@ public class ActivityBirthday_InfoFragment extends Fragment  {
                     {
 
                         monthsubmit      = spinner2.getSelectedItem().toString();
-                        Toast.makeText(parent.getContext(), "Selected: " + monthsubmit, Toast.LENGTH_LONG).show();
+                       // Toast.makeText(parent.getContext(), "Selected: " + monthsubmit, Toast.LENGTH_LONG).show();
 
                     }
                     public void onNothingSelected(AdapterView<?> arg0) {
@@ -278,7 +297,7 @@ public class ActivityBirthday_InfoFragment extends Fragment  {
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
                     {
                         years      = spinner3.getSelectedItem().toString();
-                        Toast.makeText(parent.getContext(), "Selected: " + years, Toast.LENGTH_LONG).show();
+                      //  Toast.makeText(parent.getContext(), "Selected: " + years, Toast.LENGTH_LONG).show();
 
                     }
                     public void onNothingSelected(AdapterView<?> arg0) {

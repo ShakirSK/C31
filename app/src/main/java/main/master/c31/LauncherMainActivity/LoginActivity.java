@@ -1,6 +1,8 @@
 package main.master.c31.LauncherMainActivity;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -28,6 +30,7 @@ import main.master.c31.Network.UserService;
 import main.master.c31.Network.loginmodel;
 import main.master.c31.R;
 import main.master.c31.Session.SaveSharedPreference;
+import main.master.c31.utils.ConnectionDetector;
 import retrofit2.Response;
 
 import retrofit2.Call;
@@ -74,8 +77,29 @@ public class LoginActivity extends AppCompatActivity {
                 String password = edtPassword.getText().toString();
                 //validate form
                 if(validateLogin(username, password)){
-                    //do login
-                    doLogin(username, password);
+
+                    //checking if internet available
+                    if (!ConnectionDetector.networkStatus(getApplicationContext())) {
+
+                     //   Toast.makeText(getApplicationContext(),"tre",Toast.LENGTH_SHORT).show();
+                        AlertDialog alertDialog = new AlertDialog.Builder(LoginActivity.this).create();
+                        alertDialog.setTitle("No Internet Connection");
+                        alertDialog.setMessage("Please check your internet connection  and try again");
+                        alertDialog.setIcon(android.R.drawable.ic_dialog_alert);
+                        alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                alertDialog.dismiss();
+
+                            }
+                        });
+                        alertDialog.show();
+                    }
+                    // if internet connection is available
+                    else{
+                        //do login
+                        doLogin(username, password);
+                    }
+
                 }
 
 
@@ -120,48 +144,26 @@ public class LoginActivity extends AppCompatActivity {
                         mProgressDialog.dismiss();
                     }
 
-                 //   Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_SHORT).show();
+                    if(response.body().getMessage().equals("Your account is deactivated."))
+                    {
+                          Toast.makeText(getApplicationContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                    }else if(response.body().getMessage().equals("Wrong email or password."))
+                    {
+                        Toast.makeText(getApplicationContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        Example loginResponse = response.body();
 
-                    Example loginResponse = response.body();
+                        Log.e("keshav", "loginResponse 1 --> " + loginResponse);
+                        if (loginResponse != null) {
 
-                    Log.e("keshav", "loginResponse 1 --> " + loginResponse);
-                    if (loginResponse != null) {
+                            List<Datum> items = response.body().getData();
+                            new  AsyncTaskFunding(items).execute();
 
-                        List<Datum> items = response.body().getData();
-
-
-                        new  AsyncTaskFunding(items).execute();
-
-
-
-
-
-                   /*     Log.e("keshav", "getFirstName       -->  " + loginResponse.getFirstName());
-                        Log.e("keshav", "getLastName        -->  " + loginResponse.getLastName());
-                        Log.e("keshav", "getProfilePicture  -->  " + loginResponse.getProfilePicture());
-*/
-                    /*    String responseCode = loginResponse.getResponseCode();
-                        Log.e("keshav", "getResponseCode  -->  " + loginResponse.getResponseCode());
-                        Log.e("keshav", "getResponseMessage  -->  " + loginResponse.getResponseMessage());
-                        if (responseCode != null && responseCode.equals("404")) {
-                            Toast.makeText(MainActivity.this, "Invalid Login Details \n Please try again", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(MainActivity.this, "Welcome " + loginResponse.getFirstName(), Toast.LENGTH_SHORT).show();
-                        }*/
+                        }
                     }
 
-
-              /*      loginObj resObj = response.body();
-                    if(resObj.getMessage().equals("true")){
-                        //login start main activity
-                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                        intent.putExtra("username", username);
-                        startActivity(intent);
-
-                    } else {
-                       Toast.makeText(LoginActivity.this, "The username or password is incorrect", Toast.LENGTH_SHORT).show();
-                     }*/
-                } else {
+                  } else {
                     if (mProgressDialog.isShowing()) {
                         mProgressDialog.dismiss();
                     }
@@ -193,7 +195,7 @@ public class LoginActivity extends AppCompatActivity {
         protected String doInBackground(String... params) {
 
             Log.d( "doInBackgrounsize", String.valueOf(record.size()));
-            //setting my  List<Record> to Room Model Funding
+            //setting my  List<Record> to Room Model ActivityTable
             for (int i = 0;i<record.size();i++){
                 Datum datum= record.get(i);
                 Log.e("keshav", "getUserId          -->  " + datum.getPsName());
@@ -207,6 +209,9 @@ public class LoginActivity extends AppCompatActivity {
                 user.setPs_mobile(datum.getPsMobile());
                 user.setPs_logo(datum.getPsLogo());
                 user.setCenter_address(datum.getCenterAddress());
+                user.setOwnername(datum.getOwnerName());
+                user.setFacebooklink(datum.getFacebookLink());
+                user.setWebsite(datum.getWebsite());
 
 
                 //adding to database

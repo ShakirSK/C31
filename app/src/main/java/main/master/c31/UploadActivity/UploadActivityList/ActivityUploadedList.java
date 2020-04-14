@@ -1,6 +1,8 @@
 package main.master.c31.UploadActivity.UploadActivityList;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -29,7 +31,9 @@ import main.master.c31.Network.ApiUtils;
 import main.master.c31.Network.UserService;
 import main.master.c31.R;
 import main.master.c31.UploadActivity.ByActivity.ActivityDetails;
+import main.master.c31.UploadActivity.ErrorActivity.NotSubmitedActivity;
 import main.master.c31.UploadActivity.UploadActivityMain;
+import main.master.c31.utils.ConnectionDetector;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -44,7 +48,7 @@ public class ActivityUploadedList extends AppCompatActivity {
     private LinearLayoutManager linearLayoutManager;
     private DividerItemDecoration dividerItemDecoration;
     TextView newupload,titlename;
-    ImageView backbutton;
+    ImageView backbutton,pendingactivity;
     String gettingfromintent;
     UserService userService;
     String psid;
@@ -76,43 +80,57 @@ public class ActivityUploadedList extends AppCompatActivity {
         });
 
 
-        if(intent.getStringExtra("fromactivity").equals("activity")){
-            titlename.setText("Uploaded Activities");
-            newupload.setText("Upload New Activity");
+        pendingactivity = (ImageView) findViewById(R.id.pendingactivity);
+        pendingactivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), NotSubmitedActivity.class);
+                startActivity(intent);
+            }
+        });
 
-            getuploadedData("ActivityAPI","activity",psid);
-        }
-        else if(intent.getStringExtra("fromactivity").equals("facebookrequest")){
-            titlename.setText("Requests Sent");
-            newupload.setText("New Post Request");
 
-            getuploadedData("FbpostAPI","fbpost",psid);
 
-        }
-      /*  else if(intent.getStringExtra("fromactivity").equals("facebookrequire")){
-            titlename.setText("Uploaded Images");
-            newupload.setText("Upload New Image");
+            if(intent.getStringExtra("fromactivity").equals("activity")){
+                pendingactivity.setVisibility(View.VISIBLE);
+                titlename.setText("Uploaded Activities");
+                newupload.setText("Upload New Activity");
 
-            getuploadedData("FbcreativeAPI","fbcreative","3");
-        }*/
-        else if(intent.getStringExtra("fromactivity").equals("birthday_activity")){
-            titlename.setText("Uploaded Birthdays");
-            newupload.setText("Upload New Birthday");
+                getuploadedData("Uploaded Activities","ActivityAPI","activity",psid);
+            }
+            else if(intent.getStringExtra("fromactivity").equals("facebookrequest")){
+                titlename.setText("Requests Sent");
+                newupload.setText("New Post Request");
 
-            getuploadedData("BirthdayAPI","birthday",psid);
-        }
-        else if(intent.getStringExtra("fromactivity").equals("Artwork")){
-            titlename.setText("Artwork Requests");
-            newupload.setText("Request New Artwork");
+                getuploadedData("Requests Sent","FbpostAPI","fbpost",psid);
 
-            getuploadedData("ArtworksAPI","artwork",psid);
-        }
-        else if(intent.getStringExtra("fromactivity").equals("EventDetails")){
-            titlename.setText("Uploaded Events");
-            newupload.setText("Upload New Event");
+            }
+                      /*  else if(intent.getStringExtra("fromactivity").equals("facebookrequire")){
+                            titlename.setText("Uploaded Images");
+                            newupload.setText("Upload New Image");
 
-            getuploadedData("EventAPI","event",psid);
-        }
+                            getuploadedData("FbcreativeAPI","fbcreative","3");
+                        }*/
+            else if(intent.getStringExtra("fromactivity").equals("birthday_activity")){
+                titlename.setText("Uploaded Birthdays");
+                newupload.setText("Upload New Birthday");
+
+                getuploadedData("Uploaded Birthdays","BirthdayAPI","birthday",psid);
+            }
+            else if(intent.getStringExtra("fromactivity").equals("Artwork")){
+                titlename.setText("Artwork Requests");
+                newupload.setText("Request New Artwork");
+
+                getuploadedData("Artwork Requests Found","ArtworksAPI","artwork",psid);
+            }
+            else if(intent.getStringExtra("fromactivity").equals("EventDetails")){
+                titlename.setText("Uploaded Events");
+                newupload.setText("Upload New Event");
+
+                getuploadedData("Uploaded Events","EventAPI","event",psid);
+            }
+
+
 
 
 
@@ -165,75 +183,91 @@ public class ActivityUploadedList extends AppCompatActivity {
 
     }
 
-    public void getuploadedData(String Actapi,String Act,String pid){
-
-        ProgressDialog mProgressDialog;
-        mProgressDialog = new ProgressDialog(this);
-        mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
-        mProgressDialog.setCanceledOnTouchOutside(false);
-        mProgressDialog.show();
+    public void getuploadedData(String stringtoast,String Actapi,String Act,String pid){
 
 
-        Call<List<ActivityModel>> call = userService.posturdata(Actapi,Act,pid);
-        call.enqueue(new Callback<List<ActivityModel>>() {
-            @Override
-            public void onResponse(Call<List<ActivityModel>>call, Response<List<ActivityModel>> response) {
-                Log.d("onResponse: ", response.toString());
-                if(response.message().equals("Not Found"))
-                {
-                    if (mProgressDialog.isShowing()) {
-                        mProgressDialog.dismiss();
-                    }
-                    Toast.makeText(ActivityUploadedList.this, "No Uploaded Activities", Toast.LENGTH_SHORT).show();
+
+        //checking if internet available
+        if (!ConnectionDetector.networkStatus(getApplicationContext())) {
+
+            //   Toast.makeText(getApplicationContext(),"tre",Toast.LENGTH_SHORT).show();
+            AlertDialog alertDialog = new AlertDialog.Builder(ActivityUploadedList.this).create();
+            alertDialog.setTitle("No Internet Connection");
+            alertDialog.setMessage("Please check your internet connection  and try again");
+            alertDialog.setIcon(android.R.drawable.ic_dialog_alert);
+            alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    alertDialog.dismiss();
                 }
-                else if(response.isSuccessful()){
+            });
+            alertDialog.show();
+        }
+        // if internet connection is available
+        else {
+            ProgressDialog mProgressDialog;
+            mProgressDialog = new ProgressDialog(this);
+            mProgressDialog.setIndeterminate(true);
+            mProgressDialog.setMessage("Loading...");
+            mProgressDialog.setCanceledOnTouchOutside(false);
+            mProgressDialog.show();
 
-                    if (mProgressDialog.isShowing()) {
-                        mProgressDialog.dismiss();
-                    }
-                    //   Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_SHORT).show();
 
-                    List<ActivityModel> loginResponse = response.body();
-
-                    Log.e("keshav", "loginResponse 1 --> " + loginResponse);
-
-                    if (loginResponse != null) {
-
-
-                        for (int i = 0; i < loginResponse.size(); i++) {
-                            ActivityModel datum = loginResponse.get(i);
-                            Log.e("keshav", "getUserId          -->  " + datum.getActivityName());
-
+            Call<List<ActivityModel>> call = userService.posturdata(Actapi, Act, pid);
+            call.enqueue(new Callback<List<ActivityModel>>() {
+                @Override
+                public void onResponse(Call<List<ActivityModel>> call, Response<List<ActivityModel>> response) {
+                    Log.d("onResponse: ", response.toString());
+                    if (response.message().equals("Not Found")) {
+                        if (mProgressDialog.isShowing()) {
+                            mProgressDialog.dismiss();
                         }
+                        Toast.makeText(ActivityUploadedList.this, "No "+stringtoast, Toast.LENGTH_SHORT).show();
+                    } else if (response.isSuccessful()) {
+
+                        if (mProgressDialog.isShowing()) {
+                            mProgressDialog.dismiss();
+                        }
+                        //   Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_SHORT).show();
+
+                        List<ActivityModel> loginResponse = response.body();
+
+                        Log.e("keshav", "loginResponse 1 --> " + loginResponse);
+
+                        if (loginResponse != null) {
+
+
+                            for (int i = 0; i < loginResponse.size(); i++) {
+                                ActivityModel datum = loginResponse.get(i);
+                                Log.e("keshav", "getUserId          -->  " + datum.getActivityName());
+
+                            }
+                        }
+
+                        ActivityUploadedListAdapter adapter = new ActivityUploadedListAdapter(getApplicationContext(), loginResponse);
+                        recyclerView.setHasFixedSize(true);
+                        recyclerView.setLayoutManager(linearLayoutManager);
+                        recyclerView.addItemDecoration(dividerItemDecoration);
+                        recyclerView.setAdapter(adapter);
+
+                    } else {
+                        if (mProgressDialog.isShowing()) {
+                            mProgressDialog.dismiss();
+                        }
+                        Toast.makeText(ActivityUploadedList.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
                     }
-
-                    ActivityUploadedListAdapter adapter = new ActivityUploadedListAdapter(getApplicationContext(), loginResponse);
-                    recyclerView.setHasFixedSize(true);
-                    recyclerView.setLayoutManager(linearLayoutManager);
-                    recyclerView.addItemDecoration(dividerItemDecoration);
-                    recyclerView.setAdapter(adapter);
-
                 }
-                else {
+
+                @Override
+                public void onFailure(Call<List<ActivityModel>> call, Throwable t) {
                     if (mProgressDialog.isShowing()) {
                         mProgressDialog.dismiss();
                     }
-                    Toast.makeText(ActivityUploadedList.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
+                    Log.d("onResponse: ", t.getMessage());
+                    Toast.makeText(ActivityUploadedList.this, t.getMessage(), Toast.LENGTH_SHORT).show();
                 }
-            }
+            });
 
-            @Override
-            public void onFailure(Call<List<ActivityModel>> call, Throwable t) {
-                if (mProgressDialog.isShowing()) {
-                    mProgressDialog.dismiss();
-                }
-                Log.d("onResponse: ",  t.getMessage());
-                Toast.makeText(ActivityUploadedList.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
+        }
 
     }
 }

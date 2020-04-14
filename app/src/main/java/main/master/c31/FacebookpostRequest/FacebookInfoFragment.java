@@ -19,6 +19,7 @@ import main.master.c31.LauncherMainActivity.HOME.MainActivity;
 import main.master.c31.Network.ApiUtils;
 import main.master.c31.Network.UserService;
 import main.master.c31.R;
+import main.master.c31.utils.ConnectionDetector;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -100,6 +101,27 @@ public class FacebookInfoFragment extends Fragment {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                //checking if internet available
+                if (!ConnectionDetector.networkStatus(getContext())) {
+
+                    //   Toast.makeText(getApplicationContext(),"tre",Toast.LENGTH_SHORT).show();
+                    android.app.AlertDialog alertDialog = new android.app.AlertDialog.Builder(getContext()).create();
+                    alertDialog.setTitle("No Internet Connection");
+                    alertDialog.setMessage("Please check your internet connection  and try again");
+                    alertDialog.setIcon(android.R.drawable.ic_dialog_alert);
+                    alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            alertDialog.dismiss();
+
+                        }
+                    });
+                    alertDialog.show();
+                    return;
+                }
+
+
+
                 sactivityname = activityname.getText().toString().trim();
 
                 if (sactivityname.isEmpty()) {

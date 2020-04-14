@@ -2,7 +2,9 @@ package main.master.c31.LauncherMainActivity.HOME;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -35,6 +37,7 @@ import main.master.c31.Network.UserService;
 import main.master.c31.R;
 import main.master.c31.Session.SaveSharedPreference;
 import main.master.c31.UploadActivity.UploadActivityList.ActivityUploadedList;
+import main.master.c31.utils.ConnectionDetector;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -75,8 +78,29 @@ public class MainActivity extends AppCompatActivity {
                 = getSharedPreferences("MySharedPref", MODE_PRIVATE);
         psid= sh.getString("id", "");
 
-        //look if status of the app is active or not
-        getuploadedData(psid);
+
+        //checking if internet available
+        if (!ConnectionDetector.networkStatus(getApplicationContext())) {
+
+            //   Toast.makeText(getApplicationContext(),"tre",Toast.LENGTH_SHORT).show();
+            AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+            alertDialog.setTitle("No Internet Connection");
+            alertDialog.setMessage("Please check your internet connection  and try again");
+            alertDialog.setIcon(android.R.drawable.ic_dialog_alert);
+            alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    alertDialog.dismiss();
+
+                }
+            });
+            alertDialog.show();
+        }
+        // if internet connection is available
+        else{
+            //look if status of the app is active or not
+            getuploadedData(psid);
+        }
+
 
         askForPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE,READ_EXST);
 

@@ -2,6 +2,7 @@ package main.master.c31.FacebookPageRequirement;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -26,6 +27,7 @@ import main.master.c31.Network.ApiUtils;
 import main.master.c31.Network.UserService;
 import main.master.c31.R;
 import main.master.c31.UploadActivity.UploadActivityList.ActivityModel;
+import main.master.c31.utils.ConnectionDetector;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -95,7 +97,29 @@ public class FacebookPageRequirementMain extends AppCompatActivity {
                 startActivity(it);
             }
         });*/
-        Get_Requirement();
+
+        //checking if internet available
+        if (!ConnectionDetector.networkStatus(getApplicationContext())) {
+
+            //   Toast.makeText(getApplicationContext(),"tre",Toast.LENGTH_SHORT).show();
+            android.app.AlertDialog alertDialog = new android.app.AlertDialog.Builder(FacebookPageRequirementMain.this).create();
+            alertDialog.setTitle("No Internet Connection");
+            alertDialog.setMessage("Please check your internet connection  and try again");
+            alertDialog.setIcon(android.R.drawable.ic_dialog_alert);
+            alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    alertDialog.dismiss();
+
+                }
+            });
+            alertDialog.show();
+
+        }
+        else
+        {
+            Get_Requirement();
+        }
+
                 
     }
     public void Get_Requirement(){
@@ -117,7 +141,7 @@ public class FacebookPageRequirementMain extends AppCompatActivity {
                     if (mProgressDialog.isShowing()) {
                         mProgressDialog.dismiss();
                     }
-                    Toast.makeText(FacebookPageRequirementMain.this, "No Uploaded Activities", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(FacebookPageRequirementMain.this, "No Requirement Found", Toast.LENGTH_SHORT).show();
                 }
                 else if(response.isSuccessful()){
 

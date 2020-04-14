@@ -46,31 +46,167 @@
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             />-->
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:textColor="@color/colorPrimary"
+                android:text="Owner Name"/>
+
+        <TextView
+                android:id="@+id/ownername"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:textSize="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:layout_marginBottom="@dimen/_15sdp"
+                android:textColor="@android:color/black"
+                android:textStyle="bold"
+                android:text="Personal Details"/>
+
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/colorPrimary"
+        />
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:textColor="@color/colorPrimary"
+                android:text="Mobile Number"/>
+
         <TextView
                 android:id="@+id/mobilenumber"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:textSize="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:layout_marginBottom="@dimen/_15sdp"
+                android:textColor="@android:color/black"
+                android:textStyle="bold"
                 android:text="Personal Details"/>
+
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/colorPrimary"
+        />
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:textColor="@color/colorPrimary"
+                android:text="Email Id"/>
+
         <TextView
                 android:id="@+id/emailid"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:textSize="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:layout_marginBottom="@dimen/_15sdp"
+                android:textColor="@android:color/black"
+                android:textStyle="bold"
                 android:text="Personal Details"/>
+
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/colorPrimary"
+        />
+
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:textColor="@color/colorPrimary"
+                android:text="Address"/>
+
         <TextView
                 android:id="@+id/address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:textSize="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:layout_marginBottom="@dimen/_15sdp"
+                android:textColor="@android:color/black"
+                android:textStyle="bold"
+                android:maxLines="2"
+                android:lines="2"
                 android:text="Personal Details"/>
+
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/colorPrimary"
+        />
+
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:textColor="#b70e95"
-                android:visibility="gone"
-                android:text="Change Password"/>
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:textColor="@color/colorPrimary"
+                android:text="Facebook"/>
+
+        <TextView
+                android:id="@+id/facebooklink"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:textSize="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:layout_marginBottom="@dimen/_15sdp"
+                android:textColor="@android:color/black"
+                android:textStyle="bold"
+                android:text="Personal Details"/>
+
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/colorPrimary"
+        />
+
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:textColor="@color/colorPrimary"
+                android:text="Website"/>
+
+        <TextView
+                android:id="@+id/Websitelink"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:textSize="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:layout_marginBottom="@dimen/_15sdp"
+                android:textColor="@android:color/black"
+                android:textStyle="bold"
+                android:text="Personal Details"/>
+
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/colorPrimary"
+        />
+
 
         <LinearLayout
                 android:layout_width="match_parent"
@@ -83,7 +219,7 @@
                     android:id="@+id/logout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="#b70e95"
+                    android:textColor="@color/colorPrimaryDark"
                     android:background="@drawable/bgsearchview"
                     android:text="LOG OUT"/>
         </LinearLayout>

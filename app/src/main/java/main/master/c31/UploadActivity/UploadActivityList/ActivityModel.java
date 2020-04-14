@@ -154,6 +154,21 @@ public class ActivityModel {
     @Expose
     private Object modifiedDate;
 
+
+    public String getPicturecount() {
+        return picturecount;
+    }
+
+    public void setPicturecount(String picturecount) {
+        this.picturecount = picturecount;
+    }
+
+    @SerializedName("picture_count")
+    @Expose
+    private String picturecount;
+
+
+
     public Object getGraphicsdesignerstatus() {
         return graphicsdesignerstatus;
     }

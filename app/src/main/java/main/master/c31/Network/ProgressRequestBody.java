@@ -11,33 +11,34 @@ import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import okio.BufferedSink;
 
+
+
 public class ProgressRequestBody extends RequestBody {
     private File mFile;
+    private String mPath;
     private UploadCallbacks mListener;
+    private String content_type;
 
     private static final int DEFAULT_BUFFER_SIZE = 2048;
 
     public interface UploadCallbacks {
         void onProgressUpdate(int percentage);
-
         void onError();
-
         void onFinish();
-
-        void uploadStart();
     }
 
-    public ProgressRequestBody(final File file, final UploadCallbacks listener) {
 
+    public ProgressRequestBody(final File file, String content_type,  final  UploadCallbacks listener) {
+        this.content_type = content_type;
         mFile = file;
         mListener = listener;
-        mListener.uploadStart();
     }
+
+
 
     @Override
     public MediaType contentType() {
-        // i want to upload only images
-        return MediaType.parse("image/*");
+        return MediaType.parse(content_type+"/*");
     }
 
     @Override
@@ -56,8 +57,12 @@ public class ProgressRequestBody extends RequestBody {
             int read;
             Handler handler = new Handler(Looper.getMainLooper());
             while ((read = in.read(buffer)) != -1) {
+
+
+
                 uploaded += read;
                 sink.write(buffer, 0, read);
+                // update progress on UI thread
                 handler.post(new ProgressUpdater(uploaded, fileLength));
             }
         } finally {
@@ -68,7 +73,6 @@ public class ProgressRequestBody extends RequestBody {
     private class ProgressUpdater implements Runnable {
         private long mUploaded;
         private long mTotal;
-
         public ProgressUpdater(long uploaded, long total) {
             mUploaded = uploaded;
             mTotal = total;
@@ -76,20 +80,7 @@ public class ProgressRequestBody extends RequestBody {
 
         @Override
         public void run() {
-            try {
-
-                int progress = (int) (100 * mUploaded / mTotal);
-
-                if (progress == 100)
-                    mListener.onFinish();
-
-                else
-                    mListener.onProgressUpdate(progress);
-            } catch (ArithmeticException e) {
-                mListener.onError();
-                e.printStackTrace();
-            }
+            mListener.onProgressUpdate((int)(100 * mUploaded / mTotal));
         }
     }
 }
-

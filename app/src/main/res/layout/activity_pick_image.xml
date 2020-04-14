@@ -32,19 +32,19 @@
             app:layout_constraintTop_toTopOf="parent" />
 
 
-
     <GridView
             android:id="@+id/simpleGridView"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
-            android:layout_marginTop="21dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/topText"
             android:footerDividersEnabled="false"
             android:padding="1dp"
-            android:numColumns="3" />
+            android:numColumns="3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/topText"
+            android:layout_marginTop="16dp"/>
 
 
     <!--   <android.support.design.widget.FloatingActionButton

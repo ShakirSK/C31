@@ -14,11 +14,13 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import gun0912.tedbottompicker.TedBottomPicker;
+import main.master.c31.FacebookPageRequirement.FacebookPageRequirementMain;
 import main.master.c31.LauncherMainActivity.HOME.MainActivity;
 import main.master.c31.Network.ApiUtils;
 import main.master.c31.Network.UserService;
 import main.master.c31.R;
 import main.master.c31.UploadActivity.PickimageFrag.ActivityPickImageFragmentAdapter;
+import main.master.c31.utils.ConnectionDetector;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -79,6 +81,24 @@ public class FBRequirementMenuActivity extends AppCompatActivity {
         selectphoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                if (!ConnectionDetector.networkStatus(getApplicationContext())) {
+
+                    //   Toast.makeText(getApplicationContext(),"tre",Toast.LENGTH_SHORT).show();
+                    android.app.AlertDialog alertDialog = new android.app.AlertDialog.Builder(FBRequirementMenuActivity.this).create();
+                    alertDialog.setTitle("No Internet Connection");
+                    alertDialog.setMessage("Please check your internet connection  and try again");
+                    alertDialog.setIcon(android.R.drawable.ic_dialog_alert);
+                    alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            alertDialog.dismiss();
+
+                        }
+                    });
+                    alertDialog.show();
+                    return;
+                }
+
                 TedBottomPicker.with(FBRequirementMenuActivity.this)
                         //.setPeekHeight(getResources().getDisplayMetrics().heightPixels/2)
                         .setPeekHeight(1600)
@@ -99,6 +119,23 @@ public class FBRequirementMenuActivity extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                if (!ConnectionDetector.networkStatus(getApplicationContext())) {
+
+                    //   Toast.makeText(getApplicationContext(),"tre",Toast.LENGTH_SHORT).show();
+                    android.app.AlertDialog alertDialog = new android.app.AlertDialog.Builder(FBRequirementMenuActivity.this).create();
+                    alertDialog.setTitle("No Internet Connection");
+                    alertDialog.setMessage("Please check your internet connection  and try again");
+                    alertDialog.setIcon(android.R.drawable.ic_dialog_alert);
+                    alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            alertDialog.dismiss();
+
+                        }
+                    });
+                    alertDialog.show();
+                    return;
+                }
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(FBRequirementMenuActivity.this);
                 builder.setTitle("Are you sure?");
@@ -203,7 +240,7 @@ public class FBRequirementMenuActivity extends AppCompatActivity {
               //  Log.v("Upload", response.toString());
              //   Toast.makeText(getApplicationContext(),"success",Toast.LENGTH_SHORT).show();
                 Toast.makeText(FBRequirementMenuActivity.this, "Successfully Submited", Toast.LENGTH_SHORT).show();
-                Intent splashLoginm = new Intent(getApplicationContext(), MainActivity.class);
+                Intent splashLoginm = new Intent(getApplicationContext(), FacebookPageRequirementMain.class);
                 splashLoginm.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(splashLoginm);
                 finish();

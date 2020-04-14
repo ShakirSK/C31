@@ -44,7 +44,7 @@ public class more_fragment extends Fragment {
     private String mParam2;
 
    ImageView profilepic;
-   TextView preschoolname,preschoolname2,mobileno,email,address;
+   TextView preschoolname,preschoolname2,mobileno,email,address,website,ownername,fblink;
     Button logoutBT;
     private static int RESULT_LOAD_IMAGE = 1;
     public more_fragment() {
@@ -91,6 +91,11 @@ public class more_fragment extends Fragment {
         mobileno = (TextView)view.findViewById(R.id.mobilenumber);
         email = (TextView)view.findViewById(R.id.emailid);
         address = (TextView)view.findViewById(R.id.address);
+
+
+        ownername = (TextView)view.findViewById(R.id.ownername);
+        fblink = (TextView)view.findViewById(R.id.facebooklink);
+        website = (TextView)view.findViewById(R.id.Websitelink);
 
         logoutBT = (Button)view.findViewById(R.id.logout);
 
@@ -160,6 +165,10 @@ public class more_fragment extends Fragment {
 
                 preschoolname.setText(funding.getPs_name()+" !");
                 preschoolname2.setText(funding.getPs_name()+" !");
+
+                ownername.setText(funding.getOwnername());
+                fblink.setText(funding.getFacebooklink());
+                website.setText(funding.getWebsite());
 
                 mobileno.setText(funding.getPs_mobile());
                 email.setText(funding.getPs_email());

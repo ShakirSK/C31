@@ -18,8 +18,12 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             android:usesCleartextTraffic="true">
-        <activity android:name=".UploadActivity.ByActivity.ActivityPickImage"
-                  android:theme="@style/AppTheme.NoActionBar">
+        <activity android:name=".UploadActivity.ErrorActivity.NotSubmitedActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
+                android:name=".UploadActivity.ByActivity.ActivityPickImage"
+                android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
                 android:name=".UploadActivity.ByActivity.ActivityDetails"
