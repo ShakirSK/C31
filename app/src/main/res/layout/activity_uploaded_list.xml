@@ -11,7 +11,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="@dimen/_35sdp"
         android:background="#ffffff"
         android:orientation="horizontal"
         app:elevation="1dp">
@@ -19,8 +19,8 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/close"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
             android:layout_marginTop="15dp"
             android:layout_marginLeft="10dp"
             android:background="@drawable/ic_arrow_back_black_24dp"/>
@@ -31,7 +31,7 @@
             android:layout_marginTop="15dp"
             android:paddingLeft="20dp"
             android:textColor="@color/statusbarcolor"
-            android:textSize="17sp"
+            android:textSize="@dimen/_14sdp"
             >
         </TextView>
 
@@ -51,8 +51,8 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/pendingactivity"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
                     android:visibility="gone"
                     android:background="@drawable/ic_error_outline_black_24dp"/>
 
@@ -61,17 +61,17 @@
 
     </LinearLayout>
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/recycleview"
-        >
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/recycleview"
+    >
 
 
     </androidx.recyclerview.widget.RecyclerView>
 </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="@dimen/_30sdp"
             android:orientation="horizontal"
             android:elevation="30dp"
             >
@@ -84,7 +84,7 @@
                 android:background="@color/colorPrimaryDark"
                 android:gravity="center"
                 android:textColor="#ffffff"
-                android:textSize="15sp"
+                android:textSize="@dimen/_12sdp"
                 android:textStyle="bold" />
         </LinearLayout>
 </LinearLayout>

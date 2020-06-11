@@ -221,6 +221,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorPrimaryDark"
                     android:background="@drawable/bgsearchview"
+                    android:textSize="@dimen/_13sdp"
                     android:text="LOG OUT"/>
         </LinearLayout>
 

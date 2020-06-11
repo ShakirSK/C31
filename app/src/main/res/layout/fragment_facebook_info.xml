@@ -30,8 +30,8 @@
 
             <EditText android:id="@+id/activityname"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@drawable/rounded_edittext"
+                      android:layout_height="@dimen/_40sdp"
+                      android:background="@drawable/rounded_edittext"
                 android:hint="Name" />
 
 
@@ -58,7 +58,7 @@
                                     android:paddingLeft="3dp"
                                     android:paddingTop="5dp"
                                     android:singleLine="false"
-                                    android:textSize="15dp"
+                                    android:textSize="@dimen/_12sdp"
                                     android:text="Changes in the post to be made by designer"
                                     android:textAppearance="?android:attr/textAppearanceLarge"
                                     android:layout_weight="1" />
@@ -77,10 +77,9 @@
                 <EditText
                     android:id="@+id/changeinmakein"
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
+                    android:layout_height="@dimen/_120sdp"
                     android:layout_margin="8dp"
                     android:gravity="top"
-                    android:visibility="gone"
                     android:inputType="textMultiLine"
                     android:textSize="15sp"
                     android:background="@drawable/rounded_edittext"
@@ -107,7 +106,7 @@
                         android:paddingLeft="3dp"
                         android:paddingTop="5dp"
                         android:singleLine="false"
-                        android:textSize="15dp"
+                        android:textSize="@dimen/_12sdp"
                         android:text="To be uploaded as it is"
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:layout_weight="1" />
@@ -129,7 +128,7 @@
     </androidx.core.widget.NestedScrollView>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="@dimen/_30sdp"
         android:orientation="horizontal"
         android:elevation="30dp"
         >
@@ -142,7 +141,7 @@
             android:background="@color/colorPrimaryDark"
             android:text="SUBMIT"
             android:textColor="#ffffff"
-            android:textSize="15sp"
+            android:textSize="@dimen/_12sdp"
             android:textStyle="bold"
             android:gravity="center"/>
     </LinearLayout>

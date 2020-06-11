@@ -8,8 +8,8 @@
 
     <ImageView
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="@dimen/_70sdp"
+        android:layout_height="@dimen/_70sdp"
         android:orientation="vertical"
         android:src="@mipmap/appicon"
         app:layout_constraintBottom_toBottomOf="parent"

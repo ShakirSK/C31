@@ -4,7 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="15dp"
+    android:padding="@dimen/_10sdp"
     >
 
     <TextView
@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:textColor="@android:color/black"
         android:text="sdsd"
+        android:textSize="@dimen/_12sdp"
         android:fontFamily="@font/montserratlight"
         />
 
@@ -24,6 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/activityname"
         android:fontFamily="@font/montserratlight"
+        android:textSize="@dimen/_12sdp"
         android:text="text"/>
 
     <LinearLayout
@@ -48,6 +50,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserratlight"
+            android:textSize="@dimen/_12sdp"
             android:textStyle="bold"
             android:text="text"/>
 

@@ -10,7 +10,7 @@
     >
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="@dimen/_35sdp"
         android:background="#ffffff"
         android:orientation="horizontal"
         app:elevation="1dp">
@@ -18,8 +18,8 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/close"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
             android:layout_marginTop="15dp"
             android:layout_marginLeft="10dp"
             android:background="@drawable/ic_arrow_back_black_24dp"/>
@@ -30,7 +30,7 @@
             android:layout_marginTop="15dp"
             android:paddingLeft="20dp"
             android:textColor="@color/statusbarcolor"
-            android:textSize="17dp"
+            android:textSize="@dimen/_14sdp"
             android:text="EVENT DETAILS"
             >
         </TextView>
@@ -57,14 +57,14 @@
 
             <EditText android:id="@+id/activityname"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                      android:layout_height="@dimen/_40sdp"
                 android:background="@drawable/rounded_edittext"
                 android:gravity="center"
                 android:hint="@string/name" />
 
             <EditText android:id="@+id/activitydescription"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                      android:layout_height="@dimen/_40sdp"
                 android:layout_marginTop="30dp"
                 android:gravity="center_horizontal"
                 android:inputType="textMultiLine"
@@ -73,7 +73,7 @@
 
             <EditText android:id="@+id/vanue"
                       android:layout_width="match_parent"
-                      android:layout_height="50dp"
+                      android:layout_height="@dimen/_40sdp"
                       android:gravity="center"
                       android:layout_marginTop="20dp"
                       android:background="@drawable/rounded_edittext"
@@ -81,7 +81,7 @@
 
             <TextView android:id="@+id/date"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                      android:layout_height="@dimen/_40sdp"
                 android:layout_marginTop="30dp"
                 android:gravity="center"
                 android:textSize="15sp"
@@ -90,7 +90,7 @@
 
             <TextView android:id="@+id/time"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                      android:layout_height="@dimen/_40sdp"
                 android:layout_marginTop="30dp"
                 android:gravity="center"
                 android:textSize="15sp"
@@ -101,7 +101,7 @@
     </androidx.core.widget.NestedScrollView>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="@dimen/_30sdp"
         android:orientation="horizontal"
         android:elevation="30dp"
         >
@@ -114,7 +114,7 @@
             android:background="@color/colorPrimaryDark"
             android:text="SUBMIT"
             android:textColor="#ffffff"
-            android:textSize="15dp"
+            android:textSize="@dimen/_15sdp"
             android:textStyle="bold"
             android:gravity="center"/>
     </LinearLayout>
