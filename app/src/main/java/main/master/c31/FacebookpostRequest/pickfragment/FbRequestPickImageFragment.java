@@ -17,6 +17,8 @@ import java.util.List;
 import gun0912.tedbottompicker.TedBottomPicker;
 import main.master.c31.R;
 
+import static main.master.c31.FacebookpostRequest.FacebookInfoFragment.fblisturi;
+
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
@@ -36,6 +38,7 @@ public class FbRequestPickImageFragment extends Fragment {
     private String mParam2;
     private List<Uri> selectedUriList;
     public static boolean _hasLoadedOnce= false; // your boolean field
+
 
     GridView simpleGrid;
      FloatingActionButton choosemore;
@@ -88,8 +91,9 @@ public class FbRequestPickImageFragment extends Fragment {
                         .showTitle(true)
                         .setCompleteButtonText("Done")
                         .setEmptySelectionText("Nothing Selected")
-                        .setPreviewMaxCount(60)
-                        .setSelectMaxCount(1)
+                        .setPreviewMaxCount(200)
+                        .setGalleryTileBackgroundResId(R.color.statusbarcolor)
+                        .setGalleryTile(R.drawable.ic_gallery)
                         .setSelectedUriList(selectedUriList)
                         .showMultiImage(uriList -> {
                             selectedUriList = uriList;
@@ -185,14 +189,14 @@ public class FbRequestPickImageFragment extends Fragment {
                         .showTitle(true)
                         .setCompleteButtonText("Done")
                         .setEmptySelectionText("Nothing Selected")
-                        .setPreviewMaxCount(60)
-                        .setSelectMaxCount(1)
+                        .setPreviewMaxCount(200)
+                        .setGalleryTileBackgroundResId(R.color.statusbarcolor)
+                        .setGalleryTile(R.drawable.ic_gallery)
                         .setSelectedUriList(selectedUriList)
                         .showMultiImage(uriList -> {
                             selectedUriList = uriList;
                             showUriList(uriList);
                         });
-
                 _hasLoadedOnce = true;
             }
             else{
@@ -202,7 +206,8 @@ public class FbRequestPickImageFragment extends Fragment {
 
     }
     private void showUriList(List<Uri> uriList) {
-
+        fblisturi = new ArrayList<>() ;
+        fblisturi = uriList;
 
         if(uriList.isEmpty()){
             Fbpost_requestimage = "";
@@ -210,7 +215,6 @@ public class FbRequestPickImageFragment extends Fragment {
         else{
             Fbpost_requestimage = String.valueOf(uriList.get(0));
         }
-        Log.d( "urlp1: ", String.valueOf(Fbpost_requestimage));
 
        // Fbpost_requestimage = uriList.get(0);
         FbRequestPickImageFragmentAdapter customAdapter = new FbRequestPickImageFragmentAdapter(getContext(), uriList);

@@ -22,6 +22,7 @@ import gun0912.tedbottompicker.TedBottomPicker;
 import main.master.c31.LauncherMainActivity.HOME.MainActivity;
 import main.master.c31.R;
 import main.master.c31.UploadActivity.PickimageFrag.ActivityPickImageFragmentAdapter;
+import main.master.c31.UploadActivity.VideoActivityWM.WorkManagerVideo;
 import main.master.c31.testimage.WorkManager13;
 import main.master.c31.utils.ConnectionDetector;
 
@@ -36,12 +37,13 @@ public class ActivityPickImage extends AppCompatActivity {
 
     GridView simpleGrid;
     private List<Uri> selectedUriList;
-    TextView selectphoto,submit;
+    TextView selectphoto,submit,topicText;
     List<Uri> activitylisturi;
     String sactivityname,sactivitydescription,datesubmit;
     List<String> targetList;
     ProgressDialog mProgressDialog;
     int notificationid;
+    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,18 +51,30 @@ public class ActivityPickImage extends AppCompatActivity {
         setContentView(R.layout.activity_pick_image);
 
 
-        Intent intent = getIntent();
+        intent = getIntent();
         sactivityname = intent.getStringExtra("activityname");
         sactivitydescription = intent.getStringExtra("activitydescription");
         datesubmit = intent.getStringExtra("date");
 
 
-        simpleGrid = (GridView) findViewById(R.id.simpleGridView); // init GridView
+
+            simpleGrid = (GridView) findViewById(R.id.simpleGridView); // init GridView
         selectedUriList = new ArrayList<>();
 
+        topicText = (TextView) findViewById(R.id.topText);
         selectphoto = (TextView) findViewById(R.id.selectphoto);
         submit = (TextView) findViewById(R.id.submits);
 
+
+        if(intent.getStringExtra("fromactivity").equals("activity")) {
+
+
+            selectphoto.setText("Select Your Images");
+        }
+        else{
+            topicText.setText("PICK VIDEO");
+            selectphoto.setText("Select Your Video");
+        }
         selectphoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -83,22 +97,42 @@ public class ActivityPickImage extends AppCompatActivity {
                     return;
                 }
 
+                if(intent.getStringExtra("fromactivity").equals("activity")) {
 
+                   TedBottomPicker.with(ActivityPickImage.this)
+                            //.setPeekHeight(getResources().getDisplayMetrics().heightPixels/2)
+                            .setPeekHeight(1600)
+                            .showTitle(true)
+                            .setCompleteButtonText("Done")
+                            .setEmptySelectionText("Nothing Selected")
+                            .setPreviewMaxCount(200)
+                            .setGalleryTileBackgroundResId(R.color.statusbarcolor)
+                            .setGalleryTile(R.drawable.ic_gallery)
+                            .setSelectedUriList(selectedUriList)
+                            .showMultiImage(uriList -> {
+                                selectedUriList = uriList;
+                                showUriList(uriList);
+                            });
+                }
+                else{
 
-                TedBottomPicker.with(ActivityPickImage.this)
-                        //.setPeekHeight(getResources().getDisplayMetrics().heightPixels/2)
-                        .setPeekHeight(1600)
-                        .showTitle(true)
-                        .setCompleteButtonText("Done")
-                        .setEmptySelectionText("Nothing Selected")
-                        .setPreviewMaxCount(200)
-                        .setGalleryTileBackgroundResId(R.color.statusbarcolor)
-                        .setGalleryTile(R.drawable.ic_gallery)
-                        .setSelectedUriList(selectedUriList)
-                        .showMultiImage(uriList -> {
-                            selectedUriList = uriList;
-                            showUriList(uriList);
-                        });
+                    TedBottomPicker.with(ActivityPickImage.this)
+                            //.setPeekHeight(getResources().getDisplayMetrics().heightPixels/2)
+                            .showVideoMedia()
+                            .setPeekHeight(1600)
+                            .showTitle(true)
+                            .setCompleteButtonText("Done")
+                            .setEmptySelectionText("Nothing Selected")
+                            .setPreviewMaxCount(60)
+                            .setSelectMaxCount(1)
+                            .setGalleryTileBackgroundResId(R.color.statusbarcolor)
+                            .setGalleryTile(R.drawable.ic_gallery)
+                            .setSelectedUriList(selectedUriList)
+                            .showMultiImage(uriList -> {
+                                selectedUriList = uriList;
+                                showUriList(uriList);
+                            });
+                }
             }
         });
 
@@ -204,15 +238,27 @@ public class ActivityPickImage extends AppCompatActivity {
         notificationid = (int) ((new Date().getTime() / 1000L) % Integer.MAX_VALUE);
         targetList = new ArrayList<String>();
         selectedUriList.forEach(uri -> targetList.add(uri.toString()));
-        OneTimeWorkRequest oneTimeWorkRequest = new OneTimeWorkRequest.Builder(WorkManager13.class)
-                .setInputData(createInputData(targetList))
-                .setInitialDelay(2, TimeUnit.SECONDS).build();
-        WorkManager.getInstance(this).enqueue(oneTimeWorkRequest);
+        if(intent.getStringExtra("fromactivity").equals("activity")){
+            OneTimeWorkRequest oneTimeWorkRequest = new OneTimeWorkRequest.Builder(WorkManager13.class)
+                    .setInputData(createInputData(targetList))
+                    .setInitialDelay(2, TimeUnit.SECONDS).build();
+            WorkManager.getInstance(this).enqueue(oneTimeWorkRequest);
+        }
+        else{
+            Toast.makeText(getApplicationContext(),"videoooo",Toast.LENGTH_SHORT).show();
+
+            OneTimeWorkRequest oneTimeWorkRequest = new OneTimeWorkRequest.Builder(WorkManagerVideo.class)
+                    .setInputData(createInputData(targetList))
+                    .setInitialDelay(2, TimeUnit.SECONDS).build();
+            WorkManager.getInstance(this).enqueue(oneTimeWorkRequest);
+        }
+
     }
 
     private Data createInputData(List<String> imagePath){
         Data data = new Data.Builder()
                 .putStringArray("imagePath", imagePath.toArray(new String[imagePath.size()]))
+                .putString("sactivitytitle",intent.getStringExtra("fromactivity"))
                 .putString("sactivityname",sactivityname)
                 .putString("sactivitydescription",sactivitydescription)
                 .putString("datesubmit",datesubmit)

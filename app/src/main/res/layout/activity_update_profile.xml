@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".LauncherMainActivity.UpdateProfile.UpdateProfileActivity">
+
+    <LinearLayout
+            android:id="@+id/toolbartop"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_35sdp"
+            android:background="#ffffff"
+            android:orientation="horizontal"
+            app:elevation="1dp">
+
+
+        <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/close"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/ic_arrow_back_black_24dp"/>
+        <TextView
+                android:id="@+id/titlename"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginTop="15dp"
+                android:paddingLeft="20dp"
+                android:textColor="@color/statusbarcolor"
+                android:text="Edit Profile"
+                android:textSize="@dimen/_14sdp"
+        >
+        </TextView>
+
+
+
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:layout_marginTop="10dp"
+                android:paddingRight="@dimen/_7sdp"
+                android:orientation="vertical"
+                android:layout_alignParentRight="true">
+
+
+
+            <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/updateprofile"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:background="@drawable/ic_done_24dp"/>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+    <LinearLayout
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:orientation="vertical"
+                  android:padding="16dp"
+                  android:background="@android:color/white">
+
+        <!-- Ownername -->
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:layout_marginTop="10dp"/>
+
+            <TextView
+                    android:id="@+id/text_dummy_hint_ownername"
+                    android:layout_width="wrap_content"
+                    android:layout_height="2dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="16dp"
+                    android:paddingLeft="4dp"
+                    android:paddingRight="4dp"
+                    android:text="Ownername"
+                    android:textSize="16sp"
+                    android:background="@android:color/white"
+                    android:visibility="invisible"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:hint="Ownername"
+                    android:textColorHint="@android:color/black"
+                    app:hintTextAppearance="@style/HintTextStyle">
+
+                <EditText
+                        android:id="@+id/edit_ownername"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text|textCapWords"
+                        android:maxLines="1"
+                        android:backgroundTint="@android:color/transparent"/>
+            </com.google.android.material.textfield.TextInputLayout>
+        </RelativeLayout>
+
+        <!-- MOBILE NUMBER -->
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:layout_marginTop="10dp"/>
+
+            <TextView
+                    android:id="@+id/text_dummy_hint_mobilenumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="2dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="16dp"
+                    android:paddingLeft="4dp"
+                    android:paddingRight="4dp"
+                    android:text="Mobile Number"
+                    android:textSize="16sp"
+                    android:background="@android:color/white"
+                    android:visibility="invisible"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:hint="Mobile Number"
+                    android:textColorHint="@android:color/black"
+                    app:hintTextAppearance="@style/HintTextStyle">
+
+                <EditText
+                        android:id="@+id/edit_mobilenumber"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text|textCapWords"
+                        android:maxLines="1"
+                        android:backgroundTint="@android:color/transparent"/>
+            </com.google.android.material.textfield.TextInputLayout>
+        </RelativeLayout>
+
+        <!-- EMailID -->
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:layout_marginTop="10dp"/>
+
+            <TextView
+                    android:id="@+id/text_dummy_hint_emailid"
+                    android:layout_width="wrap_content"
+                    android:layout_height="2dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="16dp"
+                    android:paddingLeft="4dp"
+                    android:paddingRight="4dp"
+                    android:text="EmailId"
+                    android:textSize="16sp"
+                    android:background="@android:color/white"
+                    android:visibility="invisible"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:hint="EmailId"
+                    android:textColorHint="@android:color/black"
+                    app:hintTextAppearance="@style/HintTextStyle">
+
+                <EditText
+                        android:id="@+id/edit_emailid"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text|textCapWords"
+                        android:maxLines="1"
+                        android:backgroundTint="@android:color/transparent"/>
+            </com.google.android.material.textfield.TextInputLayout>
+        </RelativeLayout>
+
+        <!-- Address -->
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:layout_marginTop="10dp" />
+
+            <TextView
+                    android:id="@+id/text_dummy_hint_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="2dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="16dp"
+                    android:paddingLeft="4dp"
+                    android:paddingRight="4dp"
+                    android:text="Address"
+                    android:textSize="16sp"
+                    android:background="@android:color/white"
+                    android:visibility="invisible"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:hint="Address"
+                    android:textColorHint="@android:color/black"
+                    app:hintTextAppearance="@style/HintTextStyle">
+
+                <EditText
+                        android:id="@+id/edit_address"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text|textCapWords"
+                        android:maxLines="1"
+                        android:backgroundTint="@android:color/transparent"/>
+            </com.google.android.material.textfield.TextInputLayout>
+        </RelativeLayout>
+
+        <!-- Facebook -->
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:layout_marginTop="10dp" />
+
+            <TextView
+                    android:id="@+id/text_dummy_hint_facebook"
+                    android:layout_width="wrap_content"
+                    android:layout_height="2dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="16dp"
+                    android:paddingLeft="4dp"
+                    android:paddingRight="4dp"
+                    android:text="Facebook"
+                    android:textSize="16sp"
+                    android:background="@android:color/white"
+                    android:visibility="invisible"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:hint="Facebook"
+                    android:textColorHint="@android:color/black"
+                    app:hintTextAppearance="@style/HintTextStyle">
+
+                <EditText
+                        android:id="@+id/edit_facebook"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text|textCapWords"
+                        android:maxLines="1"
+                        android:backgroundTint="@android:color/transparent"/>
+            </com.google.android.material.textfield.TextInputLayout>
+        </RelativeLayout>
+
+        <!-- Website -->
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:layout_marginTop="10dp" />
+
+            <TextView
+                    android:id="@+id/text_dummy_hint_website"
+                    android:layout_width="wrap_content"
+                    android:layout_height="2dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="16dp"
+                    android:paddingLeft="4dp"
+                    android:paddingRight="4dp"
+                    android:text="Website"
+                    android:textSize="16sp"
+                    android:background="@android:color/white"
+                    android:visibility="invisible"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:hint="Website"
+                    android:textColorHint="@android:color/black"
+                    app:hintTextAppearance="@style/HintTextStyle">
+
+                <EditText
+                        android:id="@+id/edit_website"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text|textCapWords"
+                        android:maxLines="1"
+                        android:backgroundTint="@android:color/transparent"/>
+            </com.google.android.material.textfield.TextInputLayout>
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

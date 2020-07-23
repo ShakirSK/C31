@@ -56,7 +56,7 @@ import retrofit2.http.Part;
 import static android.content.Context.MODE_PRIVATE;
 
 public class WorkManager13 extends Worker implements ProgressRequestBody.UploadCallbacks {
-    String activityname, activitydescription,date;
+    String activitytitle,activityname, activitydescription,date;
     int notificationid;
     List<String> uriwithlogo;
     String psid,psname,pslogo;
@@ -88,7 +88,8 @@ public class WorkManager13 extends Worker implements ProgressRequestBody.UploadC
         }*/
       // manager.updateProgress(0);
         String[] imagePath = getInputData().getStringArray("imagePath");
-         activityname = getInputData().getString("sactivityname");
+        activitytitle = getInputData().getString("sactivitytitle");
+        activityname = getInputData().getString("sactivityname");
          activitydescription = getInputData().getString("sactivitydescription");
          date = getInputData().getString("datesubmit");
         notificationid = Integer.parseInt(getInputData().getString("notificationid"));
@@ -384,11 +385,16 @@ public class WorkManager13 extends Worker implements ProgressRequestBody.UploadC
 
                     manager.updateProgress(90);
 
+                    String sis_video = "0";
+                    RequestBody is_video =
+                            RequestBody.create(
+                                    okhttp3.MultipartBody.FORM, sis_video);
+
 
                     UserService userService;
                     userService = ApiUtils.getUserService();
                     Call<ResponseBody> call = userService.Activity(preschool_id,
-                            activity_name,dob,description_name, created_by,surveyImagesParts,piccount,zipbody);
+                            activity_name,dob,description_name, created_by,surveyImagesParts,piccount,zipbody,is_video);
                     call.enqueue(new Callback<ResponseBody>() {
 
                         @Override
@@ -435,7 +441,7 @@ public class WorkManager13 extends Worker implements ProgressRequestBody.UploadC
 
                             Toast.makeText(getApplicationContext(), t.getMessage(),Toast.LENGTH_SHORT).show();
 
-                            new AsyncTaskActivity(activityname,activitydescription,date).execute();
+                            new AsyncTaskActivity(activitytitle,activityname,activitydescription,date).execute();
                             manager.updateProgress(404);
                             Result.failure();
                         }
@@ -684,8 +690,10 @@ public class WorkManager13 extends Worker implements ProgressRequestBody.UploadC
         String activitname;
         String activitdescription;
         String activitdate;
+        String activitytitle;
 
-        AsyncTaskActivity(  String activitname, String activitdescription, String activitdate){
+        AsyncTaskActivity(   String activitytitle, String activitname, String activitdescription, String activitdate){
+            this.activitytitle = activitytitle;
             this.activitname = activitname;
             this.activitdescription = activitdescription;
             this.activitdate = activitdate;
@@ -695,6 +703,7 @@ public class WorkManager13 extends Worker implements ProgressRequestBody.UploadC
 
 
             ActivityTable activityTable = new ActivityTable();
+            activityTable.setActivitytitle(activitytitle);
             activityTable.setActivityname(activityname);
             activityTable.setDescription(activitdescription);
             activityTable.setActivitydate(activitdate);

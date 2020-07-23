@@ -28,6 +28,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
 import static main.master.c31.FacebookpostRequest.pickfragment.FbRequestPickImageFragment.Fbpost_requestimage;
@@ -45,6 +47,9 @@ public class FacebookInfoFragment extends Fragment {
     EditText activityname;
     String sactivityname,schangeinmakein,psid;
     int checkboxselect_status;
+    int keyrequirement;
+   public static List<Uri> fblisturi;
+
     public FacebookInfoFragment() {
         // Required empty public constructor
     }
@@ -152,7 +157,7 @@ public class FacebookInfoFragment extends Fragment {
                 builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        if(Fbpost_requestimage.equals(""))
+                        if(fblisturi.isEmpty()||fblisturi==null)
                         {
                             Toast.makeText(getContext(),"Please Select Image",Toast.LENGTH_SHORT).show();
                         }
@@ -187,13 +192,19 @@ public class FacebookInfoFragment extends Fragment {
         mProgressDialog.setCanceledOnTouchOutside(false);
         mProgressDialog.show();
 
-        Log.d( "urlp1: ", String.valueOf(Fbpost_requestimage));
+        Log.d( "urlp1: ", String.valueOf(fblisturi));
+        List<String> uri = new ArrayList<>();
+        for(int i=0;i<fblisturi.size();i++){
+            String ere = removeUriFromPath(fblisturi.get(i).toString());
+            String urlString  = Uri.decode(ere);
+            uri.add(urlString);
+        }
+        Log.d( "urlp2: ", String.valueOf(uri));
 
-
-        String ere = removeUriFromPath(Fbpost_requestimage.toString());
-        String urlString = Uri.decode(ere);
-        // String  urlString = ere.replaceAll(" ", "%20");
-        Log.d( "urlp2: ", String.valueOf(ere));
+//        String ere = removeUriFromPath(Fbpost_requestimage.toString());
+//        String urlString = Uri.decode(ere);
+//        // String  urlString = ere.replaceAll(" ", "%20");
+//        Log.d( "urlp2: ", String.valueOf(ere));
 
   //      String dfdnf = null;
 //
@@ -215,11 +226,25 @@ public class FacebookInfoFragment extends Fragment {
 //
 //
 
-        File imgFile = new File(urlString);
-        RequestBody reqFile = RequestBody.create(MediaType.parse("*/*"), imgFile);
-        MultipartBody.Part body = MultipartBody.Part.createFormData("file", imgFile.getName(), reqFile);
+//        File imgFile = new File(urlString);
+//        RequestBody reqFile = RequestBody.create(MediaType.parse("*/*"), imgFile);
+//        MultipartBody.Part body = MultipartBody.Part.createFormData("file", imgFile.getName(), reqFile);
+//
 
 
+        MultipartBody.Part[] surveyImagesParts = new MultipartBody.Part[uri.size()];
+
+        for (int index = 0; index < uri.size(); index++) {
+            Log.d("requestUploadSurvey" , index + "  " + uri.get(index));
+            File file = new File( uri.get(index));
+            RequestBody surveyBody = RequestBody.create(MediaType.parse("image/*"),
+                    file);
+            surveyImagesParts[index] = MultipartBody.Part.createFormData("files[]",
+                    file.getName(),
+                    surveyBody);
+        }
+
+        Log.v("imageuploadarray", surveyImagesParts.toString()+"  "+uri.size());
 
         String spreschool_id = psid;
         RequestBody preschool_id =
@@ -248,7 +273,7 @@ public class FacebookInfoFragment extends Fragment {
         Log.v("datallparam", sfb_post_name+sischange+schanges);
 
         Call<ResponseBody> call = userService.FBPostRequest(preschool_id,
-                fb_post_name,ischange,created_by,body, changes);
+                fb_post_name,ischange,created_by,surveyImagesParts, changes,null,null);
         call.enqueue(new Callback<ResponseBody>() {
 
             @Override

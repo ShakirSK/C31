@@ -18,63 +18,74 @@
 
         <!-- app:contentScrim="#4a90e2"-->
         <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:id="@+id/toolbar_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fitsSystemWindows="true"
-            app:contentScrim="#c5c6c6"
-            app:statusBarScrim="#c5c6c6"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
-
-            <ImageView
-                android:id="@+id/profilepic"
-                android:layout_width="@dimen/_80sdp"
-                android:layout_height="@dimen/_80sdp"
-                android:layout_gravity="center"
-                android:scaleType="fitXY"
-                app:layout_behavior="@string/simple_view_behavior"
-                app:behavior_dependsOn="@+id/app_bar"
-                app:behavior_dependType="y"
-                app:behavior_dependTarget="-176dp"
-                app:behavior_targetX="16dp"
-                app:behavior_targetY="8dp"
-                app:behavior_targetWidth="40dp"
-                app:behavior_targetHeight="40dp"/>
-            <LinearLayout
+                android:id="@+id/toolbar_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center|top"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:paddingTop="190dp"
-                android:paddingBottom="40dp">
+                android:fitsSystemWindows="true"
+                app:contentScrim="#c5c6c6"
+                app:statusBarScrim="#c5c6c6"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed" xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:android="http://schemas.android.com/apk/res/android">
 
-                <TextView android:id="@+id/preschoolname"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=" EuroKids !"
-                    android:textColor="@android:color/white"
-                    android:textSize="@dimen/_20sdp"
-                    android:textStyle="bold" />
+            <ImageView
+                    android:id="@+id/profilepic"
+                    android:layout_width="@dimen/_80sdp"
+                    android:layout_height="@dimen/_80sdp"
+                    android:layout_gravity="center"
+                    android:scaleType="fitXY"
+                    app:layout_behavior="@string/simple_view_behavior"
+                    app:behavior_dependsOn="@+id/app_bar"
+                    app:behavior_dependType="y"
+                    app:behavior_dependTarget="-176dp"
+                    app:behavior_targetX="16dp"
+                    app:behavior_targetY="8dp"
+                    app:behavior_targetWidth="40dp"
+                    app:behavior_targetHeight="40dp"/>
 
-                <TextView
+            <ImageView
+                    android:layout_width="@dimen/_30sdp"
+                    android:layout_height="@dimen/_30sdp"
+                    app:srcCompat="@drawable/editprofileimage"
+                    android:layout_marginRight="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_60sdp"
+                    android:layout_gravity="right"
+                    android:id="@+id/updateprofile"/>
+
+            <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    android:layout_gravity="center|top"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
                     android:gravity="center"
-                    android:visibility="gone"
-                    android:text="A Pre-School is your child’s first experience away from you. " />
+                    android:orientation="vertical"
+                    android:paddingTop="190dp"
+                    android:paddingBottom="40dp">
+
+                <TextView android:id="@+id/preschoolname"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:text=" EuroKids !"
+                          android:textColor="@android:color/white"
+                          android:textSize="@dimen/_20sdp"
+                          android:textStyle="bold"/>
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:gravity="center"
+                        android:visibility="gone"
+                        android:text="A Pre-School is your child’s first experience away from you. "/>
 
             </LinearLayout>
 
             <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin"
-                app:popupTheme="@style/AppTheme.PopupOverlay"/>
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:layout_collapseMode="pin"
+                    app:popupTheme="@style/AppTheme.PopupOverlay"/>
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>

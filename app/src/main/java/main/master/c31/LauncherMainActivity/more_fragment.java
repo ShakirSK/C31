@@ -25,6 +25,7 @@ import java.util.List;
 import com.squareup.picasso.Picasso;
 import main.master.c31.Database.DatabaseClient;
 import main.master.c31.Database.User;
+import main.master.c31.LauncherMainActivity.UpdateProfile.UpdateProfileActivity;
 import main.master.c31.Network.Datum;
 import main.master.c31.R;
 import main.master.c31.Session.SaveSharedPreference;
@@ -43,9 +44,10 @@ public class more_fragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-   ImageView profilepic;
-   TextView preschoolname,preschoolname2,mobileno,email,address,website,ownername,fblink;
+   ImageView profilepic,updateprofile;
+   TextView preschoolname,preschoolname2,mobileno,email,address,website,ownername,fblink,ps_social_media_manager,ps_graphics_designer,ps_content_writer;
     Button logoutBT;
+    String sownername,smobilenumber,semailid,saddress,facebook,swebsite, spreschool_id;;
     private static int RESULT_LOAD_IMAGE = 1;
     public more_fragment() {
         // Required empty public constructor
@@ -85,6 +87,8 @@ public class more_fragment extends Fragment {
         View view =  inflater.inflate(R.layout.fragment_more, container, false);
 
         profilepic = (ImageView)view.findViewById(R.id.profilepic);
+        updateprofile = (ImageView)view.findViewById(R.id.updateprofile);
+
         preschoolname = (TextView)view.findViewById(R.id.preschoolname);
         preschoolname2 = (TextView)view.findViewById(R.id.preschoolname2);
 
@@ -96,6 +100,10 @@ public class more_fragment extends Fragment {
         ownername = (TextView)view.findViewById(R.id.ownername);
         fblink = (TextView)view.findViewById(R.id.facebooklink);
         website = (TextView)view.findViewById(R.id.Websitelink);
+
+        ps_social_media_manager = (TextView)view.findViewById(R.id.socialmediamanager);
+        ps_graphics_designer = (TextView)view.findViewById(R.id.graphicdesigner);
+        ps_content_writer = (TextView)view.findViewById(R.id.contentwriter);
 
         logoutBT = (Button)view.findViewById(R.id.logout);
 
@@ -126,6 +134,21 @@ public class more_fragment extends Fragment {
                 AlertDialog ad = builder.create();
                 ad.show();
 
+            }
+        });
+
+        updateprofile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), UpdateProfileActivity.class);
+                intent.putExtra("spreschool_id",spreschool_id);
+                intent.putExtra("sownername",sownername);
+                intent.putExtra("smobilenumber",smobilenumber);
+                intent.putExtra("semailid",semailid);
+                intent.putExtra("saddress",saddress);
+                intent.putExtra("facebook",facebook);
+                intent.putExtra("swebsite",swebsite);
+                startActivity(intent);
             }
         });
 
@@ -163,6 +186,14 @@ public class more_fragment extends Fragment {
             for (int j = 0; j < tasks.size(); j++) {
                 User funding = tasks.get(j);
 
+                spreschool_id = funding.getPreschool_id();
+                sownername = funding.getOwnername();
+                smobilenumber = funding.getPs_mobile();
+                semailid = funding.getPs_email();
+                saddress = funding.getCenter_address();
+                facebook = funding.getFacebooklink();
+                swebsite  = funding.getWebsite();
+
                 preschoolname.setText(funding.getPs_name()+" !");
                 preschoolname2.setText(funding.getPs_name()+" !");
 
@@ -173,6 +204,10 @@ public class more_fragment extends Fragment {
                 mobileno.setText(funding.getPs_mobile());
                 email.setText(funding.getPs_email());
                 address.setText(funding.getCenter_address());
+
+                ps_social_media_manager.setText(funding.getPs_social_media_manager());
+                ps_graphics_designer.setText(funding.getPs_graphics_designer());
+                ps_content_writer.setText(funding.getPs_content_writer());
 
 
                 String url = "http://creative31minds.com/creative-web/uploads/preschool_logo/"+funding.getPs_name().replaceAll("\\s", "")+"/"+funding.getPs_logo();

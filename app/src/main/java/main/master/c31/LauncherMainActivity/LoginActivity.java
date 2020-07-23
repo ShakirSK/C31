@@ -23,6 +23,7 @@ import java.util.List;
 import main.master.c31.Database.DatabaseClient;
 import main.master.c31.Database.User;
 import main.master.c31.LauncherMainActivity.HOME.MainActivity;
+import main.master.c31.LauncherMainActivity.userdatamodel.PreSchoolUserModel;
 import main.master.c31.Network.ApiUtils;
 import main.master.c31.Network.Datum;
 import main.master.c31.Network.Example;
@@ -42,7 +43,8 @@ public class LoginActivity extends AppCompatActivity {
     EditText edtPassword;
     TextView submit;
     UserService userService;
-
+    String ps_social_media_manager,ps_graphics_designer,ps_content_writer;
+    List<Datum> items;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,6 +100,7 @@ public class LoginActivity extends AppCompatActivity {
                     else{
                         //do login
                         doLogin(username, password);
+
                     }
 
                 }
@@ -157,8 +160,15 @@ public class LoginActivity extends AppCompatActivity {
                         Log.e("keshav", "loginResponse 1 --> " + loginResponse);
                         if (loginResponse != null) {
 
-                            List<Datum> items = response.body().getData();
-                            new  AsyncTaskFunding(items).execute();
+                    items = response.body().getData();
+
+                            for (int i = 0;i<items.size();i++) {
+                                Datum datum = items.get(i);
+                                ps_social_media_manager = datum.getPsSocialMediaManager();
+                                ps_graphics_designer = datum.getPsGraphicsDesigner();
+                                ps_content_writer = datum.getPsContentWriter();
+                            }
+                            UserData();
 
                         }
                     }
@@ -213,6 +223,9 @@ public class LoginActivity extends AppCompatActivity {
                 user.setFacebooklink(datum.getFacebookLink());
                 user.setWebsite(datum.getWebsite());
 
+                user.setPs_social_media_manager(ps_social_media_manager);
+                user.setPs_graphics_designer(ps_graphics_designer);
+                user.setPs_content_writer(ps_content_writer);
 
                 //adding to database
                 DatabaseClient.getInstance(getApplicationContext()).getAppDatabase()
@@ -241,5 +254,63 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    //userdata of particular preschool like graphic designer
+    public void UserData(){
+        Call<List<PreSchoolUserModel>> call = userService.userdata_for_preschool();
+        call.enqueue(new Callback<List<PreSchoolUserModel>>() {
+            @Override
+            public void onResponse(Call<List<PreSchoolUserModel>> call, Response<List<PreSchoolUserModel>> response) {
+                Log.d("onResponse: ", response.toString());
+                if (response.message().equals("Not Found")) {
 
+                    Toast.makeText(LoginActivity.this, "No ", Toast.LENGTH_SHORT).show();
+                } else if (response.isSuccessful()) {
+
+
+                    //   Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_SHORT).show();
+
+                    List<PreSchoolUserModel> loginResponse = response.body();
+
+                    Log.e("msjsirfmeri", "loginResponse 1 --> " + loginResponse);
+
+                    if (loginResponse != null) {
+
+
+                        for (int i = 0; i < loginResponse.size(); i++) {
+                            PreSchoolUserModel datum = loginResponse.get(i);
+                            if(datum.getUserId().equals(ps_social_media_manager)){
+                                ps_social_media_manager = datum.getUsername();
+                                Log.e("ccccccc", "-->  " + ps_social_media_manager);
+                            }
+                            if(datum.getUserId().equals(ps_graphics_designer)){
+                                ps_graphics_designer = datum.getUsername();
+                                Log.e("ccccccc", "-->  " + ps_graphics_designer);
+                            }
+                            if(datum.getUserId().equals(ps_content_writer)){
+                                ps_content_writer = datum.getUsername();
+                                Log.e("ccccccc", "-->  " + ps_content_writer);
+                            }
+
+                        }
+                        new  AsyncTaskFunding(items).execute();
+
+                    }
+
+
+
+                } else {
+
+                    Toast.makeText(LoginActivity.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<PreSchoolUserModel>> call, Throwable t) {
+
+                Log.d("onResponse: ", t.getMessage());
+                Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
 }

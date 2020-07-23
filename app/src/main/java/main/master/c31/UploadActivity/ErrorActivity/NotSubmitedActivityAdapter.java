@@ -30,6 +30,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import static main.master.c31.UploadActivity.UploadActivityList.ActivityUploadedList.checkActivityCategory;
+
 
 public class NotSubmitedActivityAdapter extends RecyclerView.Adapter<NotSubmitedActivityAdapter.MyViewHolder>
 {
@@ -37,7 +39,7 @@ public class NotSubmitedActivityAdapter extends RecyclerView.Adapter<NotSubmited
 
     Context context;
     int notificationid;
-    String sactivityname,sactivitydescription,datesubmit;
+    String sactivitytitle,sactivityname,sactivitydescription,datesubmit;
 
     public NotSubmitedActivityAdapter(Context context, List<ActivityTable> loginResponse ) {
         this.loginResponse = loginResponse;
@@ -57,13 +59,30 @@ public class NotSubmitedActivityAdapter extends RecyclerView.Adapter<NotSubmited
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         /*ListItem listItem = name.get(position);
         holder.text1.setText(listItem.getText());*/
-
         ActivityTable datum = loginResponse.get(position);
-        holder.activityname.setText(datum.getActivityname());
 
-        sactivityname = datum.getActivityname();
-        sactivitydescription =datum.getDescription();
-        datesubmit = datum.getActivitydate();
+
+        Toast.makeText(context, datum.getActivitytitle()+" "+position, Toast.LENGTH_SHORT).show();
+        if(checkActivityCategory.equals(datum.getActivitytitle()))
+        {
+            holder.activityname.setText(datum.getActivityname());
+            sactivitytitle = datum.getActivitytitle();
+            sactivityname = datum.getActivityname();
+            sactivitydescription =datum.getDescription();
+            datesubmit = datum.getActivitydate();
+
+        }
+        else{
+            holder.itemView.setVisibility(View.GONE);
+            holder.itemView.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
+
+        }
+       /* if(datum.getActivitytitle().equals("activity")){
+            holder.activityname.setText(datum.getActivityname());
+        }
+        if(datum.getActivitytitle().equals("acti vityvideo")){
+            holder.activityname.setText(datum.getActivityname());
+        }*/
 
         holder.image1.setImageResource(R.drawable.ic_settings_backup_restore_black_24dp);
 
@@ -158,6 +177,7 @@ public class NotSubmitedActivityAdapter extends RecyclerView.Adapter<NotSubmited
 
     private Data createInputData(String sactivityname){
         Data data = new Data.Builder()
+                .putString("sactivitytitle",sactivitytitle)
                 .putString("sactivityname",sactivityname)
                 .putString("sactivitydescription",sactivitydescription)
                 .putString("datesubmit",datesubmit)

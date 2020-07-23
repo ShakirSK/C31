@@ -62,10 +62,16 @@ public class home_fragmentAdapter extends RecyclerView.Adapter<home_fragmentAdap
         /*ListItem listItem = name.get(position);
         holder.text1.setText(listItem.getText());*/
 
-        if(arrayList.contains((CharSequence) title.get(position)))
+        if(arrayList.contains((CharSequence) title.get(position))||position == 1)
         {
-            holder.itemView.setVisibility(View.VISIBLE);
-            holder.itemView.setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            if(arrayList.contains("Activity_Picture")||arrayList.contains((CharSequence) title.get(position))){
+                holder.itemView.setVisibility(View.VISIBLE);
+                holder.itemView.setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            }
+            else{
+                holder.itemView.setVisibility(View.GONE);
+                holder.itemView.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
+            }
         }
         else
         {
@@ -84,6 +90,13 @@ public class home_fragmentAdapter extends RecyclerView.Adapter<home_fragmentAdap
             holder.text1.setTextColor(Color.parseColor("#B4B4B4"));
       //      holder.card_view.setCardBackgroundColor(Color.parseColor("#5b5b5b"));
        */ } else if (position == 1) {
+            holder.logos.setBackground(ContextCompat.getDrawable(context, R.drawable.uploadactivityicon));
+          /*  holder.text3.setTextColor(Color.parseColor("#B4B4B4"));
+            holder.text2.setTextColor(Color.parseColor("#B4B4B4"));
+            holder.text1.setTextColor(Color.parseColor("#B4B4B4"));
+      //      holder.card_view.setCardBackgroundColor(Color.parseColor("#5b5b5b"));
+       */ }
+        else if (position == 2) {
             holder.logos.setBackground(ContextCompat.getDrawable(context, R.drawable.birthdayuploads));
 
        /*     holder.text3.setTextColor(Color.parseColor("#5b5b5b"));
@@ -95,13 +108,13 @@ public class home_fragmentAdapter extends RecyclerView.Adapter<home_fragmentAdap
       */  //  holder.card_view.setCardBackgroundColor(Color.parseColor("#c5c6c6"));
         //    holder.card_view.setBackgroundResource( R.drawable.gradient);
         }
-        else if (position == 2) {
+        else if (position == 3) {
             holder.logos.setBackground(ContextCompat.getDrawable(context, R.drawable.eventupload));
 
             //          holder.card_view.setCardBackgroundColor(Color.parseColor("#1696e4"));
             //    holder.card_view.setBackgroundResource( R.drawable.gradient);
         }
-        else if (position == 3) {
+        else if (position == 4) {
             holder.logos.setBackground(ContextCompat.getDrawable(context, R.drawable.facebook));
 
        /*     holder.text3.setTextColor(Color.parseColor("#B4B4B4"));
@@ -110,7 +123,7 @@ public class home_fragmentAdapter extends RecyclerView.Adapter<home_fragmentAdap
 */    //        holder.card_view.setCardBackgroundColor(Color.parseColor("#5b5b5b"));
             //    holder.card_view.setBackgroundResource( R.drawable.gradient);
         }
-        else if (position == 4) {
+        else if (position == 5) {
             holder.logos.setBackground(ContextCompat.getDrawable(context, R.drawable.facebookpage));
 
           /*  holder.text3.setTextColor(Color.parseColor("#ec98b9"));
@@ -119,7 +132,7 @@ public class home_fragmentAdapter extends RecyclerView.Adapter<home_fragmentAdap
 */      //      holder.card_view.setCardBackgroundColor(Color.parseColor("#d93174"));
             //    holder.card_view.setBackgroundResource( R.drawable.gradient);
         }
-        else if (position == 5) {
+        else if (position == 6) {
             holder.logos.setBackground(ContextCompat.getDrawable(context, R.drawable.artwortreq));
 
     /*   holder.text3.setTextColor(Color.parseColor("#F8C786"));
@@ -139,27 +152,38 @@ public class home_fragmentAdapter extends RecyclerView.Adapter<home_fragmentAdap
                 {
                     Intent intent = new Intent(context, ActivityUploadedList.class);
                     intent.putExtra("fromactivity","activity");
+                    intent.putExtra("fromactivity2","activity");
                     context.startActivity(intent);
                 }
-               else if(position==1)
+                else if(position==1)
+                {
+                    Intent intent = new Intent(context, ActivityUploadedList.class);
+                    intent.putExtra("fromactivity2","activityvideo");
+                    intent.putExtra("fromactivity","activity");
+                    context.startActivity(intent);
+                }
+               else if(position==2)
                 {
                     Intent intent = new Intent(context, ActivityUploadedList.class);
                     intent.putExtra("fromactivity","birthday_activity");
+                    intent.putExtra("fromactivity2","birthday_activity");
                     context.startActivity(intent);
                 }
-                else if(position==2)
+                else if(position==3)
                 {
                     Intent intent = new Intent(context, ActivityUploadedList.class);
                     intent.putExtra("fromactivity","EventDetails");
+                    intent.putExtra("fromactivity2","EventDetails");
                     context.startActivity(intent);
                 }
-               else if(position==3)
+               else if(position==4)
                 {
                     Intent intent = new Intent(context, ActivityUploadedList.class);
+                    intent.putExtra("fromactivity2","facebookrequest");
                     intent.putExtra("fromactivity","facebookrequest");
                     context.startActivity(intent);
                 }
-                else if(position==4)
+                else if(position==5)
                 {
                    /* Intent intent = new Intent(context, ActivityUploadedList.class);
                     intent.putExtra("fromactivity","facebookrequire");
@@ -170,10 +194,11 @@ public class home_fragmentAdapter extends RecyclerView.Adapter<home_fragmentAdap
 //                    Intent intent = new Intent(context, testimageActvity.class);
 //                    context.startActivity(intent);
                 }
-                else if(position==5)
+                else if(position==6)
                 {
                     Intent intent = new Intent(context, ActivityUploadedList.class);
                     intent.putExtra("fromactivity","Artwork");
+                    intent.putExtra("fromactivity2","Artwork");
                     context.startActivity(intent);
                 }
                 else

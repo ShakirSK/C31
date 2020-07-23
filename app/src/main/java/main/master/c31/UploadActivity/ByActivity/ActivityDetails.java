@@ -7,10 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Environment;
 import android.view.View;
-import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import main.master.c31.FacebookPageRequirement.change_in_activity.FBRequirementMenuActivity;
@@ -31,13 +28,32 @@ public class ActivityDetails extends AppCompatActivity {
     int month;
     int dayOfMonth;
     Calendar calendar;
-
+    Intent intent;
+    ImageView backbutton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
 
+        backbutton = (ImageView) findViewById(R.id.close);
+        backbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
+        save = (TextView)findViewById(R.id.save);
+
+         intent = getIntent();
+        if(intent.getStringExtra("fromactivity").equals("activity")){
+            Toast.makeText(getApplicationContext(),"im",Toast.LENGTH_SHORT).show();
+            save.setText("PICK IMAGES");
+        }
+        else{
+            Toast.makeText(getApplicationContext(),"videoooo",Toast.LENGTH_SHORT).show();
+            save.setText("PICK VIDEO");
+        }
         // if internet connection is available
 //        else{
             activityname = (EditText) findViewById(R.id.activityname);
@@ -66,7 +82,6 @@ public class ActivityDetails extends AppCompatActivity {
             });
 
 
-            save = (TextView)findViewById(R.id.save);
 
             save.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -91,7 +106,7 @@ public class ActivityDetails extends AppCompatActivity {
                         return;
                     }
 
-
+//https://javarevisited.blogspot.com/2016/02/how-to-remove-all-special-characters-of-String-in-java.html
                     sactivityname = activityname.getText().toString().trim();
 
                     sactivitydescription = activitydescription.getText().toString().trim();
@@ -118,6 +133,7 @@ public class ActivityDetails extends AppCompatActivity {
 
 
                     Intent it = new Intent(getApplicationContext(), ActivityPickImage.class);
+                    it.putExtra("fromactivity", intent.getStringExtra("fromactivity"));
                     it.putExtra("activityname", sactivityname);
                     it.putExtra("activitydescription", sactivitydescription);
                     it.putExtra("date", datesubmit);

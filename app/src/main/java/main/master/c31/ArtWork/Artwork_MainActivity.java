@@ -5,25 +5,31 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
-import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.*;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.DatePicker;
-import android.widget.TextView;
 
+import java.io.File;
 import java.util.Calendar;
+import java.util.List;
 
+import com.bumptech.glide.Glide;
+import gun0912.tedbottompicker.TedBottomPicker;
 import main.master.c31.LauncherMainActivity.HOME.MainActivity;
 import main.master.c31.Network.ApiUtils;
 import main.master.c31.Network.UserService;
 import main.master.c31.R;
 import main.master.c31.utils.ConnectionDetector;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -40,6 +46,12 @@ public class Artwork_MainActivity extends AppCompatActivity {
     String datetosend;
     UserService userService;
     String sname,ssize,scontent,svanue,sdescription,psid;
+    private List<Uri> selectedUriList;
+    ImageView selectedimage;
+    String urlString;
+    MultipartBody.Part body;
+    ImageView backbutton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +69,15 @@ public class Artwork_MainActivity extends AppCompatActivity {
             getWindow().setStatusBarColor(ContextCompat.getColor(getApplicationContext(),R.color.statusbarcolor));
         }
 
+        backbutton = (ImageView) findViewById(R.id.close);
+        backbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
+        selectedimage = (ImageView)findViewById(R.id.selectedimage);
         name = findViewById(R.id.name);
         size = findViewById(R.id.size);
         content = findViewById(R.id.content);
@@ -206,16 +226,75 @@ public class Artwork_MainActivity extends AppCompatActivity {
         mProgressDialog.setCanceledOnTouchOutside(false);
         mProgressDialog.show();
 
-
+/*
         final ArtworkModel artwork = new ArtworkModel(
                 psid,  sname,
                  ssize,  datetosend,  svanue,
-                 scontent,  sdescription, psid);
+                 scontent,  sdescription, psid);*/
 
-            Call<ArtworkResponse> call = userService.Artwork(artwork);
-            call.enqueue(new Callback<ArtworkResponse>() {
+        if(selectedUriList!=null){
+            Log.d( "urlp1: ", String.valueOf(selectedUriList));
+            String ere = removeUriFromPath(selectedUriList.get(0).toString());
+            urlString = Uri.decode(ere);
+            File imgFile = new File(urlString);
+
+            RequestBody reqFile = RequestBody.create(MediaType.parse("*/*"), imgFile);
+            body = MultipartBody.Part.createFormData("file", imgFile.getName(), reqFile);
+        }
+
+
+
+        String spreschool_id = psid;
+        RequestBody preschool_id =
+                RequestBody.create(
+                        okhttp3.MultipartBody.FORM, spreschool_id);
+
+        String sfb_post_name = sname ;
+        RequestBody fb_post_name =
+                RequestBody.create(
+                        okhttp3.MultipartBody.FORM, sfb_post_name);
+
+
+        String sfb_ssize = ssize ;
+        RequestBody fb_ssize =
+                RequestBody.create(
+                        okhttp3.MultipartBody.FORM, sfb_ssize);
+
+        String sfb_datetosend = datetosend ;
+        RequestBody fb_datetosend =
+                RequestBody.create(
+                        okhttp3.MultipartBody.FORM, sfb_datetosend);
+
+
+        String sfb_svanue = svanue ;
+        RequestBody fb_svanue =
+                RequestBody.create(
+                        okhttp3.MultipartBody.FORM, sfb_svanue);
+
+
+        String sfb_scontent = scontent ;
+        RequestBody fb_scontent =
+                RequestBody.create(
+                        okhttp3.MultipartBody.FORM, sfb_scontent);
+
+        String sfb_sdescription = sdescription ;
+        RequestBody fb_sdescription =
+                RequestBody.create(
+                        okhttp3.MultipartBody.FORM, sfb_sdescription);
+
+
+        String screated_by = psid;
+        RequestBody created_by =
+                RequestBody.create(
+                        okhttp3.MultipartBody.FORM, screated_by);
+
+        Call<ResponseBody> call = userService.Artwork(preschool_id,
+                fb_post_name,fb_ssize,fb_datetosend,
+                fb_svanue,fb_scontent,fb_sdescription,created_by,body);
+
+            call.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<ArtworkResponse> call, Response<ArtworkResponse> response) {
+            public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
 
                 Log.d("onResponse: ", response.toString());
                 if(response.isSuccessful()){
@@ -225,16 +304,12 @@ public class Artwork_MainActivity extends AppCompatActivity {
                     }
                     //   Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_SHORT).show();
 
-                    ArtworkResponse loginResponse = response.body();
 
-                    Log.e("keshav", "loginResponse 1 --> " + loginResponse);
-                    if (loginResponse != null) {
                         Toast.makeText(Artwork_MainActivity.this, "ArtWork Request is successfully submited", Toast.LENGTH_SHORT).show();
                         Intent splashLoginm = new Intent(Artwork_MainActivity.this, MainActivity.class);
                         splashLoginm.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(splashLoginm);
                         finish();
-                    }
 
               /*      loginObj resObj = response.body();
                     if(resObj.getMessage().equals("true")){
@@ -255,7 +330,7 @@ public class Artwork_MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<ArtworkResponse> call, Throwable t) {
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
                 if (mProgressDialog.isShowing()) {
                     mProgressDialog.dismiss();
                 }
@@ -265,4 +340,37 @@ public class Artwork_MainActivity extends AppCompatActivity {
         });
 
     }
+
+    public void SelectImage(View view){
+        TedBottomPicker.with(Artwork_MainActivity.this)
+                //.setPeekHeight(getResources().getDisplayMetrics().heightPixels/2)
+                .setPeekHeight(1600)
+                .showTitle(true)
+                .setCompleteButtonText("Done")
+                .setEmptySelectionText("Nothing Selected")
+                .setPreviewMaxCount(60)
+                .setSelectMaxCount(1)
+                .setSelectedUriList(selectedUriList)
+                .showMultiImage(uriList -> {
+                    selectedUriList = uriList;
+                  //  showUriList(uriList);
+                    if(selectedUriList!=null&&!selectedUriList.isEmpty()) {
+                        Glide.with(getApplicationContext())
+                                .load(selectedUriList.get(0))
+                                .into(selectedimage);
+                    }
+                    else{
+                        Glide.with(getApplicationContext())
+                                .load(R.drawable.newuploadimageicondocconnect)
+                                .into(selectedimage);
+                    }
+                });
+    }
+
+    public static String removeUriFromPath(String uri)
+    {
+        return  uri.substring(7, uri.length());
+    }
+
+
 }

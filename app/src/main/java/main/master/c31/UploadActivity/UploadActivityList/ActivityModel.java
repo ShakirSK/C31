@@ -154,6 +154,18 @@ public class ActivityModel {
     @Expose
     private Object modifiedDate;
 
+    public String getIs_video() {
+        return is_video;
+    }
+
+    public void setIs_video(String is_video) {
+        this.is_video = is_video;
+    }
+
+    @SerializedName("is_video")
+    @Expose
+    private String is_video;
+
 
     public String getPicturecount() {
         return picturecount;

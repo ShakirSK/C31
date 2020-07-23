@@ -91,15 +91,16 @@ public class home_fragment extends Fragment {
          myEdit = sharedPreferences.edit();
 
 
-        title = new ArrayList<>(Arrays.asList("Activity_Picture","Birthday","Events",
+        title = new ArrayList<>(Arrays.asList("Activity_Picture","Activity_Videos","Birthday","Events",
                 "Facebook_Post","Facebook_Page","Artwork_Request"));
 
-         text5 = new ArrayList<>(Arrays.asList("Upload Activity Pictures","Upload Birthdays","Add Event Details",
+         text5 = new ArrayList<>(Arrays.asList("Upload Activity Pictures","Upload Activity Videos","Upload Birthdays","Add Event Details",
                 "Facebook Post Request","Facebook Page Requirement","Artwork Request"));
 
          activitydescription = new ArrayList<>(Arrays.asList(
                 "Upload activity pictures along with activity name and a short description.",
-                "Upload birthday details of the child along with the child's name and date of birth.",
+                 "Upload activity videos along with activity name and a short description.",
+                 "Upload birthday details of the child along with the child's name and date of birth.",
                 "Add details of the events you plan to conduct along with name, date, time and venue for the event.",
                 "Upload Facebook post to be uploaded on your page.\n",
                 "Upload pictures as per the mentioned requirement in this section.",

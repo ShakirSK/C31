@@ -5,10 +5,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Handler;
+import android.widget.Toast;
 import androidx.core.content.ContextCompat;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.google.firebase.messaging.FirebaseMessaging;
 import main.master.c31.LauncherMainActivity.HOME.MainActivity;
 import main.master.c31.R;
 import main.master.c31.Session.SaveSharedPreference;
@@ -26,8 +28,9 @@ public class Splash_screen extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences("main.society365", Context.MODE_PRIVATE);
 
+        FirebaseMessaging.getInstance().subscribeToTopic("creative");
 
-
+        Toast.makeText(this, "Subscribe Topic: creative" , Toast.LENGTH_SHORT).show();
         if (Build.VERSION.SDK_INT >= 21)
         {
             getWindow().setStatusBarColor(ContextCompat.getColor(getApplicationContext(),R.color.white));

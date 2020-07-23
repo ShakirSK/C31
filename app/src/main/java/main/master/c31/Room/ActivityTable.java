@@ -13,6 +13,17 @@ public class ActivityTable implements Serializable {
     @PrimaryKey(autoGenerate = true)
     private int id;
 
+    public String getActivitytitle() {
+        return activitytitle;
+    }
+
+    public void setActivitytitle(String activitytitle) {
+        this.activitytitle = activitytitle;
+    }
+
+    @ColumnInfo(name = "activity_title")
+    private String activitytitle;
+
     @ColumnInfo(name = "activity_name")
     private String activityname;
 

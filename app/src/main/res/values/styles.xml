@@ -32,4 +32,8 @@
     </style>
 
 
+    <style name="HintTextStyle" parent="TextAppearance.Design.Hint">
+        <item name="android:textSize">16sp</item>
+    </style>
+
 </resources>

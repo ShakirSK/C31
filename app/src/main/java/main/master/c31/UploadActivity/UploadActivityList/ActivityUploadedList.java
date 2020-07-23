@@ -18,21 +18,19 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import main.master.c31.ArtWork.Artwork_MainActivity;
-import main.master.c31.Birthday.BirthdayMainActivity;
+import main.master.c31.Birthday.BirthdayModel;
+import main.master.c31.Birthday.byactivity.BirthdayActivity;
 import main.master.c31.EventDetails.EventDetails_MainActivity;
 import main.master.c31.FacebookPageRequirement.FacebookPageRequirementMain;
-import main.master.c31.FacebookpostRequest.FacebookPageRequestMain;
+import main.master.c31.FacebookpostRequest.byactivity.FBpostInfo;
 import main.master.c31.Network.ApiUtils;
 import main.master.c31.Network.UserService;
 import main.master.c31.R;
 import main.master.c31.UploadActivity.ByActivity.ActivityDetails;
 import main.master.c31.UploadActivity.ErrorActivity.NotSubmitedActivity;
-import main.master.c31.UploadActivity.UploadActivityMain;
 import main.master.c31.utils.ConnectionDetector;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -52,6 +50,11 @@ public class ActivityUploadedList extends AppCompatActivity {
     String gettingfromintent;
     UserService userService;
     String psid;
+    public static String checkActivityCategory;
+
+    //hashmap for multiple birthday
+   public static TreeMap<Integer, BirthdayModel> map;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +66,7 @@ public class ActivityUploadedList extends AppCompatActivity {
         psid= sh.getString("id", "");
 
         Intent intent = getIntent();
+        checkActivityCategory = intent.getStringExtra("fromactivity2");
         if (Build.VERSION.SDK_INT >= 21)
         {
             getWindow().setStatusBarColor(ContextCompat.getColor(getApplicationContext(),R.color.statusbarcolor));
@@ -137,14 +141,22 @@ public class ActivityUploadedList extends AppCompatActivity {
         newupload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              if(intent.getStringExtra("fromactivity").equals("activity")){
+              if(intent.getStringExtra("fromactivity2").equals("activityvideo")){
+                    //Intent intent = new Intent(getApplicationContext(), UploadActivityMain.class);
+                    Intent intent = new Intent(getApplicationContext(), ActivityDetails.class);
+                    intent.putExtra("fromactivity","activityvideo");
+                    startActivity(intent);
+                }
+              else if(intent.getStringExtra("fromactivity").equals("activity")){
                   //Intent intent = new Intent(getApplicationContext(), UploadActivityMain.class);
                   Intent intent = new Intent(getApplicationContext(), ActivityDetails.class);
+                  intent.putExtra("fromactivity","activity");
                   startActivity(intent);
               }
-           else if(intent.getStringExtra("fromactivity").equals("facebookrequest")){
 
-                  Intent intent = new Intent(getApplicationContext(), FacebookPageRequestMain.class);
+                else if(intent.getStringExtra("fromactivity").equals("facebookrequest")){
+
+                  Intent intent = new Intent(getApplicationContext(), FBpostInfo.class);
                   startActivity(intent);
               }
               else if(intent.getStringExtra("fromactivity").equals("facebookrequire")){
@@ -153,8 +165,9 @@ public class ActivityUploadedList extends AppCompatActivity {
                   startActivity(intent);
               }
               else if(intent.getStringExtra("fromactivity").equals("birthday_activity")){
+                   map = new TreeMap<Integer, BirthdayModel>();
 
-                  Intent intent = new Intent(getApplicationContext(), BirthdayMainActivity.class);
+                  Intent intent = new Intent(getApplicationContext(), BirthdayActivity.class);
                   startActivity(intent);
               }
               else if(intent.getStringExtra("fromactivity").equals("Artwork")){

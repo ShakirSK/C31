@@ -52,11 +52,19 @@ public class EventDetails_MainActivity extends AppCompatActivity {
     EditText activityname, activitydescription,vanue;
 
     UserService userService;
-
+    ImageView backbutton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_details__main);
+
+        backbutton = (ImageView) findViewById(R.id.close);
+        backbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         SharedPreferences sh
                 = getSharedPreferences("MySharedPref", MODE_PRIVATE);

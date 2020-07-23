@@ -147,4 +147,38 @@ public class User implements Serializable {
     @ColumnInfo(name = "ps_mobile")
     private String ps_mobile;
 
+    public String getPs_social_media_manager() {
+        return ps_social_media_manager;
+    }
+
+    public void setPs_social_media_manager(String ps_social_media_manager) {
+        this.ps_social_media_manager = ps_social_media_manager;
+    }
+
+    public String getPs_graphics_designer() {
+        return ps_graphics_designer;
+    }
+
+    public void setPs_graphics_designer(String ps_graphics_designer) {
+        this.ps_graphics_designer = ps_graphics_designer;
+    }
+
+    public String getPs_content_writer() {
+        return ps_content_writer;
+    }
+
+    public void setPs_content_writer(String ps_content_writer) {
+        this.ps_content_writer = ps_content_writer;
+    }
+
+    @ColumnInfo(name = "ps_social_media_manager")
+    private String ps_social_media_manager;
+
+    @ColumnInfo(name = "ps_graphics_designer")
+    private String ps_graphics_designer;
+
+    @ColumnInfo(name = "ps_content_writer")
+    private String ps_content_writer;
+
+
 }

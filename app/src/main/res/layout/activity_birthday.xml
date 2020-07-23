@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinatorLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <include layout="@layout/fragment_activity_birthday__info"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/activity_main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/baseFloatingActionButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:layout_marginRight="16dp"
+                android:clickable="true"
+                android:onClick="onBaseFabClick"
+                android:tint="@color/colorPrimaryDark"
+                app:fabSize="normal"
+                app:layout_constraintBottom_toBottomOf="@+id/activity_main"
+                app:layout_constraintRight_toRightOf="@+id/activity_main"
+                app:srcCompat="@drawable/ic_add_black_24dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.963"/>
+
+        <LinearLayout
+                android:id="@+id/shareLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginRight="24dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toTopOf="@+id/createLayout"
+                app:layout_constraintLeft_toLeftOf="@+id/createLayout"
+                app:layout_constraintRight_toRightOf="@+id/activity_main">
+
+            <TextView
+                    android:id="@+id/shareLabelTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginRight="8dp"
+                    android:elevation="2dp"
+                    android:fontFamily="sans-serif"
+                    android:padding="5dip"
+                    android:text="Add More"
+                    android:textColor="@android:color/black"
+                    android:typeface="normal" />
+
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/shareFab"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:onClick="onImageSelectClick"
+                    android:tint="@color/colorPrimaryDark"
+                    app:fabSize="mini"
+                    app:srcCompat="@drawable/ic_error_outline_black_24dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:id="@+id/createLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginRight="24dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toTopOf="@+id/baseFloatingActionButton"
+                app:layout_constraintRight_toRightOf="@+id/activity_main">
+
+            <TextView
+                    android:id="@+id/createLabelTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginRight="8dp"
+                    android:elevation="2dp"
+                    android:fontFamily="sans-serif"
+                    android:padding="5dip"
+                    android:text="SUBMIT  "
+                    android:textColor="@android:color/black"
+                    android:typeface="normal" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/createFab"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:onClick="onVideoSelectClick"
+                    android:tint="@color/colorPrimaryDark"
+                    app:fabSize="mini"
+                    app:srcCompat="@drawable/ic_error_outline_black_24dp" />
+
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -3,6 +3,7 @@ package main.master.c31.LauncherMainActivity;
 import android.content.Intent;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import main.master.c31.R;
@@ -24,6 +25,9 @@ public class WelcomeActivity extends AppCompatActivity {
                 splashLoginm.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(splashLoginm);
                 finish();
+               // Toast.makeText(this, "Subscribe Topic: creative" , Toast.LENGTH_SHORT).show()
+                Toast.makeText(getApplicationContext(), "Creative Connect", Toast.LENGTH_SHORT).show();
+
             }
         });
     }

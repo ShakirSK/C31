@@ -54,7 +54,7 @@ import java.util.zip.ZipOutputStream;
 import static android.content.Context.MODE_PRIVATE;
 
 public class WorkManagerPending extends Worker implements ProgressRequestBody.UploadCallbacks {
-    String activityname, activitydescription,date;
+    String activitytitle,activityname, activitydescription,date;
     int notificationid;
     List<String> uriwithlogo;
     String psid,psname,pslogo;
@@ -64,6 +64,7 @@ public class WorkManagerPending extends Worker implements ProgressRequestBody.Up
     Bitmap bitmap;
     ProgressManager manager;
     private File drImageFile = null;
+    String sis_video ;
 
     public WorkManagerPending(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
@@ -74,7 +75,7 @@ public class WorkManagerPending extends Worker implements ProgressRequestBody.Up
     public Result doWork() {
 
         manager = new ProgressManager();
-
+        activitytitle = getInputData().getString("sactivitytitle");
         activityname = getInputData().getString("sactivityname");
         activitydescription = getInputData().getString("sactivitydescription");
         date = getInputData().getString("datesubmit");
@@ -132,17 +133,33 @@ public class WorkManagerPending extends Worker implements ProgressRequestBody.Up
         File pictureFileDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "CreativeConnect/"+psname.replaceAll("\\s", "")+"/"+activityname);
 
         uriwithlogo = new ArrayList<>();
+        if(activitytitle.equals("activity")){
 
-        if (pictureFileDir.isDirectory())
-        {
-            String[] children = pictureFileDir.list();
-            for (int i = 0; i < children.length; i++)
+            // for activity image  sis_video = "0"
+             sis_video = "0";
+
+            if (pictureFileDir.isDirectory())
             {
-                uriwithlogo.add(pictureFileDir+"/"+children[i]);
-                //  new File(pictureFileDir, children[i]).delete();
-                Log.d("getImageUri: ",pictureFileDir+"/"+children[i]);
+                String[] children = pictureFileDir.list();
+                for (int i = 0; i < children.length; i++)
+                {
+                    uriwithlogo.add(pictureFileDir+"/"+children[i]);
+                    //  new File(pictureFileDir, children[i]).delete();
+                    Log.d("getImageUri: ",pictureFileDir+"/"+children[i]);
+                }
             }
+
         }
+        else{
+            // for activity image  sis_video = "1"
+            sis_video = "1";
+        }
+
+
+
+        RequestBody is_video =
+                RequestBody.create(
+                        okhttp3.MultipartBody.FORM, sis_video);
 
 
         File pictureFileDir2 = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "CreativeConnect/"+psname.replaceAll("\\s", ""));
@@ -213,11 +230,14 @@ public class WorkManagerPending extends Worker implements ProgressRequestBody.Up
 
         manager.updateProgress(90);
 
+        Log.v("Uploadtte",spreschool_id
+                +" "+
+                activityname  +" "+date  +" "+activitydescription  +" "+ psid  +" "+count  +" "+spiccount  +" "+zipFile);
 
         UserService userService;
         userService = ApiUtils.getUserService();
         Call<ResponseBody> call = userService.Activity(preschool_id,
-                activity_name,dob,description_name, created_by,surveyImagesParts,piccount,zipbody);
+                activity_name,dob,description_name, created_by,surveyImagesParts,piccount,zipbody,is_video);
         call.enqueue(new Callback<ResponseBody>() {
 
             @Override
