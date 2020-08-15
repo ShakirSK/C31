@@ -299,6 +299,8 @@ public class BirthdayActivity extends AppCompatActivity {
         Yearlist.add(String.valueOf(2021));
 
 
+
+        years = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
         // Spinner element
         final Spinner spinner3 = (Spinner)findViewById(R.id.spinner3);
 

@@ -66,9 +66,8 @@
                     android:layout_height="wrap_content"
                     android:clickable="true"
                     android:onClick="onImageSelectClick"
-                    android:tint="@color/colorPrimaryDark"
                     app:fabSize="mini"
-                    app:srcCompat="@drawable/ic_error_outline_black_24dp" />
+                    app:srcCompat="@mipmap/addonemorebirth" />
 
         </LinearLayout>
 
@@ -104,9 +103,8 @@
                     android:layout_height="wrap_content"
                     android:clickable="true"
                     android:onClick="onVideoSelectClick"
-                    android:tint="@color/colorPrimaryDark"
                     app:fabSize="mini"
-                    app:srcCompat="@drawable/ic_error_outline_black_24dp" />
+                    app:srcCompat="@mipmap/submitbirthday" />
 
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

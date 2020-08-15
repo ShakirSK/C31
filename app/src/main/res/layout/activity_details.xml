@@ -45,7 +45,7 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <LinearLayout
+  /'  <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/_35sdp"
             android:background="#ffffff"

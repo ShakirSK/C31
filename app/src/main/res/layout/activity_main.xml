@@ -38,9 +38,8 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:itemIconTint="@drawable/nav_item_color_state"
-        app:itemTextColor="@drawable/nav_item_color_state"
+        app:itemTextColor="@drawable/nav_text_color_state"
         android:visibility="visible"
-
          app:menu="@menu/bottom_nav_menu" />
 
 

@@ -90,7 +90,7 @@ public class home_fragmentAdapter extends RecyclerView.Adapter<home_fragmentAdap
             holder.text1.setTextColor(Color.parseColor("#B4B4B4"));
       //      holder.card_view.setCardBackgroundColor(Color.parseColor("#5b5b5b"));
        */ } else if (position == 1) {
-            holder.logos.setBackground(ContextCompat.getDrawable(context, R.drawable.uploadactivityicon));
+            holder.logos.setBackground(ContextCompat.getDrawable(context, R.drawable.uploadactivityvideoicon));
           /*  holder.text3.setTextColor(Color.parseColor("#B4B4B4"));
             holder.text2.setTextColor(Color.parseColor("#B4B4B4"));
             holder.text1.setTextColor(Color.parseColor("#B4B4B4"));

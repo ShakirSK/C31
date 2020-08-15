@@ -20,13 +20,16 @@ import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.text.style.UnderlineSpan
 import androidx.core.content.ContextCompat
+import com.bumptech.glide.Glide
+import com.bumptech.glide.annotation.GlideModule
 import main.master.c31.LauncherMainActivity.LoginActivity
 import main.master.c31.R
 import java.io.InputStream
 import java.net.HttpURLConnection
 import java.net.URL
+import java.util.*
 
-
+@GlideModule
 class MyFirebaseMessagingService : FirebaseMessagingService() {
 
 
@@ -79,18 +82,26 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         val channelId = getString(R.string.default_notification_channel_id)
         val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
 
-        val url = URL(messageBody!!.data.get("bigimage"))
+   /*     val url = URL(messageBody!!.data.get("bigimage"))
         val `in`: InputStream
-        //message = params[0] + params[1];
-        //URL url = new URL(params[2]);
+            //message = params[0] + params[1];
+            //URL url = new URL(params[2]);
         val connection = url.openConnection() as HttpURLConnection
         connection.setDoInput(true)
         connection.connect()
         `in` = connection.getInputStream()
         val image = BitmapFactory.decodeStream(`in`)
+*/
+
+        val futureTarget = Glide.with(this)
+            .asBitmap()
+            .load(messageBody!!.data.get("bigimage"))
+            .submit()
+
+        val image = futureTarget.get()
 
 
-        val spannableString = SpannableString(messageBody!!.data.get("title"))
+  /*      val spannableString = SpannableString(messageBody!!.data.get("title"))
         val fontColor = ContextCompat.getColor(this, android.R.color.holo_red_dark)
         spannableString.setSpan(ForegroundColorSpan(fontColor), 0, 12, 0)
 
@@ -100,7 +111,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         spannableStringContentText.setSpan(StyleSpan(Typeface.BOLD_ITALIC), 0, 16, 0)
         spannableStringContentText.setSpan(UnderlineSpan(), 34, 37, 0)
         spannableStringContentText.setSpan(StyleSpan(Typeface.BOLD), 34, 37, 0)
-
+*/
 
         val notificationBuilder = NotificationCompat.Builder(this, channelId)
             .setSmallIcon(R.mipmap.appicon)
@@ -129,6 +140,9 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             val channel = NotificationChannel(channelId, "Channel human readable title", NotificationManager.IMPORTANCE_HIGH)
             notificationManager.createNotificationChannel(channel)
         }
-        notificationManager.notify(0, notificationBuilder.build())
+
+        Glide.with(this).clear(futureTarget)
+        val notificationid = (Date().time / 1000L % Integer.MAX_VALUE).toInt()
+        notificationManager.notify(notificationid, notificationBuilder.build())
     }
 }

@@ -47,11 +47,11 @@ public class ActivityDetails extends AppCompatActivity {
 
          intent = getIntent();
         if(intent.getStringExtra("fromactivity").equals("activity")){
-            Toast.makeText(getApplicationContext(),"im",Toast.LENGTH_SHORT).show();
+          //  Toast.makeText(getApplicationContext(),"im",Toast.LENGTH_SHORT).show();
             save.setText("PICK IMAGES");
         }
         else{
-            Toast.makeText(getApplicationContext(),"videoooo",Toast.LENGTH_SHORT).show();
+           // Toast.makeText(getApplicationContext(),"videoooo",Toast.LENGTH_SHORT).show();
             save.setText("PICK VIDEO");
         }
         // if internet connection is available

@@ -1,12 +1,15 @@
 package main.master.c31.LauncherMainActivity;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import main.master.c31.Database.DatabaseClient;
 import main.master.c31.R;
+import main.master.c31.Session.SaveSharedPreference;
 
 public class WelcomeActivity extends AppCompatActivity {
 
@@ -15,6 +18,7 @@ public class WelcomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
+
 
         getstart = (TextView)findViewById(R.id.getstart);
 
@@ -26,9 +30,12 @@ public class WelcomeActivity extends AppCompatActivity {
                 startActivity(splashLoginm);
                 finish();
                // Toast.makeText(this, "Subscribe Topic: creative" , Toast.LENGTH_SHORT).show()
-                Toast.makeText(getApplicationContext(), "Creative Connect", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "Creative Connect", Toast.LENGTH_SHORT).show();
 
             }
         });
     }
+
+
+
 }

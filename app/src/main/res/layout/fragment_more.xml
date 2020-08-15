@@ -45,7 +45,7 @@
             <ImageView
                     android:layout_width="@dimen/_30sdp"
                     android:layout_height="@dimen/_30sdp"
-                    app:srcCompat="@drawable/editprofileimage"
+                    app:srcCompat="@mipmap/editprofilenew"
                     android:layout_marginRight="@dimen/_20sdp"
                     android:layout_marginTop="@dimen/_60sdp"
                     android:layout_gravity="right"
